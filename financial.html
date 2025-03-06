@@ -4,6 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finance Policies</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function() {
+            // Initialize Supabase correctly
+            const SUPABASE_URL = "https://lgbmwsimohdphbjispew.supabase.co";
+            const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxnYm13c2ltb2hkcGhiamlzcGV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyOTYwMzIsImV4cCI6MjA1Njg3MjAzMn0.mw485QrNviIxzAu-HecYir2Ou9Zn0nnyxO2aCwAouz0";
+            
+            // Ensure Supabase is available before using it
+            if (typeof supabase !== "undefined") {
+                window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            } else {
+                console.error("Supabase library is not loaded");
+                return;
+            }
+    
+            async function fetchPolicies() {
+                const { data, error } = await window.supabaseClient.from('finance_policies').select('*');
+                
+                if (error) {
+                    console.error('Error fetching policies:', error);
+                    return;
+                }
+    
+                const container = document.querySelector('.policies-grid');
+                container.innerHTML = ''; // Clear existing data
+    
+                data.forEach(policy => {
+                    const card = document.createElement('div');
+                    card.classList.add('policy-card');
+                    card.innerHTML = `
+                        <div class="policy-header">${policy.title}</div>
+                        <div class="policy-content">
+                            <h3>${policy.category}</h3>
+                            <p>${policy.description}</p>
+                            <ul>${policy.features.split(';').map(feature => `<li>${feature}</li>`).join('')}</ul>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+    
+            fetchPolicies();
+        });
+    </script>
+       
     <style>
         * {
             margin: 0;
@@ -13,8 +58,8 @@
         }
 
         body {
-            background-color: #FAF6D4; /* Light Goldenrod Yellow */
-            color: #616951; /* Ebony */
+            background-color: #FAF6D4;
+            color: #616951;
             line-height: 1.6;
         }
 
@@ -25,8 +70,8 @@
         }
 
         .header {
-            background-color: #817340; /* Gold Fusion */
-            color: #FAF6D4; /* Light Goldenrod Yellow */
+            background-color: #817340;
+            color: #FAF6D4;
             text-align: center;
             padding: 20px;
             margin-bottom: 30px;
@@ -44,7 +89,7 @@
         }
 
         .policy-card {
-            background-color: #D0C092; /* Tan */
+            background-color: #D0C092;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(97, 105, 81, 0.2);
             overflow: hidden;
@@ -56,8 +101,8 @@
         }
 
         .policy-header {
-            background-color: #616951; /* Ebony */
-            color: #FAF6D4; /* Light Goldenrod Yellow */
+            background-color: #616951;
+            color: #FAF6D4;
             padding: 15px;
             text-align: center;
             font-weight: bold;
@@ -65,11 +110,11 @@
 
         .policy-content {
             padding: 20px;
-            background-color: #FAF6D4; /* Light Goldenrod Yellow */
+            background-color: #FAF6D4;
         }
 
         .policy-content h3 {
-            color: #817340; /* Gold Fusion */
+            color: #817340;
             margin-bottom: 10px;
         }
 
@@ -95,103 +140,7 @@
     </div>
 
     <div class="container">
-        <div class="policies-grid">
-            <div class="policy-card">
-                <div class="policy-header">
-                    Pudhumai Penn Scheme
-                </div>
-                <div class="policy-content">
-                    <h3>Women's Education Empowerment</h3>
-                    <p>A welfare scheme launched by the Tamil Nadu government to support women's education and empowerment.</p>
-                    <ul>
-                        <li>Financial assistance for higher education</li>
-                        <li>Aims to reduce dropout rates among girl students</li>
-                        <li>Provides support for professional and vocational courses</li>
-                        <li>Encourages women's educational advancement</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    Tamilar Pudhalvan Scheme
-                </div>
-                <div class="policy-content">
-                    <h3>Skill Development Program</h3>
-                    <p>A comprehensive skill development program aimed at enhancing employability of youth in Tamil Nadu.</p>
-                    <ul>
-                        <li>Free skill training programs</li>
-                        <li>Focus on industry-relevant skills</li>
-                        <li>Provides employment opportunities</li>
-                        <li>Bridges skill gaps in the job market</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    Startup and Innovation Policy
-                </div>
-                <div class="policy-content">
-                    <h3>Entrepreneurship Support</h3>
-                    <p>Initiatives to support entrepreneurs and innovative startups in Tamil Nadu.</p>
-                    <ul>
-                        <li>Financial assistance for startups</li>
-                        <li>Incubation support</li>
-                        <li>Networking and mentorship programs</li>
-                        <li>Fostering innovation ecosystem</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    Women Self-Help Group Policy
-                </div>
-                <div class="policy-content">
-                    <h3>Financial Inclusion</h3>
-                    <p>Empowering women through financial inclusion and entrepreneurship.</p>
-                    <ul>
-                        <li>Microfinance support</li>
-                        <li>Business training</li>
-                        <li>Collective economic empowerment</li>
-                        <li>Community-based financial assistance</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    Education Loan Subsidy
-                </div>
-                <div class="policy-content">
-                    <h3>Accessible Higher Education</h3>
-                    <p>Financial support to make higher education more accessible.</p>
-                    <ul>
-                        <li>Interest subvention</li>
-                        <li>Easier loan approval process</li>
-                        <li>Support for economically weaker sections</li>
-                        <li>Reducing financial barriers to education</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    Digital Finance Initiatives
-                </div>
-                <div class="policy-content">
-                    <h3>Digital Financial Inclusion</h3>
-                    <p>Promoting digital financial services and inclusive banking.</p>
-                    <ul>
-                        <li>Digital banking support</li>
-                        <li>Financial literacy programs</li>
-                        <li>Digital payment infrastructure</li>
-                        <li>Expanding financial access</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <div class="policies-grid"></div>
     </div>
 </body>
 </html>

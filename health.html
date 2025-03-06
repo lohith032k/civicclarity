@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Health Policies</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <style>
         * {
             margin: 0;
@@ -11,76 +12,59 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         body {
-            background-color: #FAF6D4; /* Light Goldenrod Yellow */
-            color: #616951; /* Ebony */
+            background-color: #FAF6D4;
+            color: #616951;
             line-height: 1.6;
         }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-
         .header {
-            background-color: #817340; /* Gold Fusion */
-            color: #FAF6D4; /* Light Goldenrod Yellow */
+            background-color: #817340;
+            color: #FAF6D4;
             text-align: center;
             padding: 20px;
             margin-bottom: 30px;
         }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
         .policies-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
-
         .policy-card {
-            background-color: #D0C092; /* Tan */
+            background-color: #D0C092;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(97, 105, 81, 0.2);
             overflow: hidden;
             transition: transform 0.3s ease;
         }
-
         .policy-card:hover {
             transform: scale(1.05);
         }
-
         .policy-header {
-            background-color: #616951; /* Ebony */
-            color: #FAF6D4; /* Light Goldenrod Yellow */
+            background-color: #616951;
+            color: #FAF6D4;
             padding: 15px;
             text-align: center;
             font-weight: bold;
         }
-
         .policy-content {
             padding: 20px;
-            background-color: #FAF6D4; /* Light Goldenrod Yellow */
+            background-color: #FAF6D4;
         }
-
         .policy-content h3 {
-            color: #817340; /* Gold Fusion */
+            color: #817340;
             margin-bottom: 10px;
         }
-
         .policy-content p {
             margin-bottom: 15px;
         }
-
         .policy-content ul {
             padding-left: 20px;
         }
-
         @media (max-width: 768px) {
             .policies-grid {
                 grid-template-columns: 1fr;
@@ -95,103 +79,48 @@
     </div>
 
     <div class="container">
-        <div class="policies-grid">
-            <div class="policy-card">
-                <div class="policy-header">
-                    Tamil Nadu State Health Policy
-                </div>
-                <div class="policy-content">
-                    <h3>Comprehensive Healthcare Strategy</h3>
-                    <p>A holistic approach to improving public health and medical services across the state.</p>
-                    <ul>
-                        <li>Universal Health Coverage</li>
-                        <li>Strengthening Primary Healthcare</li>
-                        <li>Reducing Out-of-Pocket Expenses</li>
-                        <li>Improving Healthcare Infrastructure</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    Aarogyam Health Scheme
-                </div>
-                <div class="policy-content">
-                    <h3>Comprehensive Health Insurance</h3>
-                    <p>A robust health insurance program designed for vulnerable populations.</p>
-                    <ul>
-                        <li>Free Medical Treatment</li>
-                        <li>Cashless Hospitalization</li>
-                        <li>Coverage for Critical Illnesses</li>
-                        <li>Preventive Health Check-ups</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    Maternal Health Program
-                </div>
-                <div class="policy-content">
-                    <h3>Maternal and Child Health</h3>
-                    <p>Targeted initiatives to improve maternal and child health outcomes.</p>
-                    <ul>
-                        <li>Comprehensive Prenatal Care</li>
-                        <li>Postnatal Support</li>
-                        <li>Nutrition Assistance</li>
-                        <li>Free Medical Consultations</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    Rural Health Mission
-                </div>
-                <div class="policy-content">
-                    <h3>Healthcare Access in Rural Areas</h3>
-                    <p>Enhancing healthcare infrastructure and services in rural and remote regions.</p>
-                    <ul>
-                        <li>Mobile Healthcare Units</li>
-                        <li>Community Health Centers</li>
-                        <li>Telemedicine Services</li>
-                        <li>Healthcare Worker Training</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    Elderly Healthcare Program
-                </div>
-                <div class="policy-content">
-                    <h3>Senior Citizens' Health Support</h3>
-                    <p>Specialized healthcare services tailored for senior citizens.</p>
-                    <ul>
-                        <li>Geriatric Care Centers</li>
-                        <li>Subsidized Medical Treatments</li>
-                        <li>Home Healthcare Services</li>
-                        <li>Mental Health Support</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    Mental Health Initiative
-                </div>
-                <div class="policy-content">
-                    <h3>Mental Wellness Program</h3>
-                    <p>Comprehensive approach to mental health awareness and support.</p>
-                    <ul>
-                        <li>Mental Health Counseling</li>
-                        <li>Community Support Groups</li>
-                        <li>Awareness Campaigns</li>
-                        <li>Accessible Mental Health Services</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="policies-grid" id="policies-container">
+            <!-- Dynamic policies will be inserted here -->
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            // Supabase credentials
+            const supabaseUrl = "https://lgbmwsimohdphbjispew.supabase.co";
+            const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxnYm13c2ltb2hkcGhiamlzcGV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyOTYwMzIsImV4cCI6MjA1Njg3MjAzMn0.mw485QrNviIxzAu-HecYir2Ou9Zn0nnyxO2aCwAouz0";
+
+            // Initialize Supabase client
+            const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+            async function fetchPolicies() {
+                try {
+                    const { data, error } = await supabase.from('health_policies').select('*');
+                    if (error) throw error; 
+                    
+                    const container = document.getElementById("policies-container");
+                    container.innerHTML = "";
+
+                    data.forEach(policy => {
+                        const policyCard = `
+                            <div class="policy-card">
+                                <div class="policy-header">${policy.title}</div>
+                                <div class="policy-content">
+                                    <h3>${policy.category}</h3>
+                                    <p>${policy.description}</p>
+                                    <ul>${policy.features.map(feature => `<li>${feature}</li>`).join('')}</ul>
+                                </div>
+                            </div>`;
+                        container.innerHTML += policyCard;
+                    });
+                } catch (error) {
+                    console.error("Error fetching policies:", error.message);
+                }
+            }
+
+            // Fetch policies on page load
+            fetchPolicies();
+        });
+    </script>
 </body>
 </html>

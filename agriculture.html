@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agriculture Policies</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <style>
         * {
             margin: 0;
@@ -11,76 +12,63 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         body {
-            background-color: #FAF6D4; /* Light Goldenrod Yellow */
-            color: #616951; /* Ebony */
+            background-color: #FAF6D4;
+            color: #616951;
             line-height: 1.6;
         }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-
         .header {
-            background-color: #817340; /* Gold Fusion */
-            color: #FAF6D4; /* Light Goldenrod Yellow */
+            background-color: #817340;
+            color: #FAF6D4;
             text-align: center;
             padding: 20px;
             margin-bottom: 30px;
         }
-
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
         }
-
         .policies-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
-
         .policy-card {
-            background-color: #D0C092; /* Tan */
+            background-color: #D0C092;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(97, 105, 81, 0.2);
             overflow: hidden;
             transition: transform 0.3s ease;
         }
-
         .policy-card:hover {
             transform: scale(1.05);
         }
-
         .policy-header {
-            background-color: #616951; /* Ebony */
-            color: #FAF6D4; /* Light Goldenrod Yellow */
+            background-color: #616951;
+            color: #FAF6D4;
             padding: 15px;
             text-align: center;
             font-weight: bold;
         }
-
         .policy-content {
             padding: 20px;
-            background-color: #FAF6D4; /* Light Goldenrod Yellow */
+            background-color: #FAF6D4;
         }
-
         .policy-content h3 {
-            color: #817340; /* Gold Fusion */
+            color: #817340;
             margin-bottom: 10px;
         }
-
         .policy-content p {
             margin-bottom: 15px;
         }
-
         .policy-content ul {
             padding-left: 20px;
         }
-
         @media (max-width: 768px) {
             .policies-grid {
                 grid-template-columns: 1fr;
@@ -95,103 +83,46 @@
     </div>
 
     <div class="container">
-        <div class="policies-grid">
-            <div class="policy-card">
-                <div class="policy-header">
-                    Farmers Welfare Scheme
-                </div>
-                <div class="policy-content">
-                    <h3>Comprehensive Farmer Support</h3>
-                    <p>Holistic approach to supporting agricultural communities and improving farmers' livelihoods.</p>
-                    <ul>
-                        <li>Financial Assistance</li>
-                        <li>Crop Insurance</li>
-                        <li>Debt Relief Programs</li>
-                        <li>Subsidized Agricultural Inputs</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    Organic Farming Initiative
-                </div>
-                <div class="policy-content">
-                    <h3>Sustainable Agricultural Practices</h3>
-                    <p>Promoting eco-friendly and sustainable farming techniques.</p>
-                    <ul>
-                        <li>Organic Certification Support</li>
-                        <li>Market Access for Organic Produce</li>
-                        <li>Training and Capacity Building</li>
-                        <li>Sustainable Farming Techniques</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    Irrigation Modernization
-                </div>
-                <div class="policy-content">
-                    <h3>Water Management Innovation</h3>
-                    <p>Improving water conservation and irrigation infrastructure.</p>
-                    <ul>
-                        <li>Drip and Sprinkler Irrigation</li>
-                        <li>Water Conservation Techniques</li>
-                        <li>Infrastructure Development</li>
-                        <li>Efficient Water Usage</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    Seed Development Policy
-                </div>
-                <div class="policy-content">
-                    <h3>Agricultural Research and Development</h3>
-                    <p>Enhancing seed quality and availability for improved agricultural productivity.</p>
-                    <ul>
-                        <li>High-Yield Seed Varieties</li>
-                        <li>Research and Development</li>
-                        <li>Seed Distribution Program</li>
-                        <li>Farmer Seed Banks</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    Agricultural Technology Mission
-                </div>
-                <div class="policy-content">
-                    <h3>Technology-Driven Agriculture</h3>
-                    <p>Integrating advanced technologies in agricultural practices.</p>
-                    <ul>
-                        <li>Precision Farming</li>
-                        <li>Digital Agricultural Tools</li>
-                        <li>Climate-Smart Agriculture</li>
-                        <li>Tech-Enabled Farm Management</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="policy-card">
-                <div class="policy-header">
-                    Farmer Producer Organizations
-                </div>
-                <div class="policy-content">
-                    <h3>Collective Farming Empowerment</h3>
-                    <p>Supporting farmers through collective organizations and market linkages.</p>
-                    <ul>
-                        <li>Cooperative Formation Support</li>
-                        <li>Market Access</li>
-                        <li>Collective Bargaining</li>
-                        <li>Shared Resources and Knowledge</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="policies-grid" id="policies-grid">
+            <!-- Policies will be loaded here dynamically -->
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async function() {
+            const SUPABASE_URL = "https://lgbmwsimohdphbjispew.supabase.co";
+            const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxnYm13c2ltb2hkcGhiamlzcGV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyOTYwMzIsImV4cCI6MjA1Njg3MjAzMn0.mw485QrNviIxzAu-HecYir2Ou9Zn0nnyxO2aCwAouz0";
+            
+            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            async function fetchPolicies() {
+                const { data, error } = await supabase.from('agriculture_policies').select('*');
+                
+                if (error) {
+                    console.error('Error fetching policies:', error);
+                    return;
+                }
+
+                const container = document.getElementById('policies-grid');
+                container.innerHTML = '';
+
+                data.forEach(policy => {
+                    const card = document.createElement('div');
+                    card.classList.add('policy-card');
+                    card.innerHTML = `
+                        <div class="policy-header">${policy.title}</div>
+                        <div class="policy-content">
+                            <h3>${policy.category}</h3>
+                            <p>${policy.description}</p>
+                            <ul>${policy.features.split(';').map(feature => `<li>${feature}</li>`).join('')}</ul>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+
+            fetchPolicies();
+        });
+    </script>
 </body>
 </html>
