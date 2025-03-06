@@ -1,0 +1,258 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #FAF6D4; /* Light Goldenrod Yellow */
+    color: #616951; /* Ebony for text */
+    line-height: 1.6;
+}
+
+/* Container styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.sub-container1 {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 40px 0;
+}
+
+.sub-container1 h1 {
+    font-size: 3.5rem;
+    color: #616951; /* Ebony */
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.sub-container2 {
+    background-color: #D0C092; /* Tan */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(97, 105, 81, 0.2); /* Ebony shadow */
+    padding: 30px;
+}
+
+/* Navigation styles */
+.navbar {
+    background-color: #616951; /* Ebony */
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(97, 105, 81, 0.3);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    margin-right: 25px;
+}
+
+.nav-item:last-child {
+    margin-right: 0;
+}
+
+.nav-link {
+    color: #FAF6D4; /* Light Goldenrod Yellow */
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 8px 0;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #D0C092; /* Tan */
+}
+
+/* Animated underline effect */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #D0C092; /* Tan */
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.home-link {
+    color: #FAF6D4; /* Light Goldenrod Yellow */
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.home-link:hover {
+    color: #D0C092; /* Tan */
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: #FAF6D4; /* Light Goldenrod Yellow */
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+/* Welcome section styles */
+.sep1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.description {
+    margin-bottom: 30px;
+}
+
+.description h2 {
+    font-size: 1.2rem;
+    font-weight: normal;
+    color: #616951; /* Ebony */
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.start {
+    display: flex;
+    gap: 15px;
+}
+
+.start button {
+    padding: 12px 24px;
+    background-color: #817340; /* Gold Fusion */
+    color: #FAF6D4; /* Light Goldenrod Yellow */
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.start button:hover {
+    background-color: #616951; /* Ebony */
+}
+
+h3 {
+    font-size: 1.8rem;
+    color: #616951; /* Ebony */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Domains section styles */
+.sub-divisions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.sub-divisions button {
+    padding: 12px 20px;
+    background-color: #908864; /* Shadow */
+    color: #FAF6D4; /* Light Goldenrod Yellow */
+    border: 2px solid #616951; /* Ebony */
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sub-divisions button:hover {
+    background-color: #616951; /* Ebony */
+    border-color: #908864; /* Shadow */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background-color: #616951; /* Ebony */
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 10px 15px rgba(97, 105, 81, 0.2);
+        padding: 20px 0;
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .nav-item {
+        margin: 16px 0;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .sep1 {
+        padding: 0 15px;
+    }
+
+    .start {
+        flex-direction: column;
+    }
+
+    .sub-container1 h1 {
+        font-size: 2.5rem;
+    }
+}
