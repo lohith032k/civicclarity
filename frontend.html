@@ -4,13 +4,299 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CIVIC CLARITY</title>
+    <style>
+        /* Reset styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Navigation bar styling */
+        .navbar {
+            background-color: #003366;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 60px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-container img {
+            height: 40px;
+            margin-right: 8px;
+        }
+        
+        .site-title {
+            color: white;
+            font-size: 22px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 8px;
+        }
+        
+        .nav-item .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            position: relative;
+        }
+        
+        .nav-item .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-item .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item .nav-link:hover::after {
+            width: 80%;
+            left: 10%;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+        
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+        
+        /* Container styles */
+        .container {
+            margin-top: 10px;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .sub-container1 {
+            text-align: center;
+            margin-bottom: 15px;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .sub-container1 img {
+            max-height: 180px;
+            width: auto;
+            transition: transform 0.5s ease;
+        }
+        
+        .sub-container1 img:hover {
+            transform: scale(1.05);
+        }
+        
+        .sub-container2 {
+            animation: slideUp 0.8s ease-out;
+        }
+        
+        .description h2 {
+            font-size: 1rem;
+            font-weight: normal;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            animation: fadeIn 1.2s ease-out;
+        }
+        
+        .start {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .start button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #003366;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .start button:hover {
+            background-color: #004080;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .start button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        h3 {
+            margin: 10px 0 5px 0;
+            font-size: 1.2rem;
+            color: #003366;
+            position: relative;
+            display: inline-block;
+        }
+        
+        /* Removed the underline animation for h3 */
+        
+        .sub-divisions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .sub-divisions button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #e7e7e7;
+            color: #003366;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .sub-divisions button:hover {
+            background-color: #003366;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Animation keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .domain-button {
+            opacity: 0;
+            animation: fadeInStaggered 0.5s ease-out forwards;
+        }
+        
+        @keyframes fadeInStaggered {
+            from { 
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 60px;
+                flex-direction: column;
+                background-color: #003366;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+                padding: 15px 0;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+            
+            .sub-divisions {
+                justify-content: center;
+            }
+        }
+    </style>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <!-- Left-aligned navigation buttons -->
+            <!-- Logo and site title -->
+            <div class="logo-container">
+                <img src="vit logo.jpg" alt="CIVIC CLARITY Logo">
+                <a href="index.html" class="site-title">CIVIC CLARITY</a>
+            </div>
+            
+            <!-- Main navigation menu -->
             <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">AI</a>
                 </li>
@@ -25,9 +311,6 @@
                 </li>
             </ul>
             
-            <!-- Right-aligned home button -->
-            <a href="#" class="home-link">Home</a>
-            
             <!-- Mobile hamburger menu -->
             <div class="hamburger">
                 <span class="bar"></span>
@@ -36,31 +319,59 @@
             </div>
         </div>
     </nav>
-<div class="container">
+
+    <div class="container">
         <div class="sub-container1">
             <img src="vit logo.jpg">
         </div>
- <div class="sub-container2">
-    <section>
-        <div class="sep1">
-            <div class = "description">
-                <h2>Welcome to our website. Here you will be able to find policies and schemes that are introduced by tamilnadu goverment for the recent years.
-                You can access all the recent policies and schemes, with all the required details and use it to your own advantage. You can use our chatbot for 
-                asking personalized questions regarding polices and schemes in this portal.
-                </h2>
-            </div>
-            <div class="start"><button>Get Started</button>
-            <a href="login.html"><button>Login</button></a></div>            
-        </div><h3>Domains:</h3>
-        <div class = "sub-divisions">
-        <a href="financial.html"><button>Finanace</button></a>
-        <a href="health.html"><button>Health</button></a>
-        <a href="agriculture.html"><button>Agriculture</button></a>
-        <a href="legal.html"><button>Legal Willbeing</button></a>
-        <a href="social.html"><button>Social Wellbeing</button></a>
+        <div class="sub-container2">
+            <section>
+                <div class="sep1">
+                    <div class="description">
+                        <h2>Welcome to our website. Here you will be able to find policies and schemes that are introduced by tamilnadu goverment for the recent years.
+                        You can access all the recent policies and schemes, with all the required details and use it to your own advantage. You can use our chatbot for 
+                        asking personalized questions regarding polices and schemes in this portal.
+                        </h2>
+                    </div>
+                    <div class="start">
+                        <!-- Removed Get Started button -->
+                        <a href="login.html"><button>Login</button></a>
+                    </div>
+                </div>
+                <h3>Domains:</h3>
+                <div class="sub-divisions">
+                    <a href="financial.html" class="domain-button" style="animation-delay: 0.1s"><button>Finanace</button></a>
+                    <a href="health.html" class="domain-button" style="animation-delay: 0.2s"><button>Health</button></a>
+                    <a href="agriculture.html" class="domain-button" style="animation-delay: 0.3s"><button>Agriculture</button></a>
+                    <a href="legal.html" class="domain-button" style="animation-delay: 0.4s"><button>Legal Wellbeing</button></a>
+                    <a href="social.html" class="domain-button" style="animation-delay: 0.5s"><button>Social Wellbeing</button></a>
+                </div>
+            </section>
         </div>
-        </section>
- </div>
-</div>
+    </div>
+
+    <script>
+        // JavaScript for mobile menu toggle
+        const hamburger = document.querySelector(".hamburger");
+        const navMenu = document.querySelector(".nav-menu");
+        
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            navMenu.classList.toggle("active");
+        });
+        
+        document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+            hamburger.classList.remove("active");
+            navMenu.classList.remove("active");
+        }));
+        
+        // Animate domain buttons on load
+        document.addEventListener("DOMContentLoaded", function() {
+            const domainButtons = document.querySelectorAll('.domain-button');
+            domainButtons.forEach((button, index) => {
+                button.style.animationDelay = (0.1 * (index + 1)) + 's';
+            });
+        });
+    </script>
 </body>
 </html>

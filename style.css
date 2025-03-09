@@ -1,4 +1,4 @@
-styles.css
+style.css
 * {
     margin: 0;
     padding: 0;
@@ -154,7 +154,7 @@ body {
 
 .start {
     display: flex;
-    gap: 15px;
+    gap: 100px;
 }
 
 .start button {
