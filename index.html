@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CIVIC CLARITY</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* Reset styles */
         * {
@@ -69,6 +71,19 @@
             transition: all 0.3s ease;
             border-radius: 4px;
             position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Icon styling for navigation */
+        .nav-icon {
+            margin-right: 8px;
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-item .nav-link:hover .nav-icon {
+            transform: scale(1.2);
         }
         
         .nav-item .nav-link:hover {
@@ -148,7 +163,7 @@
             justify-content: center;
         }
         
-        .start button {
+        .login-btn {
             padding: 10px 20px;
             border: none;
             border-radius: 4px;
@@ -159,15 +174,22 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
         }
         
-        .start button:hover {
+        .login-icon {
+            margin-right: 8px;
+        }
+        
+        .login-btn:hover {
             background-color: #616951;
             transform: translateY(-3px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
-        .start button:active {
+        .login-btn:active {
             transform: translateY(0);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
@@ -175,7 +197,7 @@
         h3 {
             margin: 10px 0 5px 0;
             font-size: 1.2rem;
-            color: #003366;
+            color: #616951; /* Updated to Ebony */
             position: relative;
             display: inline-block;
         }
@@ -192,16 +214,21 @@
             padding: 8px 16px;
             border: none;
             border-radius: 4px;
-            background-color: #e7e7e7;
-            color: #003366;
+            background-color: #908864; /* Shadow */
+            color: #FAF6D4; /* Light Goldenrod Yellow */
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .domain-icon {
+            margin-right: 8px;
         }
         
         .sub-divisions button:hover {
-            background-color: #003366;
-            color: white;
+            background-color: #616951; /* Ebony */
             transform: translateY(-3px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -394,6 +421,21 @@
                 margin-top: 5px;
                 border-top: 1px solid rgba(255,255,255,0.1);
             }
+            
+            /* Show only icons on mobile */
+            .nav-text {
+                display: none;
+            }
+            
+            .nav-icon {
+                margin-right: 0;
+                font-size: 18px;
+            }
+            
+            .nav-item .nav-link {
+                justify-content: center;
+                padding: 12px;
+            }
         }
     </style>
     <link rel="stylesheet" href="style.css">
@@ -408,13 +450,22 @@
             
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="index.html" class="nav-link" data-translate="Home">Home</a>
+                    <a href="index.html" class="nav-link" data-translate="Home">
+                        <i class="fas fa-home nav-icon"></i>
+                        <span class="nav-text">Home</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-translate="AI">AI</a>
+                    <a href="#" class="nav-link" data-translate="AI">
+                        <i class="fas fa-robot nav-icon"></i>
+                        <span class="nav-text">AI</span>
+                    </a>
                 </li>
                 <li class="nav-item" style="position: relative;">
-                    <a href="#" class="nav-link" data-translate="Translate">Translate</a>
+                    <a href="#" class="nav-link" data-translate="Translate">
+                        <i class="fas fa-language nav-icon"></i>
+                        <span class="nav-text">Translate</span>
+                    </a>
                     <!-- Language dropdown -->
                     <div class="lang-dropdown" id="langDropdown">
                         <div class="lang-option" data-lang="en">
@@ -436,10 +487,16 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="about us.html" class="nav-link" data-translate="About">About</a>
+                    <a href="about us.html" class="nav-link" data-translate="About">
+                        <i class="fas fa-info-circle nav-icon"></i>
+                        <span class="nav-text">About</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-translate="Settings">Settings</a>
+                    <a href="#" class="nav-link" data-translate="Settings">
+                        <i class="fas fa-cog nav-icon"></i>
+                        <span class="nav-text">Settings</span>
+                    </a>
                 </li>
             </ul>
             
@@ -465,21 +522,47 @@
                         </h2>
                     </div>
                     <div class="start">
-                        <a href="login.html"><button data-translate="Login">Login</button></a>
+                        <a href="login.html" class="login-btn">
+                            <i class="fas fa-sign-in-alt login-icon"></i>
+                            <span data-translate="Login">Login</span>
+                        </a>
                     </div>
                 </div><h3 data-translate="Domains">Domains:</h3>
                 <div class="sub-divisions">
-                    <a href="financial.html" class="domain-button" style="animation-delay: 0.1s"><button data-translate="Finance">Finance</button></a>
-                    <a href="health.html" class="domain-button" style="animation-delay: 0.2s"><button data-translate="Health">Health</button></a>
-                    <a href="agriculture.html" class="domain-button" style="animation-delay: 0.3s"><button data-translate="Agriculture">Agriculture</button></a>
-                    <a href="legal.html" class="domain-button" style="animation-delay: 0.4s"><button data-translate="Legal Wellbeing">Legal Wellbeing</button></a>
-                    <a href="social.html" class="domain-button" style="animation-delay: 0.5s"><button data-translate="Social Wellbeing">Social Wellbeing</button></a>
+                    <a href="financial.html" class="domain-button" style="animation-delay: 0.1s">
+                        <button>
+                            <i class="fas fa-coins domain-icon"></i>
+                            <span data-translate="Finance">Finance</span>
+                        </button>
+                    </a>
+                    <a href="health.html" class="domain-button" style="animation-delay: 0.2s">
+                        <button>
+                            <i class="fas fa-heartbeat domain-icon"></i>
+                            <span data-translate="Health">Health</span>
+                        </button>
+                    </a>
+                    <a href="agriculture.html" class="domain-button" style="animation-delay: 0.3s">
+                        <button>
+                            <i class="fas fa-leaf domain-icon"></i>
+                            <span data-translate="Agriculture">Agriculture</span>
+                        </button>
+                    </a>
+                    <a href="legal.html" class="domain-button" style="animation-delay: 0.4s">
+                        <button>
+                            <i class="fas fa-balance-scale domain-icon"></i>
+                            <span data-translate="Legal Wellbeing">Legal Wellbeing</span>
+                        </button>
+                    </a>
+                    <a href="social.html" class="domain-button" style="animation-delay: 0.5s">
+                        <button>
+                            <i class="fas fa-users domain-icon"></i>
+                            <span data-translate="Social Wellbeing">Social Wellbeing</span>
+                        </button>
+                    </a>
                 </div>
             </section>
         </div>
     </div>
-    
-    <!-- Language dropdown moved to navbar -->
     
     <!-- Language selector button -->
     <div class="lang-selector" id="langToggle">EN</div>
@@ -681,7 +764,13 @@
             document.querySelectorAll('[data-translate]').forEach(element => {
                 const key = element.getAttribute('data-translate');
                 if (dictionary[key]) {
-                    element.textContent = dictionary[key];
+                    // If the element has a span as a direct child, update that instead
+                    const span = element.querySelector('span');
+                    if (span) {
+                        span.textContent = dictionary[key];
+                    } else {
+                        element.textContent = dictionary[key];
+                    }
                 }
             });
         }
@@ -691,58 +780,40 @@
             document.querySelectorAll('[data-translate]').forEach(element => {
                 const key = element.getAttribute('data-translate');
                 
+                // Get the content to reset
+                let content = '';
+                
                 // Reset to original English text based on key
                 switch(key) {
-                    case 'Home': element.textContent = 'Home'; break;
-                    case 'AI': element.textContent = 'AI'; break;
-                    case 'Translate': element.textContent = 'Translate'; break;
-                    case 'About': element.textContent = 'About'; break;
-                    case 'Settings': element.textContent = 'Settings'; break;
-                    case 'Login': element.textContent = 'Login'; break;
-                    case 'Domains': element.textContent = 'Domains:'; break;
-                    case 'Finance': element.textContent = 'Finance'; break;
-                    case 'Health': element.textContent = 'Health'; break;
-                    case 'Agriculture': element.textContent = 'Agriculture'; break;
-                    case 'Legal Wellbeing': element.textContent = 'Legal Wellbeing'; break;
-                    case 'Social Wellbeing': element.textContent = 'Social Wellbeing'; break;
+                    case 'Home': content = 'Home'; break;
+                    case 'AI': content = 'AI'; break;
+                    case 'Translate': content = 'Translate'; break;
+                    case 'About': content = 'About'; break;
+                    case 'Settings': content = 'Settings'; break;
+                    case 'Login': content = 'Login'; break;
+                    case 'Domains': content = 'Domains:'; break;
+                    case 'Finance': content = 'Finance'; break;
+                    case 'Health': content = 'Health'; break;
+                    case 'Agriculture': content = 'Agriculture'; break;
+                    case 'Legal Wellbeing': content = 'Legal Wellbeing'; break;
+                    case 'Social Wellbeing': content = 'Social Wellbeing'; break;
                     case 'welcome-text': 
-                        element.textContent = 'Welcome to our website. Here you will be able to find policies and schemes that are introduced by tamilnadu goverment for the recent years. You can access all the recent policies and schemes, with all the required details and use it to your own advantage. You can use our chatbot for asking personalized questions regarding polices and schemes in this portal.';
+                        content = 'Welcome to our website. Here you will be able to find policies and schemes that are introduced by tamilnadu goverment for the recent years. You can access all the recent policies and schemes, with all the required details and use it to your own advantage. You can use our chatbot for asking personalized questions regarding polices and schemes in this portal.';
                         break;
+                    default: content = ''; break;
+                }
+                
+                // Apply the content properly
+                if (content) {
+                    // If the element has a span as a direct child, update that instead
+                    const span = element.querySelector('span');
+                    if (span) {
+                        span.textContent = content;
+                    } else {
+                        element.textContent = content;
+                    }
                 }
             });
-        }
-
-        // Function to detect browser language and set initial language
-        function detectBrowserLanguage() {
-            const browserLang = navigator.language.split('-')[0];
-            
-            // Check if we support the browser language
-            if (['en', 'ta', 'hi', 'te'].includes(browserLang)) {
-                return browserLang;
-            }
-            
-            // Default to English
-            return 'en';
-        }
-
-        // Advanced translation using external API
-        async function translateUsingAPI(text, targetLang) {
-            try {
-                // This is a placeholder for a real translation API call
-                // In a production environment, you would replace this with a call to Google Translate, Microsoft Translator, etc.
-                
-                // Simulate API call with timeout
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        // For demo, just return the corresponding text from our dictionary
-                        const dictionary = translations[targetLang] || {};
-                        resolve(dictionary[text] || text);
-                    }, 300);
-                });
-            } catch (error) {
-                console.error('Translation API error:', error);
-                return text; // Return original text on error
-            }
         }
     </script>
 </body>
