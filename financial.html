@@ -4,48 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finance Policies</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <!-- Updated Supabase CDN with version specification -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", async function() {
+        document.addEventListener("DOMContentLoaded", function() {
             // Initialize Supabase correctly
             const SUPABASE_URL = "https://lgbmwsimohdphbjispew.supabase.co";
             const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxnYm13c2ltb2hkcGhiamlzcGV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyOTYwMzIsImV4cCI6MjA1Njg3MjAzMn0.mw485QrNviIxzAu-HecYir2Ou9Zn0nnyxO2aCwAouz0";
             
+            // Show loading state
+            const container = document.querySelector('.policies-grid');
+            container.innerHTML = '<div class="loading">Loading policies...</div>';
+            
+            let supabaseClient;
+            
             // Ensure Supabase is available before using it
             if (typeof supabase !== "undefined") {
-                window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                try {
+                    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                    fetchPolicies();
+                } catch (error) {
+                    showError("Failed to initialize database connection: " + error.message);
+                }
             } else {
-                console.error("Supabase library is not loaded");
-                return;
+                showError("Required database library could not be loaded");
             }
     
             async function fetchPolicies() {
-                const { data, error } = await window.supabaseClient.from('finance_policies').select('*');
-                
-                if (error) {
-                    console.error('Error fetching policies:', error);
-                    return;
+                try {
+                    const { data, error } = await supabaseClient.from('finance_policies').select('*');
+                    
+                    if (error) {
+                        throw error;
+                    }
+                    
+                    if (!data || data.length === 0) {
+                        container.innerHTML = '<div class="no-data">No policies available at this time.</div>';
+                        return;
+                    }
+    
+                    container.innerHTML = ''; // Clear loading message
+    
+                    data.forEach(policy => {
+                        const card = document.createElement('div');
+                        card.classList.add('policy-card');
+                        
+                        // Safe property access with defaults
+                        const title = policy.title || 'Untitled Policy';
+                        const category = policy.category || 'Uncategorized';
+                        const description = policy.description || 'No description available';
+                        
+                        // Safe handling of features with null/undefined check
+                        let featuresHTML = '<p class="no-features">No specific features listed</p>';
+                        if (policy.features) {
+                            const featuresList = policy.features.split(';')
+                                .filter(feature => feature.trim() !== '')
+                                .map(feature => `<li>${feature.trim()}</li>`)
+                                .join('');
+                                
+                            if (featuresList) {
+                                featuresHTML = `<ul>${featuresList}</ul>`;
+                            }
+                        }
+                        
+                        card.innerHTML = `
+                            <div class="policy-header">${title}</div>
+                            <div class="policy-content">
+                                <h3>${category}</h3>
+                                <p>${description}</p>
+                                ${featuresHTML}
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+                } catch (error) {
+                    showError("Error fetching policies: " + error.message);
                 }
-    
-                const container = document.querySelector('.policies-grid');
-                container.innerHTML = ''; // Clear existing data
-    
-                data.forEach(policy => {
-                    const card = document.createElement('div');
-                    card.classList.add('policy-card');
-                    card.innerHTML = `
-                        <div class="policy-header">${policy.title}</div>
-                        <div class="policy-content">
-                            <h3>${policy.category}</h3>
-                            <p>${policy.description}</p>
-                            <ul>${policy.features.split(';').map(feature => `<li>${feature}</li>`).join('')}</ul>
-                        </div>
-                    `;
-                    container.appendChild(card);
-                });
             }
-    
-            fetchPolicies();
+            
+            function showError(message) {
+                container.innerHTML = `<div class="error-message">
+                    <div class="error-icon">⚠️</div>
+                    <div class="error-text">${message}</div>
+                    <button class="retry-button" onclick="location.reload()">Retry</button>
+                </div>`;
+            }
         });
     </script>
        
@@ -73,62 +116,177 @@
             background-color: #817340;
             color: #FAF6D4;
             text-align: center;
-            padding: 20px;
-            margin-bottom: 30px;
+            padding: 30px 20px;
+            margin-bottom: 40px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 12px rgba(97, 105, 81, 0.15);
         }
 
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
 
         .policies-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            min-height: 200px;
         }
 
         .policy-card {
             background-color: #D0C092;
-            border-radius: 10px;
+            border-radius: 12px;
             box-shadow: 0 5px 15px rgba(97, 105, 81, 0.2);
             overflow: hidden;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .policy-card:hover {
-            transform: scale(1.05);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(97, 105, 81, 0.25);
         }
 
         .policy-header {
             background-color: #616951;
             color: #FAF6D4;
-            padding: 15px;
+            padding: 16px;
             text-align: center;
             font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 0.3px;
         }
 
         .policy-content {
-            padding: 20px;
+            padding: 24px;
             background-color: #FAF6D4;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .policy-content h3 {
             color: #817340;
-            margin-bottom: 10px;
+            margin-bottom: 16px;
+            font-size: 1.3rem;
         }
 
         .policy-content p {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            line-height: 1.7;
         }
 
         .policy-content ul {
             padding-left: 20px;
+            margin-top: auto;
+        }
+
+        .policy-content ul li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 5px;
+        }
+
+        .policy-content ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 1.2rem;
+            color: #616951;
+            grid-column: 1 / -1;
+            position: relative;
+        }
+
+        .loading:after {
+            content: "...";
+            position: absolute;
+            width: 24px;
+            text-align: left;
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: "."; }
+            40% { content: ".."; }
+            60%, 100% { content: "..."; }
+        }
+
+        .error-message {
+            grid-column: 1 / -1;
+            background-color: rgba(209, 120, 120, 0.1);
+            border: 1px solid rgba(209, 120, 120, 0.3);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            color: #7a5151;
+        }
+
+        .error-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .error-text {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .retry-button {
+            background-color: #817340;
+            color: #FAF6D4;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .retry-button:hover {
+            background-color: #616951;
+        }
+
+        .no-data {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 1.2rem;
+            color: #616951;
+        }
+
+        .no-features {
+            font-style: italic;
+            opacity: 0.7;
         }
 
         @media (max-width: 768px) {
             .policies-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 25px 15px;
+                margin-bottom: 30px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 15px;
             }
         }
     </style>
