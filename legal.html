@@ -18,6 +18,100 @@
             color: #616951;
             line-height: 1.6;
         }
+        
+        /* Navigation bar styling */
+        .navbar {
+            background-color: #817340; /* Gold Fusion */
+            box-shadow: 0 2px 4px rgba(97, 105, 81, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 60px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-container img {
+            height: 40px;
+            margin-right: 8px;
+        }
+        
+        .site-title {
+            color: #FAF6D4; /* Light Goldenrod Yellow */
+            font-size: 22px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 8px;
+        }
+        
+        .nav-item .nav-link {
+            color: #FAF6D4; /* Light Goldenrod Yellow */
+            text-decoration: none;
+            padding: 8px 12px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            position: relative;
+        }
+        
+        .nav-item .nav-link:hover {
+            background-color: rgba(250, 246, 212, 0.1); /* Light Goldenrod Yellow with opacity */
+        }
+        
+        .nav-item .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #FAF6D4; /* Light Goldenrod Yellow */
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item .nav-link:hover::after {
+            width: 80%;
+            left: 10%;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+        
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #FAF6D4; /* Light Goldenrod Yellow */
+            transition: all 0.3s ease;
+        }
+        
+        /* Original CSS continues */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -120,7 +214,7 @@
         }
         .error-message {
             grid-column: 1 / -1;
-            background-color: rgba(209, 120, 120, a0.1);
+            background-color: rgba(209, 120, 120, 0.1);
             border: 1px solid rgba(209, 120, 120, 0.3);
             border-radius: 8px;
             padding: 30px;
@@ -156,6 +250,39 @@
             color: #616951;
         }
         @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 60px;
+                flex-direction: column;
+                background-color: #817340; /* Gold Fusion */
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 15px rgba(97, 105, 81, 0.2);
+                padding: 15px 0;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+            
             .policies-grid {
                 grid-template-columns: 1fr;
             }
@@ -173,6 +300,40 @@
     </style>
 </head>
 <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="vit logo.jpg" alt="CIVIC CLARITY Logo">
+                <a href="index.html" class="site-title">CIVIC CLARITY</a>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">AI</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Translate</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Settings</a>
+                </li>
+            </ul>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
     <div class="header">
         <h1>Legal Wellbeing Services</h1>
         <p>Comprehensive Legal Support for Personal and Professional Needs</p>
@@ -265,6 +426,20 @@
                     <button class="retry-button" onclick="location.reload()">Retry</button>
                 </div>`;
             }
+            
+            // Mobile menu functionality
+            const hamburger = document.querySelector(".hamburger");
+            const navMenu = document.querySelector(".nav-menu");
+            
+            hamburger.addEventListener("click", () => {
+                hamburger.classList.toggle("active");
+                navMenu.classList.toggle("active");
+            });
+            
+            document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+                hamburger.classList.remove("active");
+                navMenu.classList.remove("active");
+            }));
         });
     </script>
 </body>
