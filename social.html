@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social Wellbeing Policies</title>
+    <title>Social Wellbeing Policies of Tamil Nadu</title>
     <!-- Updated Supabase CDN with version specification -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -13,19 +13,16 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         body {
             background-color: #FAF6D4; /* Light Goldenrod Yellow */
             color: #616951; /* Ebony */
             line-height: 1.6;
         }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-
         .header {
             background-color: #817340; /* Gold Fusion */
             color: #FAF6D4; /* Light Goldenrod Yellow */
@@ -35,25 +32,21 @@
             border-radius: 0 0 15px 15px;
             box-shadow: 0 4px 12px rgba(97, 105, 81, 0.15);
         }
-
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
             letter-spacing: 0.5px;
         }
-
         .header p {
             font-size: 1.1rem;
             opacity: 0.9;
         }
-
         .policies-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 25px;
             min-height: 200px;
         }
-
         .policy-card {
             background-color: #D0C092; /* Tan */
             border-radius: 12px;
@@ -64,12 +57,10 @@
             display: flex;
             flex-direction: column;
         }
-
         .policy-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(97, 105, 81, 0.25);
         }
-
         .policy-header {
             background-color: #616951; /* Ebony */
             color: #FAF6D4; /* Light Goldenrod Yellow */
@@ -79,7 +70,6 @@
             font-size: 1.1rem;
             letter-spacing: 0.3px;
         }
-
         .policy-content {
             padding: 24px;
             background-color: #FAF6D4; /* Light Goldenrod Yellow */
@@ -87,33 +77,27 @@
             display: flex;
             flex-direction: column;
         }
-
         .policy-content h3 {
             color: #817340; /* Gold Fusion */
             margin-bottom: 16px;
             font-size: 1.3rem;
         }
-
         .policy-content p {
             margin-bottom: 20px;
             line-height: 1.7;
         }
-
         .policy-content ul {
             padding-left: 20px;
             margin-top: auto;
         }
-
         .policy-content ul li {
             margin-bottom: 8px;
             position: relative;
             padding-left: 5px;
         }
-
         .policy-content ul li:last-child {
             margin-bottom: 0;
         }
-
         .loading {
             text-align: center;
             padding: 40px 20px;
@@ -122,7 +106,6 @@
             grid-column: 1 / -1;
             position: relative;
         }
-
         .loading:after {
             content: "...";
             position: absolute;
@@ -130,13 +113,11 @@
             text-align: left;
             animation: dots 1.5s infinite;
         }
-
         @keyframes dots {
             0%, 20% { content: "."; }
             40% { content: ".."; }
             60%, 100% { content: "..."; }
         }
-
         .error-message {
             grid-column: 1 / -1;
             background-color: rgba(209, 120, 120, 0.1);
@@ -146,17 +127,14 @@
             text-align: center;
             color: #7a5151;
         }
-
         .error-icon {
             font-size: 2rem;
             margin-bottom: 15px;
         }
-
         .error-text {
             margin-bottom: 20px;
             font-size: 1.1rem;
         }
-
         .retry-button {
             background-color: #817340;
             color: #FAF6D4;
@@ -167,11 +145,9 @@
             font-size: 1rem;
             transition: background-color 0.3s;
         }
-
         .retry-button:hover {
             background-color: #616951;
         }
-
         .no-data {
             grid-column: 1 / -1;
             text-align: center;
@@ -179,21 +155,17 @@
             font-size: 1.2rem;
             color: #616951;
         }
-
         @media (max-width: 768px) {
             .policies-grid {
                 grid-template-columns: 1fr;
             }
-            
             .header {
                 padding: 25px 15px;
                 margin-bottom: 30px;
             }
-            
             .header h1 {
                 font-size: 2rem;
             }
-            
             .container {
                 padding: 15px;
             }
@@ -223,7 +195,6 @@
             
             let supabaseClient;
             try {
-                // Fixed bug with creating the Supabase client
                 if (typeof supabase !== "undefined") {
                     supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
                     fetchPolicies();
@@ -234,12 +205,11 @@
                 showError("Error initializing database connection: " + error.message);
             }
 
-            // Fetch Policies from Supabase
+            // Fetch Social Wellbeing Policies from Supabase
             async function fetchPolicies() {
                 try {
-                    // Fixed table name to match what's likely in your database
                     const { data, error } = await supabaseClient
-                        .from("policies")
+                        .from("social_wellbeing_policies")
                         .select("*");
 
                     if (error) {
@@ -264,7 +234,7 @@
                         const category = policy.category || 'Uncategorized';
                         const description = policy.description || 'No description available';
                         
-                        // Fix for handling benefits array or string
+                        // Handle benefits array or string
                         let benefitsHTML = '<p>No specific benefits listed</p>';
                         if (policy.benefits) {
                             if (Array.isArray(policy.benefits)) {
@@ -302,8 +272,102 @@
                         policiesGrid.appendChild(policyCard);
                     });
                 } catch (error) {
+                    console.error("Error fetching policies:", error);
                     showError("Error fetching social wellbeing policies: " + error.message);
+                    loadFallbackContent();
                 }
+            }
+            
+            // Fallback content if Supabase fails
+            function loadFallbackContent() {
+                const fallbackData = [
+                    {
+                        title: "Women Empowerment Scheme",
+                        category: "Gender Equality Initiative",
+                        description: "Comprehensive support system for women's social and economic advancement.",
+                        benefits: [
+                            "Skill Development Programs",
+                            "Financial Assistance for Entrepreneurs",
+                            "Legal Aid Services",
+                            "Safety and Security Measures"
+                        ]
+                    },
+                    {
+                        title: "Child Welfare Program",
+                        category: "Youth Development",
+                        description: "Holistic approach to ensure the wellbeing and development of children.",
+                        benefits: [
+                            "Educational Scholarships",
+                            "Nutrition Support",
+                            "Healthcare Services",
+                            "Recreational Facilities"
+                        ]
+                    },
+                    {
+                        title: "Elder Care Support",
+                        category: "Senior Citizen Welfare",
+                        description: "Dedicated services to ensure dignity and care for the elderly population.",
+                        benefits: [
+                            "Medical Assistance",
+                            "Pension Schemes",
+                            "Community Centers",
+                            "Home Care Services"
+                        ]
+                    },
+                    {
+                        title: "Disability Inclusion Initiative",
+                        category: "Accessibility Enhancement",
+                        description: "Comprehensive policy to ensure equal opportunities for persons with disabilities.",
+                        benefits: [
+                            "Accessibility Infrastructure",
+                            "Employment Opportunities",
+                            "Assistive Technology Support",
+                            "Specialized Education Programs"
+                        ]
+                    },
+                    {
+                        title: "Rural Development Scheme",
+                        category: "Community Advancement",
+                        description: "Integrated approach to enhance quality of life in rural communities.",
+                        benefits: [
+                            "Infrastructure Development",
+                            "Livelihood Programs",
+                            "Digital Connectivity",
+                            "Agricultural Support"
+                        ]
+                    },
+                    {
+                        title: "Mental Health Services",
+                        category: "Psychological Wellbeing",
+                        description: "Comprehensive mental health support and awareness initiatives.",
+                        benefits: [
+                            "Counseling Services",
+                            "Treatment Centers",
+                            "Awareness Programs",
+                            "Crisis Intervention Support"
+                        ]
+                    }
+                ];
+                
+                policiesGrid.innerHTML = "";
+                
+                fallbackData.forEach(policy => {
+                    const policyCard = document.createElement("div");
+                    policyCard.classList.add("policy-card");
+                    
+                    const benefitsHTML = `<ul>${policy.benefits.map(benefit => `<li>${benefit}</li>`).join('')}</ul>`;
+                    
+                    policyCard.innerHTML = `
+                        <div class="policy-header">${policy.title}</div>
+                        <div class="policy-content">
+                            <h3>${policy.category}</h3>
+                            <p>${policy.description}</p>
+                            ${benefitsHTML}
+                        </div>
+                    `;
+                    
+                    policiesGrid.appendChild(policyCard);
+                });
             }
             
             function showError(message) {
