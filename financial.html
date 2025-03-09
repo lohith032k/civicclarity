@@ -6,6 +6,374 @@
     <title>Finance Policies</title>
     <!-- Updated Supabase CDN with version specification -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #FAF6D4;
+            color: #616951;
+            line-height: 1.6;
+        }
+        
+        /* Navigation bar styling */
+        .navbar {
+            background-color: #817340; /* Gold Fusion */
+            box-shadow: 0 2px 4px rgba(97, 105, 81, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 60px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-container img {
+            height: 40px;
+            margin-right: 8px;
+        }
+        
+        .site-title {
+            color: #FAF6D4; /* Light Goldenrod Yellow */
+            font-size: 22px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 8px;
+        }
+        
+        .nav-item .nav-link {
+            color: #FAF6D4; /* Light Goldenrod Yellow */
+            text-decoration: none;
+            padding: 8px 12px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            position: relative;
+        }
+        
+        .nav-item .nav-link:hover {
+            background-color: rgba(250, 246, 212, 0.1); /* Light Goldenrod Yellow with opacity */
+        }
+        
+        .nav-item .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #FAF6D4; /* Light Goldenrod Yellow */
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item .nav-link:hover::after {
+            width: 80%;
+            left: 10%;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+        
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #FAF6D4; /* Light Goldenrod Yellow */
+            transition: all 0.3s ease;
+        }
+        
+        /* Original CSS continues */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background-color: #817340;
+            color: #FAF6D4;
+            text-align: center;
+            padding: 30px 20px;
+            margin-bottom: 40px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 12px rgba(97, 105, 81, 0.15);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .policies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            min-height: 200px;
+        }
+        
+        .policy-card {
+            background-color: #D0C092;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(97, 105, 81, 0.2);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .policy-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(97, 105, 81, 0.25);
+        }
+        
+        .policy-header {
+            background-color: #616951;
+            color: #FAF6D4;
+            padding: 16px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 0.3px;
+        }
+        
+        .policy-content {
+            padding: 24px;
+            background-color: #FAF6D4;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .policy-content h3 {
+            color: #817340;
+            margin-bottom: 16px;
+            font-size: 1.3rem;
+        }
+        
+        .policy-content p {
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        
+        .policy-content ul {
+            padding-left: 20px;
+            margin-top: auto;
+        }
+        
+        .policy-content ul li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 5px;
+        }
+        
+        .policy-content ul li:last-child {
+            margin-bottom: 0;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 1.2rem;
+            color: #616951;
+            grid-column: 1 / -1;
+            position: relative;
+        }
+        
+        .loading:after {
+            content: "...";
+            position: absolute;
+            width: 24px;
+            text-align: left;
+            animation: dots 1.5s infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: "."; }
+            40% { content: ".."; }
+            60%, 100% { content: "..."; }
+        }
+        
+        .error-message {
+            grid-column: 1 / -1;
+            background-color: rgba(209, 120, 120, 0.1);
+            border: 1px solid rgba(209, 120, 120, 0.3);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            color: #7a5151;
+        }
+        
+        .error-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .error-text {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .retry-button {
+            background-color: #817340;
+            color: #FAF6D4;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .retry-button:hover {
+            background-color: #616951;
+        }
+        
+        .no-data {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 1.2rem;
+            color: #616951;
+        }
+        
+        .no-features {
+            font-style: italic;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 60px;
+                flex-direction: column;
+                background-color: #817340; /* Gold Fusion */
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 15px rgba(97, 105, 81, 0.2);
+                padding: 15px 0;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+            
+            .policies-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                padding: 25px 15px;
+                margin-bottom: 30px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="civiclogo.png" alt="CIVIC CLARITY Logo">
+                <a href="index.html" class="site-title">CIVIC CLARITY</a>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">AI</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Translate</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Settings</a>
+                </li>
+            </ul>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="header">
+        <h1>Finance Policies of Tamil Nadu</h1>
+        <p>Explore the financial initiatives and support programs</p>
+    </div>
+
+    <div class="container">
+        <div class="policies-grid"></div>
+    </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Initialize Supabase correctly
@@ -89,216 +457,21 @@
                     <button class="retry-button" onclick="location.reload()">Retry</button>
                 </div>`;
             }
+            
+            // Mobile menu functionality
+            const hamburger = document.querySelector(".hamburger");
+            const navMenu = document.querySelector(".nav-menu");
+            
+            hamburger.addEventListener("click", () => {
+                hamburger.classList.toggle("active");
+                navMenu.classList.toggle("active");
+            });
+            
+            document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+                hamburger.classList.remove("active");
+                navMenu.classList.remove("active");
+            }));
         });
     </script>
-       
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #FAF6D4;
-            color: #616951;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            background-color: #817340;
-            color: #FAF6D4;
-            text-align: center;
-            padding: 30px 20px;
-            margin-bottom: 40px;
-            border-radius: 0 0 15px 15px;
-            box-shadow: 0 4px 12px rgba(97, 105, 81, 0.15);
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
-        }
-
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .policies-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            min-height: 200px;
-        }
-
-        .policy-card {
-            background-color: #D0C092;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(97, 105, 81, 0.2);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .policy-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(97, 105, 81, 0.25);
-        }
-
-        .policy-header {
-            background-color: #616951;
-            color: #FAF6D4;
-            padding: 16px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 1.1rem;
-            letter-spacing: 0.3px;
-        }
-
-        .policy-content {
-            padding: 24px;
-            background-color: #FAF6D4;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .policy-content h3 {
-            color: #817340;
-            margin-bottom: 16px;
-            font-size: 1.3rem;
-        }
-
-        .policy-content p {
-            margin-bottom: 20px;
-            line-height: 1.7;
-        }
-
-        .policy-content ul {
-            padding-left: 20px;
-            margin-top: auto;
-        }
-
-        .policy-content ul li {
-            margin-bottom: 8px;
-            position: relative;
-            padding-left: 5px;
-        }
-
-        .policy-content ul li:last-child {
-            margin-bottom: 0;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px 20px;
-            font-size: 1.2rem;
-            color: #616951;
-            grid-column: 1 / -1;
-            position: relative;
-        }
-
-        .loading:after {
-            content: "...";
-            position: absolute;
-            width: 24px;
-            text-align: left;
-            animation: dots 1.5s infinite;
-        }
-
-        @keyframes dots {
-            0%, 20% { content: "."; }
-            40% { content: ".."; }
-            60%, 100% { content: "..."; }
-        }
-
-        .error-message {
-            grid-column: 1 / -1;
-            background-color: rgba(209, 120, 120, 0.1);
-            border: 1px solid rgba(209, 120, 120, 0.3);
-            border-radius: 8px;
-            padding: 30px;
-            text-align: center;
-            color: #7a5151;
-        }
-
-        .error-icon {
-            font-size: 2rem;
-            margin-bottom: 15px;
-        }
-
-        .error-text {
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
-
-        .retry-button {
-            background-color: #817340;
-            color: #FAF6D4;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s;
-        }
-
-        .retry-button:hover {
-            background-color: #616951;
-        }
-
-        .no-data {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 40px 20px;
-            font-size: 1.2rem;
-            color: #616951;
-        }
-
-        .no-features {
-            font-style: italic;
-            opacity: 0.7;
-        }
-
-        @media (max-width: 768px) {
-            .policies-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .header {
-                padding: 25px 15px;
-                margin-bottom: 30px;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .container {
-                padding: 15px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>Finance Policies of Tamil Nadu</h1>
-        <p>Explore the financial initiatives and support programs</p>
-    </div>
-
-    <div class="container">
-        <div class="policies-grid"></div>
-    </div>
 </body>
 </html>

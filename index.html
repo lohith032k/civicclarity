@@ -15,8 +15,8 @@
         
         /* Navigation bar styling */
         .navbar {
-            background-color: #003366;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #817340; /* Gold Fusion */
+            box-shadow: 0 2px 4px rgba(97, 105, 81, 0.15);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -48,7 +48,7 @@
         }
         
         .site-title {
-            color: white;
+            color: #FAF6D4; /* Light Goldenrod Yellow */
             font-size: 22px;
             font-weight: 700;
             text-decoration: none;
@@ -61,7 +61,7 @@
         }
         
         .nav-item .nav-link {
-            color: white;
+            color: #FAF6D4; /* Light Goldenrod Yellow */
             text-decoration: none;
             padding: 8px 12px;
             font-size: 16px;
@@ -72,7 +72,7 @@
         }
         
         .nav-item .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(250, 246, 212, 0.1); /* Light Goldenrod Yellow with opacity */
         }
         
         .nav-item .nav-link::after {
@@ -82,7 +82,7 @@
             height: 2px;
             bottom: 0;
             left: 50%;
-            background-color: white;
+            background-color: #FAF6D4; /* Light Goldenrod Yellow */
             transition: all 0.3s ease;
         }
         
@@ -101,7 +101,7 @@
             width: 25px;
             height: 3px;
             margin: 5px auto;
-            background-color: white;
+            background-color: #FAF6D4; /* Light Goldenrod Yellow */
             transition: all 0.3s ease;
         }
         
@@ -152,8 +152,8 @@
             padding: 10px 20px;
             border: none;
             border-radius: 4px;
-            background-color: #003366;
-            color: white;
+            background-color: #817340;
+            color: #FAF6D4;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -162,7 +162,7 @@
         }
         
         .start button:hover {
-            background-color: #004080;
+            background-color: #616951;
             transform: translateY(-3px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -179,8 +179,6 @@
             position: relative;
             display: inline-block;
         }
-        
-        /* Removed the underline animation for h3 */
         
         .sub-divisions {
             display: flex;
@@ -206,6 +204,30 @@
             color: white;
             transform: translateY(-3px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Language selector styling */
+        .lang-selector {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #817340;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #FAF6D4;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-selector:hover {
+            transform: scale(1.1);
         }
         
         /* Animation keyframes */
@@ -242,17 +264,17 @@
         }
         
         /* Responsive styles */
-        @media screen and (max-width: 768px) {
+        @media (max-width: 768px) {
             .nav-menu {
                 position: fixed;
                 left: -100%;
                 top: 60px;
                 flex-direction: column;
-                background-color: #003366;
+                background-color: #817340;
                 width: 100%;
                 text-align: center;
                 transition: 0.3s;
-                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 10px 15px rgba(97, 105, 81, 0.2);
                 padding: 15px 0;
             }
             
@@ -286,13 +308,11 @@
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <!-- Logo and site title -->
             <div class="logo-container">
                 <img src="civiclogo.png" alt="CIVIC CLARITY Logo">
                 <a href="index.html" class="site-title">CIVIC CLARITY</a>
             </div>
             
-            <!-- Main navigation menu -->
             <ul class="nav-menu">
                 <li class="nav-item">
                     <a href="index.html" class="nav-link">Home</a>
@@ -301,7 +321,7 @@
                     <a href="#" class="nav-link">AI</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Translate</a>
+                    <a href="#" class="nav-link" id="translate-button">Translate</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">About</a>
@@ -311,7 +331,6 @@
                 </li>
             </ul>
             
-            <!-- Mobile hamburger menu -->
             <div class="hamburger">
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -334,11 +353,9 @@
                         </h2>
                     </div>
                     <div class="start">
-                        <!-- Removed Get Started button -->
                         <a href="login.html"><button>Login</button></a>
                     </div>
-                </div>
-                <h3>Domains:</h3>
+                </div><h3>Domains:</h3>
                 <div class="sub-divisions">
                     <a href="financial.html" class="domain-button" style="animation-delay: 0.1s"><button>Finanace</button></a>
                     <a href="health.html" class="domain-button" style="animation-delay: 0.2s"><button>Health</button></a>
@@ -349,29 +366,131 @@
             </section>
         </div>
     </div>
+    
+    <!-- Language selector button -->
+    <div class="lang-selector" id="langToggle">தமிழ்</div>
 
     <script>
         // JavaScript for mobile menu toggle
-        const hamburger = document.querySelector(".hamburger");
-        const navMenu = document.querySelector(".nav-menu");
-        
-        hamburger.addEventListener("click", () => {
-            hamburger.classList.toggle("active");
-            navMenu.classList.toggle("active");
-        });
-        
-        document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
-            hamburger.classList.remove("active");
-            navMenu.classList.remove("active");
-        }));
-        
-        // Animate domain buttons on load
         document.addEventListener("DOMContentLoaded", function() {
+            const hamburger = document.querySelector(".hamburger");
+            const navMenu = document.querySelector(".nav-menu");
+            
+            hamburger.addEventListener("click", () => {
+                hamburger.classList.toggle("active");
+                navMenu.classList.toggle("active");
+            });
+            
+            document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+                hamburger.classList.remove("active");
+                navMenu.classList.remove("active");
+            }));
+            
+            // Animate domain buttons on load
             const domainButtons = document.querySelectorAll('.domain-button');
             domainButtons.forEach((button, index) => {
                 button.style.animationDelay = (0.1 * (index + 1)) + 's';
             });
+            
+            // Translation functionality - Translate button
+            document.getElementById('translate-button').addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleLanguage();
+            });
+            
+            // Language toggle button functionality
+            document.getElementById('langToggle').addEventListener('click', function() {
+                toggleLanguage();
+            });
+            
+            // Check if the page is already in Tamil
+            if (localStorage.getItem('language') === 'ta') {
+                translateToTamil();
+                document.getElementById('langToggle').textContent = 'ENG';
+            }
         });
+        
+        function toggleLanguage() {
+            const currentLang = localStorage.getItem('language') || 'en';
+            
+            if (currentLang === 'en') {
+                // Switch to Tamil
+                translateToTamil();
+                document.getElementById('langToggle').textContent = 'ENG';
+                localStorage.setItem('language', 'ta');
+            } else {
+                // Switch back to English
+                window.location.reload();
+                localStorage.setItem('language', 'en');
+            }
+        }
+        
+        function translateToTamil() {
+            // This is a simple dictionary of English to Tamil translations
+            const translations = {
+                "Home": "முகப்பு",
+                "AI": "செயற்கை நுண்ணறிவு",
+                "Translate": "மொழிபெயர்",
+                "About": "பற்றி",
+                "Settings": "அமைப்புகள்",
+                "Login": "உள்நுழைய",
+                "Welcome to our website": "எங்கள் வலைத்தளத்திற்கு வரவேற்கிறோம்",
+                "Here you will be able to find policies and schemes": "இங்கே நீங்கள் கொள்கைகள் மற்றும் திட்டங்களைக் காணலாம்",
+                "You can access all the recent policies": "சமீபத்திய கொள்கைகள் அனைத்தையும் நீங்கள் அணுகலாம்",
+                "Domains": "பிரிவுகள்",
+                "Finanace": "நிதி",
+                "Health": "சுகாதாரம்",
+                "Agriculture": "விவசாயம்",
+                "Legal Wellbeing": "சட்ட நலன்",
+                "Social Wellbeing": "சமூக நலன்"
+            };
+            
+            // Find all text nodes in the document
+            const textNodes = getAllTextNodes(document.body);
+            
+            // Loop through each text node and replace English with Tamil
+            textNodes.forEach(node => {
+                let content = node.nodeValue;
+                
+                // Skip empty nodes
+                if (!content || !content.trim()) return;
+                
+                // Replace known phrases
+                Object.keys(translations).forEach(english => {
+                    // Create a case-insensitive regex with word boundaries
+                    const regex = new RegExp('\\b' + english + '\\b', 'gi');
+                    content = content.replace(regex, translations[english]);
+                });
+                
+                node.nodeValue = content;
+            });
+            
+            // Also translate button and link text content
+            document.querySelectorAll('a, button').forEach(element => {
+                const text = element.textContent.trim();
+                if (translations[text]) {
+                    element.textContent = translations[text];
+                }
+            });
+        }
+        
+        // Helper function to get all text nodes
+        function getAllTextNodes(node) {
+            const allNodes = [];
+            
+            function getTextNodes(node) {
+                if (node.nodeType === 3) { // Text node
+                    allNodes.push(node);
+                } else {
+                    for (let i = 0; i < node.childNodes.length; i++) {
+                        getTextNodes(node.childNodes[i]);
+                    }
+                }
+            }
+            
+            getTextNodes(node);
+            return allNodes;
+        }
     </script>
 </body>
 </html>
