@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - CIVIC CLARITY</title>
+    <style>
+        /* Reset styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Navigation bar styling */
+        .navbar {
+            background-color: #817340; /* Gold Fusion */
+            box-shadow: 0 2px 4px rgba(97, 105, 81, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 60px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-container img {
+            height: 40px;
+            margin-right: 8px;
+        }
+        
+        .site-title {
+            color: #FAF6D4; /* Light Goldenrod Yellow */
+            font-size: 22px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 8px;
+        }
+        
+        .nav-item .nav-link {
+            color: #FAF6D4; /* Light Goldenrod Yellow */
+            text-decoration: none;
+            padding: 8px 12px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            position: relative;
+        }
+        
+        .nav-item .nav-link:hover {
+            background-color: rgba(250, 246, 212, 0.1); /* Light Goldenrod Yellow with opacity */
+        }
+        
+        .nav-item .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #FAF6D4; /* Light Goldenrod Yellow */
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item .nav-link:hover::after {
+            width: 80%;
+            left: 10%;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+        
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: #FAF6D4; /* Light Goldenrod Yellow */
+            transition: all 0.3s ease;
+        }
+        
+        /* Container styles */
+        .container {
+            margin-top: 30px;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: #003366;
+            margin-bottom: 15px;
+        }
+        
+        .page-header .subheading {
+            font-size: 1.1rem;
+            color: #616951;
+            font-weight: normal;
+        }
+        
+        /* About us content styles */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .about-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            animation: slideInLeft 1s ease-out;
+        }
+        
+        .about-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .about-image:hover {
+            transform: scale(1.03);
+        }
+        
+        .about-text {
+            animation: slideInRight 1s ease-out;
+        }
+        
+        .about-text h2 {
+            color: #003366;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .about-text h2::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background-color: #817340;
+            bottom: -10px;
+            left: 0;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        /* Mission and Vision section */
+        .mission-vision {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .mission, .vision {
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 1.2s ease-out;
+        }
+        
+        .mission:hover, .vision:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .mission h3, .vision h3 {
+            color: #003366;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .mission-icon, .vision-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            background-color: #817340;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        /* Team section */
+        .team-section {
+            margin-bottom: 60px;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-header h2 {
+            color: #003366;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            background-color: #817340;
+            bottom: -10px;
+            left: 20%;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .team-member {
+            text-align: center;
+            animation: fadeIn 1.4s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .team-member:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .team-member:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        .team-member:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+        
+        .member-image-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .member-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .member-image:hover {
+            transform: scale(1.1);
+        }
+        
+        .member-name {
+            color: #003366;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .member-title {
+            color: #817340;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .member-bio {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #555;
+        }
+        
+        /* Contact section */
+        .contact-section {
+            background-color: #f9f9f9;
+            padding: 50px 0;
+            border-radius: 8px;
+            margin-bottom: 60px;
+        }
+        
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .contact-info h3 {
+            color: #003366;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+        }
+        
+        .contact-detail {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #817340;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .contact-detail-text {
+            line-height: 1.5;
+        }
+        
+        .contact-detail-text strong {
+            display: block;
+            color: #003366;
+            margin-bottom: 5px;
+        }
+        
+        .contact-form {
+            animation: slideUp 1s ease-out;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #003366;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #817340;
+            outline: none;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-button {
+            background-color: #817340;
+            color: #FAF6D4;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-button:hover {
+            background-color: #616951;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Language selector styling */
+        .lang-selector {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #817340;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #FAF6D4;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-selector:hover {
+            transform: scale(1.1);
+        }
+
+        /* Language dropdown menu */
+        .lang-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.3s ease-out;
+            width: 150px;
+        }
+
+        .lang-dropdown.active {
+            max-height: 300px;
+        }
+
+        .lang-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .lang-option:hover {
+            background-color: #f5f5f5;
+        }
+
+        .lang-option.selected {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        .lang-flag {
+            width: 20px;
+            height: 15px;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        /* Translation progress overlay */
+        .translation-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .translation-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .translation-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #817340;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        .translation-content {
+            text-align: center;
+            color: white;
+        }
+        
+        /* Animation keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from { 
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from { 
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 60px;
+                flex-direction: column;
+                background-color: #817340;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 15px rgba(97, 105, 81, 0.2);
+                padding: 15px 0;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+            
+            .about-content, .mission-vision, .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image-container {
+                margin-bottom: 30px;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .lang-dropdown {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                margin-top: 5px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="civiclogo.png" alt="CIVIC CLARITY Logo">
+                <a href="index.html" class="site-title">CIVIC CLARITY</a>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link" data-translate="Home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-translate="AI">AI</a>
+                </li>
+                <li class="nav-item" style="position: relative;">
+                    <a href="#" class="nav-link" data-translate="Translate">Translate</a>
+                    <!-- Language dropdown -->
+                    <div class="lang-dropdown" id="langDropdown">
+                        <div class="lang-option" data-lang="en">
+                            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/gb.svg" class="lang-flag" alt="English">
+                            English
+                        </div>
+                        <div class="lang-option" data-lang="ta">
+                            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Tamil">
+                            தமிழ்
+                        </div>
+                        <div class="lang-option" data-lang="hi">
+                            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Hindi">
+                            हिन्दी
+                        </div>
+                        <div class="lang-option" data-lang="te">
+                            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Telugu">
+                            తెలుగు
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link" data-translate="About">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-translate="Settings">Settings</a>
+                </li>
+            </ul>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 data-translate="about-heading">About Civic Clarity</h1>
+            <p class="subheading" data-translate="about-subheading">Empowering citizens through access to information</p>
+        </div>
+
+        <div class="about-content">
+            <div class="about-image-container">
+                <img src="/api/placeholder/600/400" alt="Civic Clarity Team" class="about-image">
+            </div>
+            <div class="about-text">
+                <h2 data-translate="our-story">Our Story</h2>
+                <p data-translate="story-p1">
+                    Civic Clarity was born from a simple yet powerful idea: that every citizen should have easy 
+                    access to government policies and schemes that can benefit them. We realized that despite 
+                    the Tamil Nadu government's efforts to create numerous beneficial programs, many citizens 
+                    were unaware of these opportunities due to information barriers.
+                </p>
+                <p data-translate="story-p2">
+                    Founded in 2023, our platform bridges the gap between government initiatives and the public 
+                    they're meant to serve. We've worked closely with government departments to compile, 
+                    organize, and present information in a user-friendly way that everyone can understand 
+                    regardless of their technical or educational background.
+                </p>
+                <p data-translate="story-p3">
+                    Today, Civic Clarity serves thousands of Tamil Nadu residents, helping them discover and 
+                    access the programs they're eligible for. Our integration of AI technology makes personalized 
+                    recommendations possible, ensuring everyone finds exactly what they need.
+                </p>
+            </div>
+        </div>
+
+        <div class="mission-vision">
+            <div class="mission">
+                <h3>
+                    <div class="mission-icon">M</div>
+                    <span data-translate="our-mission">Our Mission</span>
+                </h3>
+                <p data-translate="mission-text">
+                    To empower every citizen of Tamil Nadu by providing clear, accessible information about 
+                    government policies and schemes, breaking down complex information barriers and ensuring 
+                    that all residents can benefit from the programs designed to help them.
+                </p>
+            </div>
+            <div class="vision">
+                <h3>
+                    <div class="vision-icon">V</div>
+                    <span data-translate="our-vision">Our Vision</span>
+                </h3>
+                <p data-translate="vision-text">
+                    A Tamil Nadu where every citizen is aware of and can easily access all government benefits 
+                    they're entitled to, leading to improved economic opportunities, better healthcare access, 
+                    and enhanced quality of life for all residents regardless of their background, location, 
+                    or educational level.
+                </p>
+            </div>
+        </div>
+
+        <div class="team-section">
+            <div class="section-header">
+                <h2 data-translate="our-team">Our Team</h2>
+            </div>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-image-container">
+                        <img src="/api/placeholder/150/150" alt="Team Member" class="member-image">
+                    </div>
+                    <h3 class="member-name">S.Lakshman</h3>
+                    <p class="member-title">Team leader</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-image-container">
+                        <img src="/api/placeholder/150/150" alt="Team Member" class="member-image">
+                    </div>
+                    <h3 class="member-name">S.Lohith</h3>
+                    <p class="member-title">Designer</p>
+                </div>
+                <div class="team-member">
+                    <div class="member-image-container">
+                        <img src="/api/placeholder/150/150" alt="Team Member" class="member-image">
+                    </div>
+                    <h3 class="member-name">Anjana M</h3>
+                    <p class="member-title">Backend integration</p>
+                    
+                </div>
+                <div class="team-member">
+                    <div class="member-image-container">
+                        <img src="/api/placeholder/150/150" alt="Team Member" class="member-image">
+                    </div>
+                    <h3 class="member-name">Hershly Bose</h3>
+                    <p class="member-title">Data Reasearch and Frontend Assistance </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <div class="contact-container">
+                <div class="section-header">
+                    <h2 data-translate="contact-us">Contact Us</h2>
+                </div>
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h3 data-translate="get-in-touch">Get in Touch</h3>
+                        <div class="contact-detail">
+                            <div class="contact-icon">📍</div>
+                            <div class="contact-detail-text">
+                                <strong data-translate="address">Address</strong>
+                                <p>123 Anna Salai, Chennai - 600002, Tamil Nadu, India</p>
+                            </div>
+                        </div>
+                        <div class="contact-detail">
+                            <div class="contact-icon">📞</div>
+                            <div class="contact-detail-text">
+                                <strong data-translate="phone">Phone</strong>
+                                <p>+91 44 1234 5678</p>
+                            </div>
+                        </div>
+                        <div class="contact-detail">
+                            <div class="contact-icon">✉️</div>
+                            <div class="contact-detail-text">
+                                <strong data-translate="email">Email</strong>
+                                <p>info@civicclarity.org</p>
+                            </div>
+                        </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Language selector button -->
+    <div class="lang-selector" id="langToggle">EN</div>
+
+    <!-- Translation loading overlay -->
+    <div class="translation-overlay" id="translationOverlay">
+        <div class="translation-content">
+            <div class="translation-spinner"></div>
+            <p id="translationMessage">Translating...</p>
+        </div>
+    </div>
+
+    <script>
+        // Current language
+        let currentLanguage = localStorage.getItem('language') || 'en';
+        
+        // Translation dictionaries for different languages
+        const translations = {
+            'ta': {
+                // Tamil translations
+                'Home': 'முகப்பு',
+                'AI': 'செயற்கை நுண்ணறிவு',
+                'Translate': 'மொழிபெயர்',
+                'About': 'பற்றி',
+                'Settings': 'அமைப்புகள்',
+                'Login': 'உள்நுழைய',
+                'about-heading': 'சிவிக் க்ளாரிட்டி பற்றி',
+                'about-subheading': 'தகவல் அணுகல் மூலம் குடிமக்களை அதிகாரப்படுத்துதல்',
+                'our-story': 'எங்கள் கதை',
+                'story-p1': 'சிவிக் க்ளாரிட்டி ஒரு எளிய ஆனால் சக்திவாய்ந்த கருத்தில் இருந்து உருவானது: ஒவ்வொரு குடிமகனும் அவர்களுக்கு பயனளிக்கும் அரசு கொள்கைகள் மற்றும் திட்டங்களை எளிதாக அணுக வேண்டும். தமிழ்நாடு அரசு பல பயனுள்ள திட்டங்களை உருவாக்க முயற்சி செய்திருந்தாலும், தகவல் தடைகள் காரணமாக பல குடிமக்கள் இந்த வாய்ப்புகளைப் பற்றி அறியாமல் இருந்தனர் என்பதை நாங்கள் உணர்ந்தோம்.',
+                'story-p2': '2023 இல் நிறுவப்பட்ட எங்கள் தளம், அரசு முயற்சிகளுக்கும் அவை சேவை செய்ய வேண்டிய பொதுமக்களுக்கும் இடையிலான இடைவெளியை குறைக்கிறது. தொழில்நுட்ப அல்லது கல்வி பின்னணி எதுவாக இருந்தாலும் அனைவரும் புரிந்துகொள்ளக்கூடிய பயனர் நட்பு முறையில் தகவல்களை தொகுக்க, ஒழுங்கமைக்க மற்றும் வழங்க அரசு துறைகளுடன் நெருக்கமாக பணியாற்றி வருகிறோம்.',
+                'story-p3': 'இன்று, சிவிக் க்ளாரிட்டி ஆயிரக்கணக்கான தமிழ்நாடு குடியிருப்பாளர்களுக்கு சேவை செய்கிறது, அவர்கள் தகுதி பெற்ற திட்டங்களை கண்டுபிடித்து அணுக உதவுகிறது. செயற்கை நுண்ணறிவு தொழில்நுட்பத்தின் ஒருங்கிணைப்பு தனிப்பயனாக்கப்பட்ட பரிந்துரைகளை சாத்தியமாக்குகிறது, ஒவ்வொருவரும் தங்களுக்குத் தேவையானதைக் கண்டறிவதை உறுதி செய்கிறது.',
+                'our-mission': 'எங்கள் நோக்கம்',
+                'mission-text': 'அரசு கொள்கைகள் மற்றும் திட்டங்கள் குறித்த தெளிவான, அணுகக்கூடிய தகவல்களை வழங்குவதன் மூலம் தமிழ்நாட்டின் ஒவ்வொரு குடிமகனையும் அதிகாரப்படுத்துவதே எங்கள் நோக்கம். சிக்கலான தகவல் தடைகளை உடைத்து, அனைத்து குடியிருப்பாளர்களும் அவர்களுக்கு உதவும் வகையில் வடிவமைக்கப்பட்ட திட்டங்களிலிருந்து பயனடைவதை உறுதி செய்கிறோம்.',
+                'our-vision': 'எங்கள் தொலைநோக்கு',
+                'vision-text': 'ஒவ்வொரு குடிமகனும் தாங்கள் உரிமை கொண்ட அனைத்து அரசு நன்மைகளையும் அறிந்து எளிதில் அணுகக்கூடிய தமிழ்நாடு, இது அனைத்து குடியிருப்பாளர்களுக்கும் அவர்களின் பின்னணி, இருப்பிடம் அல்லது கல்வி நிலை எதுவாக இருந்தாலும் மேம்பட்ட பொருளாதார வாய்ப்புகள், சிறந்த சுகாதார அணுகல் மற்றும் மேம்பட்ட வாழ்க்கைத் தரத்திற்கு வழிவகுக்கும்.',
+                'our-team': 'எங்கள் குழு',
+                'contact-us': 'எங்களை தொடர்பு கொள்ள',
+                'get-in-touch': 'தொடர்பில் இருங்கள்',
+                'address': 'முகவரி',
+                'phone': 'தொலைபேசி',
+                'email': 'மின்னஞ்சல்',
+                'hours': 'வேலை நேரம்',
+                'name': 'பெயர்',
+                'email-address': 'மின்னஞ்சல் முகவரி',
+                'subject': 'பொருள்',
+                'message': 'செய்தி',
+                'send-message': 'செய்தி அனுப்பு'
+            },
+            'hi': {
+                // Hindi translations
+                'Home': 'होम',
+                'AI': 'कृत्रिम बुद्धिमत्ता',
+                'Translate': 'अनुवाद',
+                'About': 'हमारे बारे में',
+                'Settings': 'सेटिंग्स',
+                'Login': 'लॉगिन',
+                'about-heading': 'सिविक क्लैरिटी के बारे में',
+                'about-subheading': 'जानकारी तक पहुंच के माध्यम से नागरिकों को सशक्त बनाना',
+                'our-story': 'हमारी कहानी',
+                'story-p1': 'सिविक क्लैरिटी एक सरल लेकिन शक्तिशाली विचार से उपजी: कि हर नागरिक को सरकारी नीतियों और योजनाओं तक आसान पहुंच होनी चाहिए जो उन्हें लाभ पहुंचा सकती हैं। हमने महसूस किया कि तमिलनाडु सरकार के कई लाभकारी कार्यक्रम बनाने के प्रयासों के बावजूद, जानकारी की बाधाओं के कारण कई नागरिक इन अवसरों से अनजान थे।',
+                'story-p2': '2023 में स्थापित, हमारा प्लेटफॉर्म सरकारी पहल और जनता के बीच की खाई को पाटता है जिसके लिए वे बनाए गए हैं। हमने जानकारी को एक उपयोगकर्ता के अनुकूल तरीके से संकलित, व्यवस्थित और प्रस्तुत करने के लिए सरकारी विभागों के साथ मिलकर काम किया है जिसे हर कोई समझ सकता है चाहे उनकी तकनीकी या शैक्षिक पृष्ठभूमि कुछ भी हो।',
+                'story-p3': 'आज, सिविक क्लैरिटी हजारों तमिलनाडु निवासियों की सेवा करता है, उन्हें वे कार्यक्रम खोजने और उन तक पहुंचने में मदद करता है जिनके लिए वे पात्र हैं। एआई तकनीक का एकीकरण व्यक्तिगत सिफारिशों को संभव बनाता है, यह सुनिश्चित करता है कि हर किसी को वही मिले जिसकी उन्हें जरूरत है।',
+                'our-mission': 'हमारा मिशन',
+                'mission-text': 'सरकारी नीतियों और योजनाओं के बारे में स्पष्ट, सुलभ जानकारी प्रदान करके तमिलनाडु के हर नागरिक को सशक्त बनाना, जटिल जानकारी बाधाओं को तोड़ना और यह सुनिश्चित करना कि सभी निवासी उन कार्यक्रमों से लाभ उठा सकें जो उनकी मदद के लिए डिज़ाइन किए गए हैं।',
+                'our-vision': 'हमारी दृष्टि',
+                'vision-text': 'एक तमिलनाडु जहां हर नागरिक उन सभी सरकारी लाभों के बारे में जानता है और आसानी से उन तक पहुंच सकता है जिनके वे हकदार हैं, जिससे बेहतर आर्थिक अवसर, बेहतर स्वास्थ्य देखभाल पहुंच और सभी निवासियों के लिए जीवन की बेहतर गुणवत्ता मिलती है, चाहे उनकी पृष्ठभूमि, स्थान या शैक्षिक स्तर कुछ भी हो।',
+                'our-team': 'हमारी टीम',
+                'contact-us': 'संपर्क करें',
+                'get-in-touch': 'संपर्क में रहें',
+                'address': 'पता',
+                'phone': 'फोन',
+                'email': 'ईमेल',
+                'hours': 'कार्य समय',
+                'name': 'नाम',
+                'email-address': 'ईमेल पता',
+                'subject': 'विषय',
+                'message': 'संदेश',
+                'send-message': 'संदेश भेजें'
+            },
+            'te': {
+                // Telugu translations
+                'Home': 'హోమ్',
+                'AI': 'కృత్రిమ మేధస్సు',
+                'Translate': 'అనువదించు',
+                'About': 'గురించి',
+                'Settings': 'సెట్టింగ్‌లు',
+                'Login': 'లాగిన్',
+                'about-heading': 'సివిక్ క్లారిటీ గురించి',
+                'about-subheading': 'సమాచార ప్రాప్యత ద్వారా పౌరులను శక్తివంతం చేయడం',
+                'our-story': 'మా కథ',
+                'story-p1': 'సివిక్ క్లారిటీ ఒక సాధారణ కానీ శక్తివంతమైన ఆలోచన నుండి పుట్టింది: ప్రతి పౌరుడు వారికి ప్రయోజనం చేకూర్చే ప్రభుత్వ విధానాలు మరియు పథకాలకు సులభంగా ప్రాప్యత కలిగి ఉండాలి. అనేక ప్రయోజనకరమైన కార్యక్రమాలను సృష్టించడానికి తమిళనాడు ప్రభుత్వం చేసిన ప్రయత్నాల నేపథ్యంలో, సమాచార అడ్డంకుల కారణంగా అనేక మంది పౌరులు ఈ అవకాశాల గురించి తెలియకపోవడాన్ని మేము గుర్తించాము.',
+                'story-p2': '2023లో స్థాపించబడిన, మా ప్లాట్‌ఫారమ్ ప్రభుత్వ చొరవలకు మరియు అవి సేవ చేయాల్సిన ప్రజలకు మధ్య అంతరాన్ని పూడుస్తుంది. వారి సాంకేతిక లేదా విద్యా నేపథ్యం ఏదైనా సరే ప్రతి ఒక్కరూ అర్థం చేసుకోగలిగే యూజర్-ఫ్రెండ్లీ పద్ధతిలో సమాచారాన్ని సేకరించడానికి, నిర్వహించడానికి మరియు అందించడానికి మేము ప్రభుత్వ శాఖలతో సన్నిహితంగా పని చేసాము.',
+                'story-p3': 'నేడు, సివిక్ క్లారిటీ వేలాది మంది తమిళనాడు నివాసితులకు సేవలందిస్తోంది, వారు అర్హత పొందిన కార్యక్రమాలను కనుగొని, వాటిని యాక్సెస్ చేయడంలో సహాయపడుతోంది. AI టెక్నాలజీని అనుసంధానం చేయడం వ్యక్తిగతీకరించిన సిఫార్సులను సాధ్యం చేస్తుంది, ప్రతి ఒక్కరికీ ఖచ్చితంగా అవసరమైనవి లభిస్తాయని నిర్ధారిస్తుంది.',
+                'our-mission': 'మా మిషన్',
+                'mission-text': 'ప్రభుత్వ విధానాలు మరియు పథకాల గురించి స్పష్టమైన, అందుబాటులో ఉన్న సమాచారాన్ని అందించడం ద్వారా తమిళనాడు పౌరులందరినీ సాధికారం చేయడం, సంక్లిష్టమైన సమాచార అడ్డంకులను తొలగించడం మరియు నివాసితులందరూ వారికి సహాయం చేయడానికి రూపొందించిన కార్యక్రమాల నుండి ప్రయోజనం పొందగలరని నిర్ధారించడం.',
+                'our-vision': 'మా విజన్',
+                'vision-text': 'ప్రతి పౌరుడు తాము అర్హత కలిగిన అన్ని ప్రభుత్వ ప్రయోజనాల గురించి తెలుసుకోగలిగే మరియు సులభంగా యాక్సెస్ చేయగలిగే తమిళనాడు, వారి నేపథ్యం, స్థానం లేదా విద్యా స్థాయి ఏదైనా సరే, అన్ని నివాసితులకు మెరుగైన ఆర్థిక అవకాశాలు, మెరుగైన ఆరోగ్య సంరక్షణ యాక్సెస్ మరియు జీవన నాణ్యతను పెంపొందిస్తుంది.',
+                'our-team': 'మా బృందం',
+                'contact-us': 'మమ్మల్ని సంప్రదించండి',
+                'get-in-touch': 'మాతో సంప్రదించండి',
+                'address': 'చిరునామా',
+                'phone': 'ఫోన్',
+                'email': 'ఇమెయిల్',
+                'hours': 'పని గంటలు',
+                'name': 'పేరు',
+                'email-address': 'ఇమెయిల్ చిరునామా',
+                'subject': 'విషయం',
+                'message': 'సందేశం',
+                'send-message': 'సందేశం పంపండి'
+            }
+        };
+
+        // JavaScript for mobile menu toggle
+        document.addEventListener("DOMContentLoaded", function() {
+            const hamburger = document.querySelector(".hamburger");
+            const navMenu = document.querySelector(".nav-menu");
+            
+            hamburger.addEventListener("click", () => {
+                hamburger.classList.toggle("active");
+                navMenu.classList.toggle("active");
+            });
+            
+            document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+                hamburger.classList.remove("active");
+                navMenu.classList.remove("active");
+            }));
+            
+            // Translation functionality - Translate button in nav bar
+            document.querySelectorAll(".nav-link").forEach(link => {
+                if (link.getAttribute('data-translate') === 'Translate') {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        toggleLanguageDropdown();
+                    });
+                }
+            });
+            
+            // Language toggle button functionality
+            document.getElementById('langToggle').addEventListener('click', function() {
+                toggleLanguageDropdown();
+            });
+
+            // Setup language options
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    changeLanguage(lang);
+                    toggleLanguageDropdown();
+                });
+            });
+            
+            // Apply saved language preference
+            if (currentLanguage !== 'en') {
+                applyTranslation(currentLanguage);
+                updateLanguageUI(currentLanguage);
+            }
+
+            // Mark current language as selected
+            updateSelectedLanguage();
+        });
+
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('langDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        function updateSelectedLanguage() {
+            document.querySelectorAll('.lang-option').forEach(option => {
+                if (option.getAttribute('data-lang') === currentLanguage) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+            });
+        }
+
+        function changeLanguage(lang) {
+            if (lang === currentLanguage) return;
+            
+            // Show loading overlay
+            showTranslationProgress(lang);
+            
+            // Simulate translation delay (can be removed in production)
+            setTimeout(() => {
+                applyTranslation(lang);
+                currentLanguage = lang;
+                localStorage.setItem('language', lang);
+                updateLanguageUI(lang);
+                updateSelectedLanguage();
+                
+                // Hide loading overlay
+                hideTranslationProgress();
+            }, 500);
+        }
+
+        function showTranslationProgress(targetLang) {
+            const overlay = document.getElementById('translationOverlay');
+            const message = document.getElementById('translationMessage');
+            
+            // Set appropriate message
+            let langName = 'English';
+            if (targetLang === 'ta') langName = 'தமிழ்';
+            if (targetLang === 'hi') langName = 'हिन्दी';
+            if (targetLang === 'te') langName = 'తెలుగు';
+            
+            message.textContent = `Translating to ${langName}...`;
+            overlay.classList.add('active');
+        }
+
+        function hideTranslationProgress() {
+            const overlay = document.getElementById('translationOverlay');
+            overlay.classList.remove('active');
+        }
+
+        function updateLanguageUI(lang) {
+            const langButton = document.getElementById('langToggle');
+            
+            // Update language button text
+            if (lang === 'en') langButton.textContent = 'EN';
+            if (lang === 'ta') langButton.textContent = 'TA';
+            if (lang === 'hi') langButton.textContent = 'HI';
+            if (lang === 'te') langButton.textContent = 'TE';
+        }
+
+        function applyTranslation(lang) {
+            // If English, reset to original content
+            if (lang === 'en') {
+                resetToEnglish();
+                return;
+            }
+            
+            // Get translation dictionary for the selected language
+            const dictionary = translations[lang];
+            if (!dictionary) return;
+            
+            // Translate elements with data-translate attribute
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (dictionary[key]) {
+                    element.textContent = dictionary[key];
+                }
+            });
+        }
+
+        function resetToEnglish() {
+            // Reset all elements with data-translate attribute to their original English values
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                
+                // Reset to original English text based on key
+                switch(key) {
+                    case 'Home': element.textContent = 'Home'; break;
+                    case 'AI': element.textContent = 'AI'; break;
+                    case 'Translate': element.textContent = 'Translate'; break;
+                    case 'About': element.textContent = 'About'; break;
+                    case 'Settings': element.textContent = 'Settings'; break;
+                    case 'Login': element.textContent = 'Login'; break;
+                    case 'about-heading': element.textContent = 'About Civic Clarity'; break;
+                    case 'about-subheading': element.textContent = 'Empowering citizens through access to information'; break;
+                    case 'our-story': element.textContent = 'Our Story'; break;
+                    case 'story-p1': 
+                        element.textContent = 'Civic Clarity was born from a simple yet powerful idea: that every citizen should have easy access to government policies and schemes that can benefit them. We realized that despite the Tamil Nadu government\'s efforts to create numerous beneficial programs, many citizens were unaware of these opportunities due to information barriers.';
+                        break;
+                    case 'story-p2': 
+                        element.textContent = 'Founded in 2023, our platform bridges the gap between government initiatives and the public they\'re meant to serve. We\'ve worked closely with government departments to compile, organize, and present information in a user-friendly way that everyone can understand regardless of their technical or educational background.';
+                        break;
+                    case 'story-p3': 
+                        element.textContent = 'Today, Civic Clarity serves thousands of Tamil Nadu residents, helping them discover and access the programs they\'re eligible for. Our integration of AI technology makes personalized recommendations possible, ensuring everyone finds exactly what they need.';
+                        break;
+                    case 'our-mission': element.textContent = 'Our Mission'; break;
+                    case 'mission-text': 
+                        element.textContent = 'To empower every citizen of Tamil Nadu by providing clear, accessible information about government policies and schemes, breaking down complex information barriers and ensuring that all residents can benefit from the programs designed to help them.';
+                        break;
+                    case 'our-vision': element.textContent = 'Our Vision'; break;
+                    case 'vision-text': 
+                        element.textContent = 'A Tamil Nadu where every citizen is aware of and can easily access all government benefits they\'re entitled to, leading to improved economic opportunities, better healthcare access, and enhanced quality of life for all residents regardless of their background, location, or educational level.';
+                        break;
+                    case 'our-team': element.textContent = 'Our Team'; break;
+                    case 'contact-us': element.textContent = 'Contact Us'; break;
+                    case 'get-in-touch': element.textContent = 'Get in Touch'; break;
+                    case 'address': element.textContent = 'Address'; break;
+                    case 'phone': element.textContent = 'Phone'; break;
+                    case 'email': element.textContent = 'Email'; break;
+                    case 'hours': element.textContent = 'Working Hours'; break;
+                    case 'name': element.textContent = 'Name'; break;
+                    case 'email-address': element.textContent = 'Email Address'; break;
+                    case 'subject': element.textContent = 'Subject'; break;
+                    case 'message': element.textContent = 'Message'; break;
+                    case 'send-message': element.textContent = 'Send Message'; break;
+                }
+            });
+        }
+
+        // Function to detect browser language and set initial language
+        function detectBrowserLanguage() {
+            const browserLang = navigator.language.split('-')[0];
+            
+            // Check if we support the browser language
+            if (['en', 'ta', 'hi', 'te'].includes(browserLang)) {
+                return browserLang;
+            }
+            
+            // Default to English
+            return 'en';
+        }
+
+        // Advanced translation using external API
+        async function translateUsingAPI(text, targetLang) {
+            try {
+                // This is a placeholder for a real translation API call
+                // In a production environment, you would replace this with a call to Google Translate, Microsoft Translator, etc.
+                
+                // Simulate API call with timeout
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        // For demo, just return the corresponding text from our dictionary
+                        const dictionary = translations[targetLang] || {};
+                        resolve(dictionary[text] || text);
+                    }, 300);
+                });
+            } catch (error) {
+                console.error('Translation API error:', error);
+                return text; // Return original text on error
+            }
+        }
+    </script>
+</body>
+</html>
