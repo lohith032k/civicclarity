@@ -3,8 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About CIVIC CLARITY - Empowering citizens through access to Tamil Nadu government policies and schemes">
     <title>About Us - CIVIC CLARITY</title>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --primary: #817340;
+            --secondary: #003366;
+            --accent: #FAF6D4;
+            --light: #f9f9f9;
+            --dark: #333;
+            --text-gray: #616951;
+            --shadow-sm: 0 2px 4px rgba(97, 105, 81, 0.15);
+            --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.15);
+            --transition-fast: 0.3s ease;
+            --transition-medium: 0.5s ease;
+            --border-radius: 8px;
+        }
+        
         /* Reset styles */
         * {
             margin: 0;
@@ -13,10 +31,42 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        body {
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Accessibility and Focus Styles */
+        a:focus, button:focus, input:focus, textarea:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
         /* Navigation bar styling */
         .navbar {
-            background-color: #817340; /* Gold Fusion */
-            box-shadow: 0 2px 4px rgba(97, 105, 81, 0.15);
+            background-color:  #003366;
+            box-shadow: var(--shadow-sm);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -35,7 +85,7 @@
         .logo-container {
             display: flex;
             align-items: center;
-            transition: transform 0.3s ease;
+            transition: transform var(--transition-fast);
         }
         
         .logo-container:hover {
@@ -48,10 +98,27 @@
         }
         
         .site-title {
-            color: #FAF6D4; /* Light Goldenrod Yellow */
+            color: var(--accent);
             font-size: 22px;
             font-weight: 700;
             text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .site-title::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: -100%;
+            background-color: #F7C244;
+            transition: left var(--transition-medium);
+        }
+        
+        .logo-container:hover .site-title::after {
+            left: 0;
         }
         
         .nav-menu {
@@ -61,18 +128,21 @@
         }
         
         .nav-item .nav-link {
-            color: #FAF6D4; /* Light Goldenrod Yellow */
+            color: var(--accent);
             text-decoration: none;
             padding: 8px 12px;
             font-size: 16px;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: all var(--transition-fast);
             border-radius: 4px;
             position: relative;
+            display: flex;
+            align-items: center;
         }
         
         .nav-item .nav-link:hover {
-            background-color: rgba(250, 246, 212, 0.1); /* Light Goldenrod Yellow with opacity */
+            background-color: rgba(250, 246, 212, 0.1);
+            transform: translateY(-3px);
         }
         
         .nav-item .nav-link::after {
@@ -82,8 +152,8 @@
             height: 2px;
             bottom: 0;
             left: 50%;
-            background-color: #FAF6D4; /* Light Goldenrod Yellow */
-            transition: all 0.3s ease;
+            background-color: var(--accent);
+            transition: all var(--transition-fast);
         }
         
         .nav-item .nav-link:hover::after {
@@ -94,6 +164,12 @@
         .hamburger {
             display: none;
             cursor: pointer;
+            background: none;
+            border: none;
+            width: 30px;
+            height: 30px;
+            position: relative;
+            padding: 0;
         }
         
         .bar {
@@ -101,34 +177,38 @@
             width: 25px;
             height: 3px;
             margin: 5px auto;
-            background-color: #FAF6D4; /* Light Goldenrod Yellow */
-            transition: all 0.3s ease;
+            background-color: var(--accent);
+            transition: all var(--transition-fast);
         }
         
         /* Container styles */
         .container {
+            flex: 1;
             margin-top: 30px;
             padding: 0 20px;
             max-width: 1200px;
             margin-left: auto;
             margin-right: auto;
+            display: flex;
+            flex-direction: column;
         }
         
         .page-header {
             text-align: center;
             margin-bottom: 40px;
             animation: fadeIn 1s ease-out;
+            will-change: opacity;
         }
         
         .page-header h1 {
             font-size: 2.5rem;
-            color: #003366;
+            color: var(--secondary);
             margin-bottom: 15px;
         }
         
         .page-header .subheading {
             font-size: 1.1rem;
-            color: #616951;
+            color: var(--text-gray);
             font-weight: normal;
         }
         
@@ -145,16 +225,17 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
             animation: slideInLeft 1s ease-out;
+            will-change: transform, opacity;
         }
         
         .about-image {
             width: 100%;
             height: auto;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform var(--transition-medium);
         }
         
         .about-image:hover {
@@ -163,10 +244,11 @@
         
         .about-text {
             animation: slideInRight 1s ease-out;
+            will-change: transform, opacity;
         }
         
         .about-text h2 {
-            color: #003366;
+            color: var(--secondary);
             font-size: 1.8rem;
             margin-bottom: 20px;
             position: relative;
@@ -177,7 +259,7 @@
             position: absolute;
             width: 60px;
             height: 3px;
-            background-color: #817340;
+            background-color: var(--primary);
             bottom: -10px;
             left: 0;
         }
@@ -185,7 +267,7 @@
         .about-text p {
             margin-bottom: 20px;
             line-height: 1.6;
-            color: #333;
+            color: var(--dark);
         }
         
         /* Mission and Vision section */
@@ -197,21 +279,22 @@
         }
         
         .mission, .vision {
-            background-color: #f9f9f9;
+            background-color: var(--light);
             padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
             animation: fadeIn 1.2s ease-out;
+            will-change: transform, box-shadow;
         }
         
         .mission:hover, .vision:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
         }
         
         .mission h3, .vision h3 {
-            color: #003366;
+            color: var(--secondary);
             font-size: 1.5rem;
             margin-bottom: 15px;
             display: flex;
@@ -222,7 +305,7 @@
             width: 40px;
             height: 40px;
             margin-right: 10px;
-            background-color: #817340;
+            background-color: var(--primary);
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -242,7 +325,7 @@
         }
         
         .section-header h2 {
-            color: #003366;
+            color: var(--secondary);
             font-size: 2rem;
             margin-bottom: 15px;
             position: relative;
@@ -254,7 +337,7 @@
             position: absolute;
             width: 60%;
             height: 3px;
-            background-color: #817340;
+            background-color: var(--primary);
             bottom: -10px;
             left: 20%;
         }
@@ -269,6 +352,7 @@
             text-align: center;
             animation: fadeIn 1.4s ease-out;
             animation-fill-mode: both;
+            will-change: opacity;
         }
         
         .team-member:nth-child(2) {
@@ -289,14 +373,14 @@
             margin: 0 auto 15px;
             border-radius: 50%;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
         }
         
         .member-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform var(--transition-medium);
         }
         
         .member-image:hover {
@@ -304,13 +388,13 @@
         }
         
         .member-name {
-            color: #003366;
+            color: var(--secondary);
             font-size: 1.2rem;
             margin-bottom: 5px;
         }
         
         .member-title {
-            color: #817340;
+            color: var(--primary);
             font-size: 0.9rem;
             margin-bottom: 15px;
             font-style: italic;
@@ -324,9 +408,9 @@
         
         /* Contact section */
         .contact-section {
-            background-color: #f9f9f9;
+            background-color: var(--light);
             padding: 50px 0;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             margin-bottom: 60px;
         }
         
@@ -343,7 +427,7 @@
         }
         
         .contact-info h3 {
-            color: #003366;
+            color: var(--secondary);
             font-size: 1.8rem;
             margin-bottom: 25px;
         }
@@ -357,7 +441,7 @@
         .contact-icon {
             width: 40px;
             height: 40px;
-            background-color: #817340;
+            background-color: var(--primary);
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -373,12 +457,13 @@
         
         .contact-detail-text strong {
             display: block;
-            color: #003366;
+            color: var(--secondary);
             margin-bottom: 5px;
         }
-        
+
         .contact-form {
             animation: slideUp 1s ease-out;
+            will-change: transform, opacity;
         }
         
         .form-group {
@@ -388,7 +473,7 @@
         .form-label {
             display: block;
             margin-bottom: 8px;
-            color: #003366;
+            color: var(--secondary);
             font-weight: 500;
         }
         
@@ -398,11 +483,11 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 1rem;
-            transition: border-color 0.3s ease;
+            transition: border-color var(--transition-fast);
         }
         
         .form-control:focus {
-            border-color: #817340;
+            border-color: var(--primary);
             outline: none;
         }
         
@@ -412,21 +497,21 @@
         }
         
         .submit-button {
-            background-color: #817340;
-            color: #FAF6D4;
+            background-color: var(--primary);
+            color: var(--accent);
             border: none;
             padding: 12px 25px;
             border-radius: 4px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all var(--transition-fast);
         }
         
         .submit-button:hover {
-            background-color: #616951;
+            background-color: var(--text-gray);
             transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-sm);
         }
 
         /* Language selector styling */
@@ -434,23 +519,43 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: #817340;
+            background-color: var(--primary);
             border-radius: 50%;
             width: 50px;
             height: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #FAF6D4;
+            color: var(--accent);
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
             z-index: 1000;
-            transition: all 0.3s ease;
+            transition: all var(--transition-fast);
+            animation: bounceIn 0.6s ease-out 3s backwards;
+            will-change: transform;
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.1);
+            }
+            80% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
         
         .lang-selector:hover {
             transform: scale(1.1);
+            background-color: var(--text-gray);
         }
 
         /* Language dropdown menu */
@@ -459,34 +564,49 @@
             top: 100%;
             right: 0;
             background-color: white;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             z-index: 1000;
             overflow: hidden;
             max-height: 0;
             transition: max-height 0.3s ease-out;
             width: 150px;
+            transform-origin: top right;
         }
 
         .lang-dropdown.active {
             max-height: 300px;
+            animation: scaleIn 0.3s ease-out;
+        }
+        
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .lang-option {
             padding: 10px 15px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
         }
 
         .lang-option:hover {
             background-color: #f5f5f5;
+            transform: translateX(5px);
         }
 
         .lang-option.selected {
             background-color: #f0f0f0;
             font-weight: bold;
+            border-left: 3px solid var(--primary);
         }
 
         .lang-flag {
@@ -494,6 +614,11 @@
             height: 15px;
             margin-right: 10px;
             object-fit: cover;
+            transition: all var(--transition-fast);
+        }
+        
+        .lang-option:hover .lang-flag {
+            transform: scale(1.2);
         }
 
         /* Translation progress overlay */
@@ -511,18 +636,31 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s, visibility 0.3s;
+            backdrop-filter: blur(5px);
         }
 
         .translation-overlay.active {
             opacity: 1;
             visibility: visible;
+            animation: fadeInBlur 0.3s ease-out;
+        }
+        
+        @keyframes fadeInBlur {
+            0% {
+                opacity: 0;
+                filter: blur(10px);
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0);
+            }
         }
 
         .translation-spinner {
             width: 50px;
             height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #817340;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 15px;
@@ -531,6 +669,100 @@
         .translation-content {
             text-align: center;
             color: white;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .translation-content p {
+            margin-top: 10px;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Footer styles */
+        .footer {
+            background-color: var(--primary);
+            color: var(--accent);
+            padding: 40px 0 20px;
+            margin-top: auto;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 2px;
+            background-color: var(--accent);
+            bottom: -5px;
+            left: 0;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            opacity: 0.8;
+        }
+        
+        .footer-column ul li a:hover {
+            opacity: 1;
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: var(--accent);
+            transition: all var(--transition-fast);
+        }
+        
+        .social-links a:hover {
+            background-color: var(--accent);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
         }
         
         /* Animation keyframes */
@@ -584,16 +816,23 @@
                 left: -100%;
                 top: 60px;
                 flex-direction: column;
-                background-color: #817340;
+                background-color: var(--primary);
                 width: 100%;
                 text-align: center;
                 transition: 0.3s;
                 box-shadow: 0 10px 15px rgba(97, 105, 81, 0.2);
                 padding: 15px 0;
+                z-index: 1000;
             }
             
             .nav-menu.active {
                 left: 0;
+                animation: slideInLeft 0.3s ease-out;
+            }
+            
+            @keyframes slideInLeft {
+                from { left: -100%; }
+                to { left: 0; }
             }
             
             .hamburger {
@@ -631,18 +870,88 @@
                 margin-top: 5px;
                 border-top: 1px solid rgba(255,255,255,0.1);
             }
+            
+            .team-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .footer-column h4::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+        }
+        
+        /* Performance optimizations */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --light: #2a2a2a;
+                --dark: #f0f0f0;
+                --text-gray: #d0d0d0;
+            }
+            
+            body {
+                background-color: #121212;
+            }
+            
+            .mission, .vision, .contact-section {
+                background-color: #1e1e1e;
+            }
+            
+            .form-control {
+                background-color: #333;
+                color: #f0f0f0;
+                border-color: #444;
+            }
+            
+            .lang-dropdown, .lang-option {
+                background-color: #2a2a2a;
+                color: #f0f0f0;
+            }
+            
+            .lang-option:hover {
+                background-color: #3a3a3a;
+            }
+            
+            .footer {
+                background-color: #1a1a1a;
+            }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
+    <nav class="navbar" aria-label="Main Navigation">
         <div class="nav-container">
             <div class="logo-container">
                 <img src="civiclogo.png" alt="CIVIC CLARITY Logo">
                 <a href="index.html" class="site-title">CIVIC CLARITY</a>
             </div>
             
-            <ul class="nav-menu">
+            <button class="hamburger" aria-expanded="false" aria-label="Toggle navigation menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            
+            <ul class="nav-menu" id="nav-menu">
                 <li class="nav-item">
                     <a href="index.html" class="nav-link" data-translate="Home">Home</a>
                 </li>
@@ -651,25 +960,6 @@
                 </li>
                 <li class="nav-item" style="position: relative;">
                     <a href="#" class="nav-link" data-translate="Translate">Translate</a>
-                    <!-- Language dropdown -->
-                    <div class="lang-dropdown" id="langDropdown">
-                        <div class="lang-option" data-lang="en">
-                            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/gb.svg" class="lang-flag" alt="English">
-                            English
-                        </div>
-                        <div class="lang-option" data-lang="ta">
-                            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Tamil">
-                            தமிழ்
-                        </div>
-                        <div class="lang-option" data-lang="hi">
-                            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Hindi">
-                            हिन्दी
-                        </div>
-                        <div class="lang-option" data-lang="te">
-                            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Telugu">
-                            తెలుగు
-                        </div>
-                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="about.html" class="nav-link" data-translate="About">About</a>
@@ -678,16 +968,10 @@
                     <a href="#" class="nav-link" data-translate="Settings">Settings</a>
                 </li>
             </ul>
-            
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
         </div>
     </nav>
 
-    <div class="container">
+    <main class="container">
         <div class="page-header">
             <h1 data-translate="about-heading">About Civic Clarity</h1>
             <p class="subheading" data-translate="about-subheading">Empowering citizens through access to information</p>
@@ -722,7 +1006,7 @@
         <div class="mission-vision">
             <div class="mission">
                 <h3>
-                    <div class="mission-icon">M</div>
+                    <div class="mission-icon" aria-hidden="true">M</div>
                     <span data-translate="our-mission">Our Mission</span>
                 </h3>
                 <p data-translate="mission-text">
@@ -733,7 +1017,7 @@
             </div>
             <div class="vision">
                 <h3>
-                    <div class="vision-icon">V</div>
+                    <div class="vision-icon" aria-hidden="true">V</div>
                     <span data-translate="our-vision">Our Vision</span>
                 </h3>
                 <p data-translate="vision-text">
@@ -745,86 +1029,151 @@
             </div>
         </div>
 
-        <div class="team-section">
+        <section class="team-section" aria-labelledby="team-heading">
             <div class="section-header">
-                <h2 data-translate="our-team">Our Team</h2>
+                <h2 id="team-heading" data-translate="our-team">Our Team</h2>
             </div>
             <div class="team-grid">
                 <div class="team-member">
                     <div class="member-image-container">
-                        <img src="/api/placeholder/150/150" alt="Team Member" class="member-image">
+                        <img src="/api/placeholder/150/150" alt="S.Lakshman" class="member-image">
                     </div>
                     <h3 class="member-name">S.Lakshman</h3>
                     <p class="member-title">Team leader</p>
                 </div>
                 <div class="team-member">
                     <div class="member-image-container">
-                        <img src="/api/placeholder/150/150" alt="Team Member" class="member-image">
+                        <img src="/api/placeholder/150/150" alt="S.Lohith" class="member-image">
                     </div>
                     <h3 class="member-name">S.Lohith</h3>
                     <p class="member-title">Designer</p>
                 </div>
                 <div class="team-member">
                     <div class="member-image-container">
-                        <img src="/api/placeholder/150/150" alt="Team Member" class="member-image">
+                        <img src="/api/placeholder/150/150" alt="Anjana M" class="member-image">
                     </div>
                     <h3 class="member-name">Anjana M</h3>
                     <p class="member-title">Backend integration</p>
-                    
                 </div>
                 <div class="team-member">
                     <div class="member-image-container">
-                        <img src="/api/placeholder/150/150" alt="Team Member" class="member-image">
+                        <img src="/api/placeholder/150/150" alt="Hershly Bose" class="member-image">
                     </div>
                     <h3 class="member-name">Hershly Bose</h3>
-                    <p class="member-title">Data Reasearch and Frontend Assistance </p>
+                    <p class="member-title">Data Research and Frontend Assistance</p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="contact-section">
+        <section class="contact-section" aria-labelledby="contact-heading">
             <div class="contact-container">
                 <div class="section-header">
-                    <h2 data-translate="contact-us">Contact Us</h2>
+                    <h2 id="contact-heading" data-translate="contact-us">Contact Us</h2>
                 </div>
                 <div class="contact-grid">
                     <div class="contact-info">
                         <h3 data-translate="get-in-touch">Get in Touch</h3>
                         <div class="contact-detail">
-                            <div class="contact-icon">📍</div>
+                            <div class="contact-icon" aria-hidden="true">📍</div>
                             <div class="contact-detail-text">
                                 <strong data-translate="address">Address</strong>
                                 <p>123 Anna Salai, Chennai - 600002, Tamil Nadu, India</p>
                             </div>
                         </div>
                         <div class="contact-detail">
-                            <div class="contact-icon">📞</div>
+                            <div class="contact-icon" aria-hidden="true">📞</div>
                             <div class="contact-detail-text">
                                 <strong data-translate="phone">Phone</strong>
                                 <p>+91 44 1234 5678</p>
                             </div>
                         </div>
                         <div class="contact-detail">
-                            <div class="contact-icon">✉️</div>
+                            <div class="contact-icon" aria-hidden="true">✉️</div>
                             <div class="contact-detail-text">
                                 <strong data-translate="email">Email</strong>
-                                <p>info@civicclarity.org</p>
+                                <p><a href="mailto:info@civicclarity.org">info@civicclarity.org</a></p>
                             </div>
                         </div>
-                       </div>
                     </div>
                 </div>
             </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>Civic Clarity</h4>
+                <p>Empowering citizens with clear information about government policies and schemes.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><span>f</span></a>
+                    <a href="#" aria-label="Twitter"><span>t</span></a>
+                    <a href="#" aria-label="Instagram"><span>i</span></a>
+                    <a href="#" aria-label="LinkedIn"><span>in</span></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">AI Assistance</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Categories</h4>
+                <ul>
+                    <li><a href="financial.html">Finance</a></li>
+                    <li><a href="health.html">Health</a></li>
+                    <li><a href="agriculture.html">Agriculture</a></li>
+                    <li><a href="legal.html">Legal Wellbeing</a></li>
+                    <li><a href="social.html">Social Wellbeing</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Contact</h4>
+                <ul>
+                    <li>123 Anna Salai, Chennai</li>
+                    <li>Tamil Nadu, India - 600002</li>
+                    <li>info@civicclarity.org</li>
+                    <li>+91 44 1234 5678</li>
+                </ul>
+            </div>
         </div>
-    </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Civic Clarity. All rights reserved.</p>
+        </div>
+    </footer>
     
     <!-- Language selector button -->
-    <div class="lang-selector" id="langToggle">EN</div>
+    <div class="lang-selector" id="langToggle" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false" aria-label="Change language">EN</div>
+
+    <!-- Language dropdown menu -->
+    <div class="lang-dropdown" id="langDropdown" role="menu">
+        <div class="lang-option selected" data-lang="en" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/gb.svg" class="lang-flag" alt="English flag">
+            English
+        </div>
+        <div class="lang-option" data-lang="ta" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Indian flag">
+            தமிழ்
+        </div>
+        <div class="lang-option" data-lang="hi" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Indian flag">
+            हिन्दी
+        </div>
+        <div class="lang-option" data-lang="te" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Indian flag">
+            తెలుగు
+        </div>
+    </div>
 
     <!-- Translation loading overlay -->
-    <div class="translation-overlay" id="translationOverlay">
+    <div class="translation-overlay" id="translationOverlay" aria-hidden="true">
         <div class="translation-content">
-            <div class="translation-spinner"></div>
+            <div class="translation-spinner" aria-label="Loading translation"></div>
             <p id="translationMessage">Translating...</p>
         </div>
     </div>
@@ -930,19 +1279,21 @@
             }
         };
 
-        // JavaScript for mobile menu toggle
         document.addEventListener("DOMContentLoaded", function() {
+            // Mobile menu functionality
             const hamburger = document.querySelector(".hamburger");
             const navMenu = document.querySelector(".nav-menu");
             
-            hamburger.addEventListener("click", () => {
-                hamburger.classList.toggle("active");
+            hamburger.addEventListener("click", function() {
+                this.classList.toggle("active");
                 navMenu.classList.toggle("active");
+                this.setAttribute('aria-expanded', this.classList.contains('active'));
             });
             
             document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
                 hamburger.classList.remove("active");
                 navMenu.classList.remove("active");
+                hamburger.setAttribute('aria-expanded', 'false');
             }));
             
             // Translation functionality - Translate button in nav bar
@@ -956,8 +1307,13 @@
             });
             
             // Language toggle button functionality
-            document.getElementById('langToggle').addEventListener('click', function() {
-                toggleLanguageDropdown();
+            const langToggle = document.getElementById('langToggle');
+            langToggle.addEventListener('click', toggleLanguageDropdown);
+            langToggle.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleLanguageDropdown();
+                }
             });
 
             // Setup language options
@@ -966,6 +1322,15 @@
                     const lang = this.getAttribute('data-lang');
                     changeLanguage(lang);
                     toggleLanguageDropdown();
+                });
+                
+                option.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const lang = this.getAttribute('data-lang');
+                        changeLanguage(lang);
+                        toggleLanguageDropdown();
+                    }
                 });
             });
             
@@ -981,26 +1346,38 @@
 
         function toggleLanguageDropdown() {
             const dropdown = document.getElementById('langDropdown');
-            dropdown.classList.toggle('active');
+            const langToggle = document.getElementById('langToggle');
+            const isExpanded = dropdown.classList.toggle('active');
+            
+            langToggle.setAttribute('aria-expanded', isExpanded);
+            
+            // If opening the dropdown, focus the first option
+            if (isExpanded) {
+                const firstOption = dropdown.querySelector('.lang-option');
+                if (firstOption) {
+                    setTimeout(() => firstOption.focus(), 100);
+                }
+            }
         }
 
         function updateSelectedLanguage() {
             document.querySelectorAll('.lang-option').forEach(option => {
                 if (option.getAttribute('data-lang') === currentLanguage) {
                     option.classList.add('selected');
+                    option.setAttribute('aria-selected', 'true');
                 } else {
                     option.classList.remove('selected');
+                    option.setAttribute('aria-selected', 'false');
                 }
             });
         }
 
         function changeLanguage(lang) {
             if (lang === currentLanguage) return;
-            
             // Show loading overlay
             showTranslationProgress(lang);
             
-            // Simulate translation delay (can be removed in production)
+            // Use a small delay to allow animation to show
             setTimeout(() => {
                 applyTranslation(lang);
                 currentLanguage = lang;
@@ -1010,7 +1387,26 @@
                 
                 // Hide loading overlay
                 hideTranslationProgress();
+                
+                // Announce to screen readers that language has changed
+                const announcement = document.createElement('div');
+                announcement.setAttribute('aria-live', 'assertive');
+                announcement.classList.add('sr-only');
+                announcement.textContent = `Language changed to ${getLangName(lang)}`;
+                document.body.appendChild(announcement);
+                setTimeout(() => document.body.removeChild(announcement), 1000);
+                
             }, 500);
+        }
+
+        function getLangName(langCode) {
+            switch(langCode) {
+                case 'en': return 'English';
+                case 'ta': return 'Tamil';
+                case 'hi': return 'Hindi';
+                case 'te': return 'Telugu';
+                default: return langCode;
+            }
         }
 
         function showTranslationProgress(targetLang) {
@@ -1025,11 +1421,13 @@
             
             message.textContent = `Translating to ${langName}...`;
             overlay.classList.add('active');
+            overlay.setAttribute('aria-hidden', 'false');
         }
 
         function hideTranslationProgress() {
             const overlay = document.getElementById('translationOverlay');
             overlay.classList.remove('active');
+            overlay.setAttribute('aria-hidden', 'true');
         }
 
         function updateLanguageUI(lang) {
@@ -1057,7 +1455,15 @@
             document.querySelectorAll('[data-translate]').forEach(element => {
                 const key = element.getAttribute('data-translate');
                 if (dictionary[key]) {
-                    element.textContent = dictionary[key];
+                    // Add a subtle animation when text changes
+                    element.style.opacity = '0';
+                    element.style.transform = 'translateY(5px)';
+                    
+                    setTimeout(() => {
+                        element.textContent = dictionary[key];
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }, 150);
                 }
             });
         }
@@ -1067,82 +1473,85 @@
             document.querySelectorAll('[data-translate]').forEach(element => {
                 const key = element.getAttribute('data-translate');
                 
-                // Reset to original English text based on key
-                switch(key) {
-                    case 'Home': element.textContent = 'Home'; break;
-                    case 'AI': element.textContent = 'AI'; break;
-                    case 'Translate': element.textContent = 'Translate'; break;
-                    case 'About': element.textContent = 'About'; break;
-                    case 'Settings': element.textContent = 'Settings'; break;
-                    case 'Login': element.textContent = 'Login'; break;
-                    case 'about-heading': element.textContent = 'About Civic Clarity'; break;
-                    case 'about-subheading': element.textContent = 'Empowering citizens through access to information'; break;
-                    case 'our-story': element.textContent = 'Our Story'; break;
-                    case 'story-p1': 
-                        element.textContent = 'Civic Clarity was born from a simple yet powerful idea: that every citizen should have easy access to government policies and schemes that can benefit them. We realized that despite the Tamil Nadu government\'s efforts to create numerous beneficial programs, many citizens were unaware of these opportunities due to information barriers.';
-                        break;
-                    case 'story-p2': 
-                        element.textContent = 'Founded in 2023, our platform bridges the gap between government initiatives and the public they\'re meant to serve. We\'ve worked closely with government departments to compile, organize, and present information in a user-friendly way that everyone can understand regardless of their technical or educational background.';
-                        break;
-                    case 'story-p3': 
-                        element.textContent = 'Today, Civic Clarity serves thousands of Tamil Nadu residents, helping them discover and access the programs they\'re eligible for. Our integration of AI technology makes personalized recommendations possible, ensuring everyone finds exactly what they need.';
-                        break;
-                    case 'our-mission': element.textContent = 'Our Mission'; break;
-                    case 'mission-text': 
-                        element.textContent = 'To empower every citizen of Tamil Nadu by providing clear, accessible information about government policies and schemes, breaking down complex information barriers and ensuring that all residents can benefit from the programs designed to help them.';
-                        break;
-                    case 'our-vision': element.textContent = 'Our Vision'; break;
-                    case 'vision-text': 
-                        element.textContent = 'A Tamil Nadu where every citizen is aware of and can easily access all government benefits they\'re entitled to, leading to improved economic opportunities, better healthcare access, and enhanced quality of life for all residents regardless of their background, location, or educational level.';
-                        break;
-                    case 'our-team': element.textContent = 'Our Team'; break;
-                    case 'contact-us': element.textContent = 'Contact Us'; break;
-                    case 'get-in-touch': element.textContent = 'Get in Touch'; break;
-                    case 'address': element.textContent = 'Address'; break;
-                    case 'phone': element.textContent = 'Phone'; break;
-                    case 'email': element.textContent = 'Email'; break;
-                    case 'hours': element.textContent = 'Working Hours'; break;
-                    case 'name': element.textContent = 'Name'; break;
-                    case 'email-address': element.textContent = 'Email Address'; break;
-                    case 'subject': element.textContent = 'Subject'; break;
-                    case 'message': element.textContent = 'Message'; break;
-                    case 'send-message': element.textContent = 'Send Message'; break;
-                }
+                // Add a subtle animation when text changes
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(5px)';
+                
+                setTimeout(() => {
+                    // Reset to original English text based on key
+                    switch(key) {
+                        case 'Home': element.textContent = 'Home'; break;
+                        case 'AI': element.textContent = 'AI'; break;
+                        case 'Translate': element.textContent = 'Translate'; break;
+                        case 'About': element.textContent = 'About'; break;
+                        case 'Settings': element.textContent = 'Settings'; break;
+                        case 'Login': element.textContent = 'Login'; break;
+                        case 'about-heading': element.textContent = 'About Civic Clarity'; break;
+                        case 'about-subheading': element.textContent = 'Empowering citizens through access to information'; break;
+                        case 'our-story': element.textContent = 'Our Story'; break;
+                        case 'story-p1': 
+                            element.textContent = 'Civic Clarity was born from a simple yet powerful idea: that every citizen should have easy access to government policies and schemes that can benefit them. We realized that despite the Tamil Nadu government\'s efforts to create numerous beneficial programs, many citizens were unaware of these opportunities due to information barriers.';
+                            break;
+                        case 'story-p2': 
+                            element.textContent = 'Founded in 2023, our platform bridges the gap between government initiatives and the public they\'re meant to serve. We\'ve worked closely with government departments to compile, organize, and present information in a user-friendly way that everyone can understand regardless of their technical or educational background.';
+                            break;
+                        case 'story-p3': 
+                            element.textContent = 'Today, Civic Clarity serves thousands of Tamil Nadu residents, helping them discover and access the programs they\'re eligible for. Our integration of AI technology makes personalized recommendations possible, ensuring everyone finds exactly what they need.';
+                            break;
+                        case 'our-mission': element.textContent = 'Our Mission'; break;
+                        case 'mission-text': 
+                            element.textContent = 'To empower every citizen of Tamil Nadu by providing clear, accessible information about government policies and schemes, breaking down complex information barriers and ensuring that all residents can benefit from the programs designed to help them.';
+                            break;
+                        case 'our-vision': element.textContent = 'Our Vision'; break;
+                        case 'vision-text': 
+                            element.textContent = 'A Tamil Nadu where every citizen is aware of and can easily access all government benefits they\'re entitled to, leading to improved economic opportunities, better healthcare access, and enhanced quality of life for all residents regardless of their background, location, or educational level.';
+                            break;
+                        case 'our-team': element.textContent = 'Our Team'; break;
+                        case 'contact-us': element.textContent = 'Contact Us'; break;
+                        case 'get-in-touch': element.textContent = 'Get in Touch'; break;
+                        case 'address': element.textContent = 'Address'; break;
+                        case 'phone': element.textContent = 'Phone'; break;
+                        case 'email': element.textContent = 'Email'; break;
+                        case 'hours': element.textContent = 'Working Hours'; break;
+                        case 'name': element.textContent = 'Name'; break;
+                        case 'email-address': element.textContent = 'Email Address'; break;
+                        case 'subject': element.textContent = 'Subject'; break;
+                        case 'message': element.textContent = 'Message'; break;
+                        case 'send-message': element.textContent = 'Send Message'; break;
+                    }
+                    
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, 150);
             });
         }
 
-        // Function to detect browser language and set initial language
-        function detectBrowserLanguage() {
-            const browserLang = navigator.language.split('-')[0];
-            
-            // Check if we support the browser language
-            if (['en', 'ta', 'hi', 'te'].includes(browserLang)) {
-                return browserLang;
+        // Check if there's a saved language preference on page load
+        if (localStorage.getItem('language')) {
+            const savedLang = localStorage.getItem('language');
+            if (savedLang !== 'en') {
+                // Apply the saved language after a short delay to ensure DOM is ready
+                setTimeout(() => {
+                    applyTranslation(savedLang);
+                    updateLanguageUI(savedLang);
+                    updateSelectedLanguage();
+                }, 1000);
             }
-            
-            // Default to English
-            return 'en';
         }
 
-        // Advanced translation using external API
-        async function translateUsingAPI(text, targetLang) {
-            try {
-                // This is a placeholder for a real translation API call
-                // In a production environment, you would replace this with a call to Google Translate, Microsoft Translator, etc.
-                
-                // Simulate API call with timeout
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        // For demo, just return the corresponding text from our dictionary
-                        const dictionary = translations[targetLang] || {};
-                        resolve(dictionary[text] || text);
-                    }, 300);
-                });
-            } catch (error) {
-                console.error('Translation API error:', error);
-                return text; // Return original text on error
-            }
+        // Initialize preferred reduced motion setting
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.classList.add('reduced-motion');
         }
+
+        // Listen for changes to the prefers-reduced-motion media query
+        window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (event) => {
+            if (event.matches) {
+                document.documentElement.classList.add('reduced-motion');
+            } else {
+                document.documentElement.classList.remove('reduced-motion');
+            }
+        });
     </script>
 </body>
 </html>

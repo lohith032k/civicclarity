@@ -3,9 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CIVIC CLARITY - Access Tamil Nadu government policies and schemes with all the required details">
     <title>CIVIC CLARITY</title>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <style>
-        /* Reset styles */
+        /* CSS Reset and Base Styles */
+        :root {
+            --primary: #3A5A78;
+            --secondary: #1A936F;
+            --accent: #F7C244;
+            --light: #FAF6D4;
+            --dark: #212529;
+            --text-gray: #5D6169;
+            --light-bg: #F8F9FA;
+            --transition-fast: 0.3s ease;
+            --transition-medium: 0.5s ease;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,13 +30,42 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Accessibility and Focus Styles */
+        a:focus, button:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+        
         /* Navigation bar styling */
         .navbar {
-            background-color: #817340; /* Gold Fusion */
-            box-shadow: 0 2px 4px rgba(97, 105, 81, 0.15);
+            background-color: var(--primary);
+            box-shadow: var(--shadow-sm);
             position: sticky;
             top: 0;
             z-index: 1000;
+            animation: slideDown 0.6s ease-out;
         }
         
         .nav-container {
@@ -35,7 +81,7 @@
         .logo-container {
             display: flex;
             align-items: center;
-            transition: transform 0.3s ease;
+            transition: transform var(--transition-fast);
         }
         
         .logo-container:hover {
@@ -45,13 +91,41 @@
         .logo-container img {
             height: 40px;
             margin-right: 8px;
+            animation: pulse 2s infinite alternate;
+            will-change: transform;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.1);
+            }
         }
         
         .site-title {
-            color: #FAF6D4; /* Light Goldenrod Yellow */
+            color: #FFFFFF;
             font-size: 22px;
             font-weight: 700;
             text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .site-title::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: -100%;
+            background-color: var(--accent);
+            transition: left var(--transition-medium);
+        }
+        
+        .logo-container:hover .site-title::after {
+            left: 0;
         }
         
         .nav-menu {
@@ -60,19 +134,47 @@
             gap: 8px;
         }
         
+        .nav-item {
+            animation: fadeInRight 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .nav-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        
+        .nav-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .nav-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        .nav-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+        
+        .nav-item:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+        
         .nav-item .nav-link {
-            color: #FAF6D4; /* Light Goldenrod Yellow */
+            color: #FFFFFF;
             text-decoration: none;
             padding: 8px 12px;
             font-size: 16px;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: all var(--transition-fast);
             border-radius: 4px;
             position: relative;
+            display: flex;
+            align-items: center;
         }
         
         .nav-item .nav-link:hover {
-            background-color: rgba(250, 246, 212, 0.1); /* Light Goldenrod Yellow with opacity */
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
         }
         
         .nav-item .nav-link::after {
@@ -82,8 +184,8 @@
             height: 2px;
             bottom: 0;
             left: 50%;
-            background-color: #FAF6D4; /* Light Goldenrod Yellow */
-            transition: all 0.3s ease;
+            background-color: var(--accent);
+            transition: all var(--transition-fast);
         }
         
         .nav-item .nav-link:hover::after {
@@ -94,6 +196,12 @@
         .hamburger {
             display: none;
             cursor: pointer;
+            background: none;
+            border: none;
+            width: 30px;
+            height: 30px;
+            position: relative;
+            padding: 0;
         }
         
         .bar {
@@ -101,17 +209,20 @@
             width: 25px;
             height: 3px;
             margin: 5px auto;
-            background-color: #FAF6D4; /* Light Goldenrod Yellow */
-            transition: all 0.3s ease;
+            background-color: #FFFFFF;
+            transition: all var(--transition-fast);
         }
         
         /* Container styles */
         .container {
+            flex: 1;
             margin-top: 10px;
             padding: 0 20px;
             max-width: 1200px;
             margin-left: auto;
             margin-right: auto;
+            display: flex;
+            flex-direction: column;
         }
         
         .sub-container1 {
@@ -123,61 +234,190 @@
         .sub-container1 img {
             max-height: 180px;
             width: auto;
-            transition: transform 0.5s ease;
+            transition: transform var(--transition-medium);
+            animation: floatImage 6s ease-in-out infinite;
+            will-change: transform;
+        }
+        
+        @keyframes floatImage {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
         }
         
         .sub-container1 img:hover {
-            transform: scale(1.05);
+            transform: scale(1.1) rotate(5deg);
         }
         
         .sub-container2 {
             animation: slideUp 0.8s ease-out;
+            perspective: 1000px;
+        }
+        
+        .description {
+            animation: fadeInBlur 1.2s ease-out;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+        
+        @keyframes fadeInBlur {
+            0% {
+                opacity: 0;
+                filter: blur(10px);
+                transform: translateZ(-100px);
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0);
+                transform: translateZ(0);
+            }
         }
         
         .description h2 {
             font-size: 1rem;
             font-weight: normal;
             margin-bottom: 15px;
-            line-height: 1.4;
-            animation: fadeIn 1.2s ease-out;
+            line-height: 1.5;
+            color: var(--text-gray);
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .description h2::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -5px;
+            left: -100%;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: lineMove 8s infinite;
+        }
+        
+        @keyframes lineMove {
+            0% {
+                left: -100%;
+            }
+            50% {
+                left: 100%;
+            }
+            100% {
+                left: -100%;
+            }
         }
         
         .start {
             margin: 20px 0;
             display: flex;
             justify-content: center;
+            animation: popIn 0.5s ease-out 1.5s backwards;
+        }
+        
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            80% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
         
         .start button {
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
             border-radius: 4px;
-            background-color: #817340;
-            color: #FAF6D4;
+            background-color: var(--secondary);
+            color: #FFFFFF;
             font-weight: 600;
+            font-size: 16px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all var(--transition-fast);
             position: relative;
             overflow: hidden;
+            z-index: 1;
+            letter-spacing: 0.5px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .start button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all var(--transition-fast);
+            z-index: -1;
+        }
+        
+        .start button:hover::before {
+            left: 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
         }
         
         .start button:hover {
-            background-color: #616951;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #147856;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 15px rgba(26, 147, 111, 0.3);
         }
         
         .start button:active {
             transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-sm);
         }
         
         h3 {
             margin: 10px 0 5px 0;
             font-size: 1.2rem;
-            color: #003366;
+            color: var(--primary);
             position: relative;
             display: inline-block;
+            animation: fadeIn 0.5s ease-out 1.8s backwards;
+        }
+        
+        h3::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -3px;
+            left: 0;
+            background-color: var(--accent);
+            animation: growLine 1s ease-out 2s forwards;
+        }
+        
+        @keyframes growLine {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
         }
         
         .sub-divisions {
@@ -188,22 +428,82 @@
             margin-bottom: 30px;
         }
         
+        .domain-button {
+            opacity: 0;
+            animation: fadeInStaggered 0.5s ease-out forwards;
+            transform: perspective(1000px) rotateX(20deg);
+            transition: all var(--transition-fast);
+        }
+        
+        .domain-button:hover {
+            transform: perspective(1000px) rotateX(0deg) scale(1.05);
+        }
+        
+        .domain-button:nth-child(1) {
+            animation-delay: 2.1s;
+        }
+        
+        .domain-button:nth-child(2) {
+            animation-delay: 2.2s;
+        }
+        
+        .domain-button:nth-child(3) {
+            animation-delay: 2.3s;
+        }
+        
+        .domain-button:nth-child(4) {
+            animation-delay: 2.4s;
+        }
+        
+        .domain-button:nth-child(5) {
+            animation-delay: 2.5s;
+        }
+        
+        @keyframes fadeInStaggered {
+            from { 
+                opacity: 0;
+                transform: perspective(1000px) rotateX(20deg) translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: perspective(1000px) rotateX(20deg) translateY(0);
+            }
+        }
+        
         .sub-divisions button {
             padding: 8px 16px;
             border: none;
             border-radius: 4px;
-            background-color: #e7e7e7;
-            color: #003366;
+            background-color: #E9ECEF;
+            color: var(--primary);
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sub-divisions button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: all 0.4s ease;
+        }
+        
+        .sub-divisions button:hover::before {
+            left: 100%;
         }
         
         .sub-divisions button:hover {
-            background-color: #003366;
-            color: white;
+            background-color: var(--accent);
+            color: var(--dark);
             transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(247, 194, 68, 0.3);
         }
         
         /* Language selector styling */
@@ -211,23 +511,44 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background-color: #817340;
+            background-color: var(--primary);
             border-radius: 50%;
             width: 50px;
             height: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #FAF6D4;
+            color: #FFFFFF;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
             z-index: 1000;
-            transition: all 0.3s ease;
+            transition: all var(--transition-fast);
+            animation: bounceIn 0.6s ease-out 3s backwards;
+            will-change: transform;
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.1);
+            }
+            80% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
         
         .lang-selector:hover {
             transform: scale(1.1);
+            background-color: var(--secondary);
+            box-shadow: 0 5px 20px rgba(26, 147, 111, 0.4);
         }
 
         /* Language dropdown menu */
@@ -235,7 +556,7 @@
             position: absolute;
             top: 100%;
             right: 0;
-            background-color: white;
+            background-color: #FFFFFF;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             z-index: 1000;
@@ -243,27 +564,42 @@
             max-height: 0;
             transition: max-height 0.3s ease-out;
             width: 150px;
+            transform-origin: top right;
         }
 
         .lang-dropdown.active {
             max-height: 300px;
+            animation: scaleIn 0.3s ease-out;
+        }
+        
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .lang-option {
             padding: 10px 15px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
         }
 
         .lang-option:hover {
-            background-color: #f5f5f5;
+            background-color: #E9ECEF;
+            transform: translateX(5px);
         }
 
         .lang-option.selected {
-            background-color: #f0f0f0;
+            background-color: #E9ECEF;
             font-weight: bold;
+            border-left: 3px solid var(--primary);
         }
 
         .lang-flag {
@@ -271,6 +607,11 @@
             height: 15px;
             margin-right: 10px;
             object-fit: cover;
+            transition: all var(--transition-fast);
+        }
+        
+        .lang-option:hover .lang-flag {
+            transform: scale(1.2);
         }
 
         /* Translation progress overlay */
@@ -280,7 +621,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.7);
+            background-color: rgba(33, 37, 41, 0.7);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -288,26 +629,35 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s, visibility 0.3s;
+            backdrop-filter: blur(5px);
         }
 
         .translation-overlay.active {
             opacity: 1;
             visibility: visible;
+            animation: fadeInBlur 0.3s ease-out;
         }
 
         .translation-spinner {
             width: 50px;
             height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #817340;
+            border: 5px solid rgba(233, 236, 239, 0.3);
+            border-top: 5px solid var(--secondary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 15px;
         }
-
+        
         .translation-content {
             text-align: center;
             color: white;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .translation-content p {
+            margin-top: 10px;
+            font-size: 16px;
+            letter-spacing: 0.5px;
         }
 
         @keyframes spin {
@@ -315,32 +665,38 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Animation keyframes */
+        /* Additional animation keyframes */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
         
-        @keyframes slideUp {
+        @keyframes fadeInRight {
             from { 
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateX(20px);
             }
             to { 
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateX(0);
             }
         }
         
-        .domain-button {
-            opacity: 0;
-            animation: fadeInStaggered 0.5s ease-out forwards;
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
         
-        @keyframes fadeInStaggered {
+        @keyframes slideUp {
             from { 
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(30px);
             }
             to { 
                 opacity: 1;
@@ -355,16 +711,26 @@
                 left: -100%;
                 top: 60px;
                 flex-direction: column;
-                background-color: #817340;
+                background-color: var(--primary);
                 width: 100%;
                 text-align: center;
                 transition: 0.3s;
-                box-shadow: 0 10px 15px rgba(97, 105, 81, 0.2);
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
                 padding: 15px 0;
             }
             
             .nav-menu.active {
                 left: 0;
+                animation: slideInLeft 0.3s ease-out;
+            }
+            
+            @keyframes slideInLeft {
+                from {
+                    left: -100%;
+                }
+                to {
+                    left: 0;
+                }
             }
             
             .hamburger {
@@ -394,50 +760,64 @@
                 margin-top: 5px;
                 border-top: 1px solid rgba(255,255,255,0.1);
             }
+            
+            .nav-item {
+                animation: none;
+                opacity: 1;
+            }
+            
+            .domain-button {
+                animation-delay: 0.5s !important;
+            }
+        }
+
+        /* Performance optimizations */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --light-bg: #121212;
+                --dark: #E9ECEF;
+                --text-gray: #BDBDBD;
+            }
+            
+            .policy-content, .sub-divisions button {
+                background-color: #2A2A2A;
+            }
         }
     </style>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav class="navbar">
+    <nav class="navbar" aria-label="Main Navigation">
         <div class="nav-container">
             <div class="logo-container">
                 <img src="civiclogo.png" alt="CIVIC CLARITY Logo">
                 <a href="frontend.html" class="site-title">CIVIC CLARITY</a>
             </div>
             
-            <ul class="nav-menu">
+            <button class="hamburger" aria-expanded="false" aria-label="Toggle navigation menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            
+            <ul class="nav-menu" id="nav-menu">
                 <li class="nav-item">
-<<<<<<< HEAD
-                    <a href="frontend.html" class="nav-link">Home</a>
-=======
                     <a href="index.html" class="nav-link" data-translate="Home">Home</a>
->>>>>>> 814aabaeae12da5e67a1d175aa6d39c2c6bf0d86
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-translate="AI">AI</a>
                 </li>
                 <li class="nav-item" style="position: relative;">
                     <a href="#" class="nav-link" data-translate="Translate">Translate</a>
-                    <!-- Language dropdown -->
-                    <div class="lang-dropdown" id="langDropdown">
-                        <div class="lang-option" data-lang="en">
-                            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/gb.svg" class="lang-flag" alt="English">
-                            English
-                        </div>
-                        <div class="lang-option" data-lang="ta">
-                            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Tamil">
-                            தமிழ்
-                        </div>
-                        <div class="lang-option" data-lang="hi">
-                            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Hindi">
-                            हिन्दी
-                        </div>
-                        <div class="lang-option" data-lang="te">
-                            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Telugu">
-                            తెలుగు
-                        </div>
-                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="about us.html" class="nav-link" data-translate="About">About</a>
@@ -446,18 +826,12 @@
                     <a href="#" class="nav-link" data-translate="Settings">Settings</a>
                 </li>
             </ul>
-            
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
         </div>
     </nav>
 
-    <div class="container">
+    <main class="container">
         <div class="sub-container1">
-            <img src="civiclogo.png">
+            <img src="civiclogo.png" alt="CIVIC CLARITY Logo">
         </div>
         <div class="sub-container2">
             <section>
@@ -469,29 +843,60 @@
                         </h2>
                     </div>
                     <div class="start">
-                        <a href="login.html"><button data-translate="Login">Login</button></a>
+                        <a href="login.html">
+                            <button data-translate="Login">Login</button>
+                        </a>
                     </div>
-                </div><h3 data-translate="Domains">Domains:</h3>
+                </div>
+                <h3 data-translate="Domains">Domains:</h3>
                 <div class="sub-divisions">
-                    <a href="financial.html" class="domain-button" style="animation-delay: 0.1s"><button data-translate="Finance">Finance</button></a>
-                    <a href="health.html" class="domain-button" style="animation-delay: 0.2s"><button data-translate="Health">Health</button></a>
-                    <a href="agriculture.html" class="domain-button" style="animation-delay: 0.3s"><button data-translate="Agriculture">Agriculture</button></a>
-                    <a href="legal.html" class="domain-button" style="animation-delay: 0.4s"><button data-translate="Legal Wellbeing">Legal Wellbeing</button></a>
-                    <a href="social.html" class="domain-button" style="animation-delay: 0.5s"><button data-translate="Social Wellbeing">Social Wellbeing</button></a>
+                    <a href="financial.html" class="domain-button">
+                        <button data-translate="Finance">Finance</button>
+                    </a>
+                    <a href="health.html" class="domain-button">
+                        <button data-translate="Health">Health</button>
+                    </a>
+                    <a href="agriculture.html" class="domain-button">
+                        <button data-translate="Agriculture">Agriculture</button>
+                    </a>
+                    <a href="legal.html" class="domain-button">
+                        <button data-translate="Legal Wellbeing">Legal Wellbeing</button>
+                    </a>
+                    <a href="social.html" class="domain-button">
+                        <button data-translate="Social Wellbeing">Social Wellbeing</button>
+                    </a>
                 </div>
             </section>
         </div>
-    </div>
-    
-    <!-- Language dropdown moved to navbar -->
+    </main>
     
     <!-- Language selector button -->
-    <div class="lang-selector" id="langToggle">EN</div>
+    <div class="lang-selector" id="langToggle" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false" aria-label="Change language">EN</div>
+
+    <!-- Language dropdown menu -->
+    <div class="lang-dropdown" id="langDropdown" role="menu">
+        <div class="lang-option selected" data-lang="en" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/gb.svg" class="lang-flag" alt="English flag">
+            English
+        </div>
+        <div class="lang-option" data-lang="ta" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Indian flag">
+            தமிழ்
+        </div>
+        <div class="lang-option" data-lang="hi" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Indian flag">
+            हिन्दी
+        </div>
+        <div class="lang-option" data-lang="te" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Indian flag">
+            తెలుగు
+        </div>
+    </div>
 
     <!-- Translation loading overlay -->
-    <div class="translation-overlay" id="translationOverlay">
+    <div class="translation-overlay" id="translationOverlay" aria-hidden="true">
         <div class="translation-content">
-            <div class="translation-spinner"></div>
+            <div class="translation-spinner" aria-label="Loading translation"></div>
             <p id="translationMessage">Translating...</p>
         </div>
     </div>
@@ -552,26 +957,22 @@
             }
         };
 
-        // JavaScript for mobile menu toggle
         document.addEventListener("DOMContentLoaded", function() {
+            // Mobile menu functionality
             const hamburger = document.querySelector(".hamburger");
             const navMenu = document.querySelector(".nav-menu");
             
-            hamburger.addEventListener("click", () => {
-                hamburger.classList.toggle("active");
+            hamburger.addEventListener("click", function() {
+                this.classList.toggle("active");
                 navMenu.classList.toggle("active");
+                this.setAttribute('aria-expanded', this.classList.contains('active'));
             });
             
             document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
                 hamburger.classList.remove("active");
                 navMenu.classList.remove("active");
+                hamburger.setAttribute('aria-expanded', 'false');
             }));
-            
-            // Animate domain buttons on load
-            const domainButtons = document.querySelectorAll('.domain-button');
-            domainButtons.forEach((button, index) => {
-                button.style.animationDelay = (0.1 * (index + 1)) + 's';
-            });
             
             // Translation functionality - Translate button in nav bar
             document.querySelectorAll(".nav-link").forEach(link => {
@@ -584,8 +985,13 @@
             });
             
             // Language toggle button functionality
-            document.getElementById('langToggle').addEventListener('click', function() {
-                toggleLanguageDropdown();
+            const langToggle = document.getElementById('langToggle');
+            langToggle.addEventListener('click', toggleLanguageDropdown);
+            langToggle.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleLanguageDropdown();
+                }
             });
 
             // Setup language options
@@ -594,6 +1000,15 @@
                     const lang = this.getAttribute('data-lang');
                     changeLanguage(lang);
                     toggleLanguageDropdown();
+                });
+                
+                option.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const lang = this.getAttribute('data-lang');
+                        changeLanguage(lang);
+                        toggleLanguageDropdown();
+                    }
                 });
             });
             
@@ -605,19 +1020,56 @@
 
             // Mark current language as selected
             updateSelectedLanguage();
+            
+            // Add subtle hover effects to buttons on mousemove
+            const buttons = document.querySelectorAll('button:not(.hamburger)');
+            
+            buttons.forEach(button => {
+                button.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    this.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0) 50%)`;
+                    this.style.backgroundSize = '200% 200%';
+                    this.style.backgroundBlendMode = 'overlay';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.background = '';
+                });
+            });
+            
+            // Check for reduced motion preference
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.documentElement.classList.add('reduced-motion');
+            }
         });
 
         function toggleLanguageDropdown() {
             const dropdown = document.getElementById('langDropdown');
-            dropdown.classList.toggle('active');
+            const langToggle = document.getElementById('langToggle');
+            const isExpanded = dropdown.classList.toggle('active');
+            
+            langToggle.setAttribute('aria-expanded', isExpanded);
+            
+            // If opening the dropdown, focus the first option
+            if (isExpanded) {
+                const firstOption = dropdown.querySelector('.lang-option');
+                if (firstOption) {
+                    setTimeout(() => firstOption.focus(), 100);
+                }
+            }
         }
 
         function updateSelectedLanguage() {
             document.querySelectorAll('.lang-option').forEach(option => {
                 if (option.getAttribute('data-lang') === currentLanguage) {
                     option.classList.add('selected');
+                    option.setAttribute('aria-selected', 'true');
                 } else {
                     option.classList.remove('selected');
+                    option.setAttribute('aria-selected', 'false');
                 }
             });
         }
@@ -638,7 +1090,26 @@
                 
                 // Hide loading overlay
                 hideTranslationProgress();
-            }, 500);
+                
+                // Announce to screen readers that language has changed
+                const announcement = document.createElement('div');
+                announcement.setAttribute('aria-live', 'assertive');
+                announcement.classList.add('sr-only');
+                announcement.textContent = `Language changed to ${getLangName(lang)}`;
+                document.body.appendChild(announcement);
+                setTimeout(() => document.body.removeChild(announcement), 1000);
+                
+            }, 800); // Slightly longer delay to appreciate the animation
+        }
+
+        function getLangName(langCode) {
+            switch(langCode) {
+                case 'en': return 'English';
+                case 'ta': return 'Tamil';
+                case 'hi': return 'Hindi';
+                case 'te': return 'Telugu';
+                default: return langCode;
+            }
         }
 
         function showTranslationProgress(targetLang) {
@@ -653,11 +1124,13 @@
             
             message.textContent = `Translating to ${langName}...`;
             overlay.classList.add('active');
+            overlay.setAttribute('aria-hidden', 'false');
         }
 
         function hideTranslationProgress() {
             const overlay = document.getElementById('translationOverlay');
             overlay.classList.remove('active');
+            overlay.setAttribute('aria-hidden', 'true');
         }
 
         function updateLanguageUI(lang) {
@@ -685,7 +1158,15 @@
             document.querySelectorAll('[data-translate]').forEach(element => {
                 const key = element.getAttribute('data-translate');
                 if (dictionary[key]) {
-                    element.textContent = dictionary[key];
+                    // Add a subtle animation when text changes
+                    element.style.opacity = '0';
+                    element.style.transform = 'translateY(5px)';
+                    
+                    setTimeout(() => {
+                        element.textContent = dictionary[key];
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }, 150);
                 }
             });
         }
@@ -695,24 +1176,33 @@
             document.querySelectorAll('[data-translate]').forEach(element => {
                 const key = element.getAttribute('data-translate');
                 
-                // Reset to original English text based on key
-                switch(key) {
-                    case 'Home': element.textContent = 'Home'; break;
-                    case 'AI': element.textContent = 'AI'; break;
-                    case 'Translate': element.textContent = 'Translate'; break;
-                    case 'About': element.textContent = 'About'; break;
-                    case 'Settings': element.textContent = 'Settings'; break;
-                    case 'Login': element.textContent = 'Login'; break;
-                    case 'Domains': element.textContent = 'Domains:'; break;
-                    case 'Finance': element.textContent = 'Finance'; break;
-                    case 'Health': element.textContent = 'Health'; break;
-                    case 'Agriculture': element.textContent = 'Agriculture'; break;
-                    case 'Legal Wellbeing': element.textContent = 'Legal Wellbeing'; break;
-                    case 'Social Wellbeing': element.textContent = 'Social Wellbeing'; break;
-                    case 'welcome-text': 
-                        element.textContent = 'Welcome to our website. Here you will be able to find policies and schemes that are introduced by tamilnadu goverment for the recent years. You can access all the recent policies and schemes, with all the required details and use it to your own advantage. You can use our chatbot for asking personalized questions regarding polices and schemes in this portal.';
-                        break;
-                }
+                // Add a subtle animation when text changes
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(5px)';
+                
+                setTimeout(() => {
+                    // Reset to original English text based on key
+                    switch(key) {
+                        case 'Home': element.textContent = 'Home'; break;
+                        case 'AI': element.textContent = 'AI'; break;
+                        case 'Translate': element.textContent = 'Translate'; break;
+                        case 'About': element.textContent = 'About'; break;
+                        case 'Settings': element.textContent = 'Settings'; break;
+                        case 'Login': element.textContent = 'Login'; break;
+                        case 'Domains': element.textContent = 'Domains:'; break;
+                        case 'Finance': element.textContent = 'Finance'; break;
+                        case 'Health': element.textContent = 'Health'; break;
+                        case 'Agriculture': element.textContent = 'Agriculture'; break;
+                        case 'Legal Wellbeing': element.textContent = 'Legal Wellbeing'; break;
+                        case 'Social Wellbeing': element.textContent = 'Social Wellbeing'; break;
+                        case 'welcome-text': 
+                            element.textContent = 'Welcome to our website. Here you will be able to find policies and schemes that are introduced by tamilnadu goverment for the recent years. You can access all the recent policies and schemes, with all the required details and use it to your own advantage. You can use our chatbot for asking personalized questions regarding polices and schemes in this portal.';
+                            break;
+                    }
+                    
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, 150);
             });
         }
 

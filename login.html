@@ -3,33 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - AI Assistant</title>
+    <meta name="description" content="Login to CIVIC CLARITY to access government policies and schemes">
+    <title>Login - CIVIC CLARITY</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --primary: #817340;
+            --secondary: #616951;
+            --accent: #FAF6D4;
+            --background: #FAF6D4;
+            --card-bg: #D0C092;
+            --shadow-sm: 0 4px 12px rgba(97, 105, 81, 0.15);
+            --shadow-md: 0 8px 24px rgba(97, 105, 81, 0.25);
+            --transition-fast: 0.3s ease;
+            --border-radius: 8px;
+            --border-radius-lg: 16px;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: var(--font-main);
         }
 
         body {
-            background-color: #FAF6D4;
+            background-color: var(--background);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            color: #616951;
+            color: var(--secondary);
             padding: 20px;
+            line-height: 1.6;
+        }
+
+        /* Accessibility focus styles */
+        a:focus, button:focus, input:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
         }
 
         .login-container {
-            background-color: #D0C092;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(97, 105, 81, 0.25);
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
             width: 100%;
             max-width: 400px;
             padding: 48px 40px;
+            animation: fadeInUp 0.6s ease-out;
+            will-change: transform, opacity;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .login-header {
@@ -38,9 +87,10 @@
         }
 
         .login-header h1 {
-            color: #616951;
+            color: var(--secondary);
             font-size: 2.5rem;
             margin-bottom: 12px;
+            line-height: 1.2;
         }
 
         .login-form {
@@ -50,12 +100,13 @@
 
         .form-group {
             margin-bottom: 24px;
+            position: relative;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #616951;
+            color: var(--secondary);
             font-weight: 600;
         }
 
@@ -63,22 +114,55 @@
             width: 100%;
             padding: 14px 16px;
             border: 2px solid rgba(97, 105, 81, 0.5);
-            border-radius: 8px;
-            background-color: #FAF6D4;
-            color: #616951;
+            border-radius: var(--border-radius);
+            background-color: var(--background);
+            color: var(--secondary);
             font-size: 1rem;
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(129, 115, 64, 0.25);
         }
 
         .login-btn {
-            background-color: #817340;
-            color: #FAF6D4;
+            background-color: var(--primary);
+            color: var(--accent);
             border: none;
             padding: 14px;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             margin-top: 10px;
+            transition: background-color var(--transition-fast), transform var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.4s ease;
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        .login-btn:hover {
+            background-color: #958650;
+            transform: translateY(-2px);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
         }
 
         .form-footer {
@@ -86,53 +170,811 @@
             margin-top: 28px;
             font-size: 0.95rem;
         }
+
+        .form-footer a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+            padding: 4px;
+        }
+
+        .form-footer a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .error-message.visible {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .form-field-error {
+            border-color: #e74c3c !important;
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+        }
+
+        /* Language selector styling */
+        .lang-selector {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--accent);
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: all var(--transition-fast);
+            animation: bounceIn 0.6s ease-out 1s backwards;
+            will-change: transform;
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.1);
+            }
+            80% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .lang-selector:hover {
+            transform: scale(1.1);
+            background-color: #958650;
+        }
+
+        /* Language dropdown menu */
+        .lang-dropdown {
+            position: absolute;
+            bottom: 60px;
+            right: 0;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.3s ease-out;
+            width: 150px;
+            transform-origin: bottom right;
+        }
+
+        .lang-dropdown.active {
+            max-height: 300px;
+            animation: scaleIn 0.3s ease-out;
+        }
+        
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .lang-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .lang-option:hover {
+            background-color: #f5f5f5;
+            transform: translateX(5px);
+        }
+
+        .lang-option.selected {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            border-left: 3px solid var(--primary);
+        }
+
+        .lang-flag {
+            width: 20px;
+            height: 15px;
+            margin-right: 10px;
+            object-fit: cover;
+            transition: all var(--transition-fast);
+        }
+        
+        .lang-option:hover .lang-flag {
+            transform: scale(1.2);
+        }
+
+        /* Translation progress overlay */
+        .translation-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .translation-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            animation: fadeInBlur 0.3s ease-out;
+        }
+        
+        @keyframes fadeInBlur {
+            0% {
+                opacity: 0;
+                filter: blur(10px);
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0);
+            }
+        }
+
+        .translation-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        .translation-content {
+            text-align: center;
+            color: white;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .translation-content p {
+            margin-top: 10px;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Loading indicator for login */
+        .login-btn.loading {
+            background-color: #958650;
+            pointer-events: none;
+        }
+
+        .login-btn.loading .btn-text {
+            visibility: hidden;
+        }
+
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        .login-btn.loading .loading-spinner {
+            display: block;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background: #2a2a2a;
+                --card-bg: #3a3a3a;
+                --secondary: #f0f0f0;
+                --accent: #f0f0f0;
+            }
+            
+            .form-group input {
+                background-color: #222;
+                border-color: #555;
+                color: #f0f0f0;
+            }
+            
+            .lang-dropdown, .lang-option {
+                background-color: #333;
+                color: #f0f0f0;
+            }
+            
+            .lang-option:hover {
+                background-color: #444;
+            }
+            
+            .lang-option.selected {
+                background-color: #555;
+            }
+            
+            .form-footer a {
+                color: #d0d0d0;
+            }
+        }
+
+        /* Performance optimizations */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 25px;
+            }
+            
+            .login-header h1 {
+                font-size: 2rem;
+            }
+            
+            .form-footer {
+                font-size: 0.9rem;
+            }
+            
+            .form-group input {
+                padding: 12px 14px;
+            }
+            
+            .login-btn {
+                padding: 12px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
         <div class="login-header">
-            <h1>CIVIC CLARITY</h1>
-            <p>Sign in to access your account</p>
+            <h1 data-translate="login-title">CIVIC CLARITY</h1>
+            <p data-translate="login-subtitle">Sign in to access your account</p>
         </div>
         
-        <form class="login-form" id="login-form">
+        <form class="login-form" id="login-form" novalidate>
             <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" required placeholder="Enter your email">
+                <label for="email" data-translate="email">Email</label>
+                <input type="email" id="email" required aria-required="true" autocomplete="email" 
+                       placeholder="Enter your email" data-translate-placeholder="email-placeholder">
+                <div class="error-message" id="email-error" role="alert"></div>
             </div>
             
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" required placeholder="Enter your password">
+                <label for="password" data-translate="password">Password</label>
+                <input type="password" id="password" required aria-required="true" autocomplete="current-password" 
+                       placeholder="Enter your password" data-translate-placeholder="password-placeholder">
+                <div class="error-message" id="password-error" role="alert"></div>
             </div>
             
-            <button type="submit" class="login-btn">Login</button>
+            <button type="submit" class="login-btn" id="login-button">
+                <span class="btn-text" data-translate="login-button">Login</span>
+                <span class="loading-spinner" aria-hidden="true"></span>
+            </button>
+            <div class="error-message" id="login-error" role="alert"></div>
         </form>
         
         <div class="form-footer">
-            <a href="#">Forgot Password?</a> | <a href="#">Create Account</a>
+            <a href="#" data-translate="forgot-password">Forgot Password?</a> | <a href="#" data-translate="create-account">Create Account</a>
+        </div>
+    </div>
+
+    <!-- Language selector button -->
+    <div class="lang-selector" id="langToggle" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false" aria-label="Change language">EN</div>
+
+    <!-- Language dropdown menu -->
+    <div class="lang-dropdown" id="langDropdown" role="menu">
+        <div class="lang-option selected" data-lang="en" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/gb.svg" class="lang-flag" alt="English flag">
+            English
+        </div>
+        <div class="lang-option" data-lang="ta" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Indian flag">
+            தமிழ்
+        </div>
+        <div class="lang-option" data-lang="hi" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Indian flag">
+            हिन्दी
+        </div>
+        <div class="lang-option" data-lang="te" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Indian flag">
+            తెలుగు
+        </div>
+    </div>
+
+    <!-- Translation loading overlay -->
+    <div class="translation-overlay" id="translationOverlay" aria-hidden="true">
+        <div class="translation-content">
+            <div class="translation-spinner" aria-label="Loading translation"></div>
+            <p id="translationMessage">Translating...</p>
         </div>
     </div>
 
     <script>
+        // Supabase initialization
         const SUPABASE_URL = "https://lgbmwsimohdphbjispew.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxnYm13c2ltb2hkcGhiamlzcGV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyOTYwMzIsImV4cCI6MjA1Njg3MjAzMn0.mw485QrNviIxzAu-HecYir2Ou9Zn0nnyxO2aCwAouz0";
-        const supabase = supabase.createClient("https://lgbmwsimohdphbjispew.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxnYm13c2ltb2hkcGhiamlzcGV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyOTYwMzIsImV4cCI6MjA1Njg3MjAzMn0.mw485QrNviIxzAu-HecYir2Ou9Zn0nnyxO2aCwAouz0")
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        document.getElementById("login-form").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
+        // Current language
+        let currentLanguage = localStorage.getItem('language') || 'en';
+        
+        // Translation dictionaries for different languages
+        const translations = {
+            'ta': {
+                // Tamil translations
+                'login-title': 'சிவிக் க்ளாரிட்டி',
+                'login-subtitle': 'உங்கள் கணக்கை அணுக உள்நுழையவும்',
+                'email': 'மின்னஞ்சல்',
+                'email-placeholder': 'உங்கள் மின்னஞ்சலை உள்ளிடவும்',
+                'password': 'கடவுச்சொல்',
+                'password-placeholder': 'உங்கள் கடவுச்சொல்லை உள்ளிடவும்',
+                'login-button': 'உள்நுழைய',
+                'forgot-password': 'கடவுச்சொல் மறந்துவிட்டதா?',
+                'create-account': 'கணக்கை உருவாக்கு',
+                'email-required': 'மின்னஞ்சல் தேவை',
+                'email-invalid': 'சரியான மின்னஞ்சலை உள்ளிடவும்',
+                'password-required': 'கடவுச்சொல் தேவை',
+                'login-error': 'உள்நுழைவு தோல்வி: ',
+                'login-success': 'உள்நுழைவு வெற்றி! திசைதிருப்புகிறது...'
+            },
+            'hi': {
+                // Hindi translations
+                'login-title': 'सिविक क्लैरिटी',
+                'login-subtitle': 'अपने खाते तक पहुंचने के लिए साइन इन करें',
+                'email': 'ईमेल',
+                'email-placeholder': 'अपना ईमेल दर्ज करें',
+                'password': 'पासवर्ड',
+                'password-placeholder': 'अपना पासवर्ड दर्ज करें',
+                'login-button': 'लॉगिन',
+                'forgot-password': 'पासवर्ड भूल गए?',
+                'create-account': 'खाता बनाएं',
+                'email-required': 'ईमेल आवश्यक है',
+                'email-invalid': 'कृपया एक वैध ईमेल दर्ज करें',
+                'password-required': 'पासवर्ड आवश्यक है',
+                'login-error': 'लॉगिन विफल: ',
+                'login-success': 'लॉगिन सफल! पुनर्निर्देशित कर रहा है...'
+            },
+            'te': {
+                // Telugu translations
+                'login-title': 'సివిక్ క్లారిటీ',
+                'login-subtitle': 'మీ ఖాతాను యాక్సెస్ చేయడానికి సైన్ ఇన్ చేయండి',
+                'email': 'ఇమెయిల్',
+                'email-placeholder': 'మీ ఇమెయిల్‌ను నమోదు చేయండి',
+                'password': 'పాస్‌వర్డ్',
+                'password-placeholder': 'మీ పాస్‌వర్డ్‌ను నమోదు చేయండి',
+                'login-button': 'లాగిన్',
+                'forgot-password': 'పాస్‌వర్డ్ మర్చిపోయారా?',
+                'create-account': 'ఖాతాను సృష్టించండి',
+                'email-required': 'ఇమెయిల్ అవసరం',
+                'email-invalid': 'దయచేసి చెల్లుబాటు అయ్యే ఇమెయిల్‌ను నమోదు చేయండి',
+                'password-required': 'పాస్‌వర్డ్ అవసరం',
+                'login-error': 'లాగిన్ విఫలమైంది: ',
+                'login-success': 'లాగిన్ విజయవంతమైంది! మళ్లించబడుతోంది...'
+            }
+        };
+        
+        // Form validation and submission
+        document.addEventListener("DOMContentLoaded", function() {
+            const loginForm = document.getElementById("login-form");
+            const emailInput = document.getElementById("email");
+            const emailError = document.getElementById("email-error");
+            const passwordInput = document.getElementById("password");
+            const passwordError = document.getElementById("password-error");
+            const loginButton = document.getElementById("login-button");
+            const loginError = document.getElementById("login-error");
+            
+            // Email validation
+            emailInput.addEventListener("blur", validateEmail);
+            
+            // Password validation
+            passwordInput.addEventListener("blur", validatePassword);
+            
+            // Form submission
+            loginForm.addEventListener("submit", async function(e) {
+                e.preventDefault();
+                
+                // Clear previous errors
+                clearErrors();
+                
+                // Validate inputs
+                const isEmailValid = validateEmail();
+                const isPasswordValid = validatePassword();
+                
+                if (!isEmailValid || !isPasswordValid) {
+                    return;
+                }
+                
+                // Show loading state
+                setLoading(true);
+                
+                try {
+                    const { data, error } = await supabase.auth.signInWithPassword({
+                        email: emailInput.value,
+                        password: passwordInput.value
+                    });
+                    
+                    if (error) {
+                        showLoginError(getTranslatedText('login-error') + error.message);
+                        setLoading(false);
+                    } else {
+                        showSuccess();
+                        
+                        // Redirect after a short delay
+                        setTimeout(() => {
+                            window.location.href = "dashboard.html";
+                        }, 1500);
+                    }
+                } catch (err) {
+                    showLoginError("An unexpected error occurred. Please try again.");
+                    setLoading(false);
+                }
+            });
+            
+            function validateEmail() {
+                const email = emailInput.value.trim();
+                emailInput.classList.remove("form-field-error");
+                emailError.classList.remove("visible");
+                
+                if (!email) {
+                    showError(emailInput, emailError, getTranslatedText('email-required'));
+                    return false;
+                }
+                
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    showError(emailInput, emailError, getTranslatedText('email-invalid'));
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            function validatePassword() {
+                const password = passwordInput.value.trim();
+                passwordInput.classList.remove("form-field-error");
+                passwordError.classList.remove("visible");
+                
+                if (!password) {
+                    showError(passwordInput, passwordError, getTranslatedText('password-required'));
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            function showError(input, errorElement, message) {
+                input.classList.add("form-field-error");
+                errorElement.textContent = message;
+                errorElement.classList.add("visible");
+            }
+            
+            function clearErrors() {
+                emailInput.classList.remove("form-field-error");
+                emailError.classList.remove("visible");
+                passwordInput.classList.remove("form-field-error");
+                passwordError.classList.remove("visible");
+                loginError.classList.remove("visible");
+            }
+            
+            function showLoginError(message) {
+                loginError.textContent = message;
+                loginError.classList.add("visible");
+            }
+            
+            function setLoading(isLoading) {
+                if (isLoading) {
+                    loginButton.classList.add("loading");
+                    loginButton.setAttribute("aria-busy", "true");
+                } else {
+                    loginButton.classList.remove("loading");
+                    loginButton.setAttribute("aria-busy", "false");
+                }
+            }
+            
+            function showSuccess() {
+                setLoading(true);
+                loginError.textContent = getTranslatedText('login-success');
+                loginError.style.color = "#2ecc71";
+                loginError.classList.add("visible");
+            }
+            
+            function getTranslatedText(key) {
+                if (currentLanguage === 'en') {
+                    // Default English texts
+                    const englishTexts = {
+                        'email-required': 'Email is required',
+                        'email-invalid': 'Please enter a valid email',
+                        'password-required': 'Password is required',
+                        'login-error': 'Login failed: ',
+                        'login-success': 'Login successful! Redirecting...'
+                    };
+                    return englishTexts[key] || key;
+                }
+                
+                const dictionary = translations[currentLanguage];
+                return dictionary && dictionary[key] ? dictionary[key] : key;
+            }
+            
+            // Translation functionality - Language selector
+            const langToggle = document.getElementById('langToggle');
+            langToggle.addEventListener('click', toggleLanguageDropdown);
+            langToggle.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleLanguageDropdown();
+                }
+            });
 
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            // Setup language options
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    changeLanguage(lang);
+                    toggleLanguageDropdown();
+                });
+                
+                option.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const lang = this.getAttribute('data-lang');
+                        changeLanguage(lang);
+                        toggleLanguageDropdown();
+                    }
+                });
+            });
+            
+            // Apply saved language preference
+            if (currentLanguage !== 'en') {
+                applyTranslation(currentLanguage);
+                updateLanguageUI(currentLanguage);
+            }
 
-            if (error) {
-                alert("Login failed: " + error.message);
+            // Mark current language as selected
+            updateSelectedLanguage();
+        });
+
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('langDropdown');
+            const langToggle = document.getElementById('langToggle');
+            const isExpanded = dropdown.classList.toggle('active');
+            
+            langToggle.setAttribute('aria-expanded', isExpanded);
+            
+            // If opening the dropdown, focus the first option
+            if (isExpanded) {
+                const firstOption = dropdown.querySelector('.lang-option');
+                if (firstOption) {
+                    setTimeout(() => firstOption.focus(), 100);
+                }
+            }
+        }
+
+        function updateSelectedLanguage() {
+            document.querySelectorAll('.lang-option').forEach(option => {
+                if (option.getAttribute('data-lang') === currentLanguage) {
+                    option.classList.add('selected');
+                    option.setAttribute('aria-selected', 'true');
+                } else {
+                    option.classList.remove('selected');
+                    option.setAttribute('aria-selected', 'false');
+                }
+            });
+        }
+
+        function changeLanguage(lang) {
+            if (lang === currentLanguage) return;
+            
+            // Show loading overlay
+            showTranslationProgress(lang);
+            
+            // Use a small delay to allow animation to show
+            setTimeout(() => {
+                applyTranslation(lang);
+                currentLanguage = lang;
+                localStorage.setItem('language', lang);
+                updateLanguageUI(lang);
+                updateSelectedLanguage();
+                
+                // Hide loading overlay
+                hideTranslationProgress();
+                
+                // Announce to screen readers that language has changed
+                const announcement = document.createElement('div');
+                announcement.setAttribute('aria-live', 'assertive');
+                announcement.classList.add('sr-only');
+                announcement.textContent = `Language changed to ${getLangName(lang)}`;
+                document.body.appendChild(announcement);
+                setTimeout(() => document.body.removeChild(announcement), 1000);
+                
+            }, 500);
+        }
+
+        function getLangName(langCode) {
+            switch(langCode) {
+                case 'en': return 'English';
+                case 'ta': return 'Tamil';
+                case 'hi': return 'Hindi';
+                case 'te': return 'Telugu';
+                default: return langCode;
+            }
+        }
+
+        function showTranslationProgress(targetLang) {
+            const overlay = document.getElementById('translationOverlay');
+            const message = document.getElementById('translationMessage');
+            
+            // Set appropriate message
+            let langName = 'English';
+            if (targetLang === 'ta') langName = 'தமிழ்';
+            if (targetLang === 'hi') langName = 'हिन्दी';
+            if (targetLang === 'te') langName = 'తెలుగు';
+            
+            message.textContent = `Translating to ${langName}...`;
+            overlay.classList.add('active');
+            overlay.setAttribute('aria-hidden', 'false');
+        }
+
+        function hideTranslationProgress() {
+            const overlay = document.getElementById('translationOverlay');
+            overlay.classList.remove('active');
+            overlay.setAttribute('aria-hidden', 'true');
+        }
+
+        function updateLanguageUI(lang) {
+            const langButton = document.getElementById('langToggle');
+            
+            // Update language button text
+            if (lang === 'en') langButton.textContent = 'EN';
+            if (lang === 'ta') langButton.textContent = 'TA';
+            if (lang === 'hi') langButton.textContent = 'HI';
+            if (lang === 'te') langButton.textContent = 'TE';
+        }
+
+        function applyTranslation(lang) {
+            // If English, reset to original content
+            if (lang === 'en') {
+                resetToEnglish();
+                return;
+            }
+            
+            // Get translation dictionary for the selected language
+            const dictionary = translations[lang];
+            if (!dictionary) return;
+            
+            // Translate elements with data-translate attribute
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (dictionary[key]) {
+                    // Add a subtle animation when text changes
+                    element.style.opacity = '0';
+                    element.style.transform = 'translateY(5px)';
+                    
+                    setTimeout(() => {
+                        element.textContent = dictionary[key];
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }, 150);
+                }
+            });
+            
+            // Translate placeholders
+            document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-translate-placeholder');
+                if (dictionary[key]) {
+                    element.placeholder = dictionary[key];
+                }
+            });
+        }
+
+        function resetToEnglish() {
+            // Reset all elements with data-translate attribute to their original English values
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                
+                // Add a subtle animation when text changes
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(5px)';
+                
+                setTimeout(() => {
+                    // Reset to original English text based on key
+                    switch(key) {
+                        case 'login-title': element.textContent = 'CIVIC CLARITY'; break;
+                        case 'login-subtitle': element.textContent = 'Sign in to access your account'; break;
+                        case 'email': element.textContent = 'Email'; break;
+                        case 'password': element.textContent = 'Password'; break;
+                        case 'login-button': element.textContent = 'Login'; break;
+                        case 'forgot-password': element.textContent = 'Forgot Password?'; break;
+                        case 'create-account': element.textContent = 'Create Account'; break;
+                    }
+                    
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, 150);
+            });
+            
+            // Reset placeholders
+            document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-translate-placeholder');
+                
+                switch(key) {
+                    case 'email-placeholder': element.placeholder = 'Enter your email'; break;
+                    case 'password-placeholder': element.placeholder = 'Enter your password'; break;
+                }
+            });
+        }
+
+        // Check if there's a saved language preference on page load
+        if (localStorage.getItem('language')) {
+            const savedLang = localStorage.getItem('language');
+            if (savedLang !== 'en') {
+                // Apply the saved language after a short delay to ensure DOM is ready
+                setTimeout(() => {
+                    applyTranslation(savedLang);
+                    updateLanguageUI(savedLang);
+                    updateSelectedLanguage();
+                }, 1000);
+            }
+        }
+
+        // Initialize preferred reduced motion setting
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.classList.add('reduced-motion');
+        }
+
+        // Listen for changes to the prefers-reduced-motion media query
+        window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (event) => {
+            if (event.matches) {
+                document.documentElement.classList.add('reduced-motion');
             } else {
-                alert("Login successful! Redirecting...");
-                window.location.href = "dashboard.html";
+                document.documentElement.classList.remove('reduced-motion');
             }
         });
     </script>
 </body>
 </html>
+                

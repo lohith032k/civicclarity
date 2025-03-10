@@ -3,29 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CIVIC CLARITY - Social Wellbeing Policies of Tamil Nadu">
     <title>Social Wellbeing Policies of Tamil Nadu</title>
     <!-- Updated Supabase CDN with version specification -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <style>
+        /* CSS Reset and Base Styles */
+        :root {
+            --primary: #3A5A78;
+            --secondary: #1A936F;
+            --accent: #F7C244;
+            --light: #FAF6D4;
+            --dark: #212529;
+            --text-gray: #5D6169;
+            --light-bg: #F8F9FA;
+            --transition-fast: 0.3s ease;
+            --transition-medium: 0.5s ease;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+        
         body {
-            background-color: #FAF6D4; /* Light Goldenrod Yellow */
-            color: #616951; /* Ebony */
+            background-color: var(--light-bg);
+            color: var(--dark);
+            overflow-x: hidden;
             line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Accessibility and Focus Styles */
+        a:focus, button:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
         }
         
         /* Navigation bar styling */
         .navbar {
-            background-color: #817340; /* Gold Fusion */
-            box-shadow: 0 2px 4px rgba(97, 105, 81, 0.15);
+            background-color: var(--primary);
+            box-shadow: var(--shadow-sm);
             position: sticky;
             top: 0;
             z-index: 1000;
+            animation: slideDown 0.6s ease-out;
         }
         
         .nav-container {
@@ -41,7 +83,7 @@
         .logo-container {
             display: flex;
             align-items: center;
-            transition: transform 0.3s ease;
+            transition: transform var(--transition-fast);
         }
         
         .logo-container:hover {
@@ -51,13 +93,41 @@
         .logo-container img {
             height: 40px;
             margin-right: 8px;
+            animation: pulse 2s infinite alternate;
+            will-change: transform;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.1);
+            }
         }
         
         .site-title {
-            color: #FAF6D4; /* Light Goldenrod Yellow */
+            color: #FFFFFF;
             font-size: 22px;
             font-weight: 700;
             text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .site-title::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: -100%;
+            background-color: var(--accent);
+            transition: left var(--transition-medium);
+        }
+        
+        .logo-container:hover .site-title::after {
+            left: 0;
         }
         
         .nav-menu {
@@ -66,19 +136,47 @@
             gap: 8px;
         }
         
+        .nav-item {
+            animation: fadeInRight 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .nav-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        
+        .nav-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .nav-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        .nav-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+        
+        .nav-item:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+        
         .nav-item .nav-link {
-            color: #FAF6D4; /* Light Goldenrod Yellow */
+            color: #FFFFFF;
             text-decoration: none;
             padding: 8px 12px;
             font-size: 16px;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: all var(--transition-fast);
             border-radius: 4px;
             position: relative;
+            display: flex;
+            align-items: center;
         }
         
         .nav-item .nav-link:hover {
-            background-color: rgba(250, 246, 212, 0.1); /* Light Goldenrod Yellow with opacity */
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
         }
         
         .nav-item .nav-link::after {
@@ -88,8 +186,8 @@
             height: 2px;
             bottom: 0;
             left: 50%;
-            background-color: #FAF6D4; /* Light Goldenrod Yellow */
-            transition: all 0.3s ease;
+            background-color: var(--accent);
+            transition: all var(--transition-fast);
         }
         
         .nav-item .nav-link:hover::after {
@@ -100,6 +198,12 @@
         .hamburger {
             display: none;
             cursor: pointer;
+            background: none;
+            border: none;
+            width: 30px;
+            height: 30px;
+            position: relative;
+            padding: 0;
         }
         
         .bar {
@@ -107,99 +211,165 @@
             width: 25px;
             height: 3px;
             margin: 5px auto;
-            background-color: #FAF6D4; /* Light Goldenrod Yellow */
-            transition: all 0.3s ease;
+            background-color: #FFFFFF;
+            transition: all var(--transition-fast);
         }
         
-        /* Original CSS continues */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        /* Header styles */
         .header {
-            background-color: #817340; /* Gold Fusion */
-            color: #FAF6D4; /* Light Goldenrod Yellow */
+            background-color: var(--primary);
+            color: #FFFFFF;
             text-align: center;
             padding: 30px 20px;
             margin-bottom: 40px;
             border-radius: 0 0 15px 15px;
-            box-shadow: 0 4px 12px rgba(97, 105, 81, 0.15);
+            box-shadow: var(--shadow-md);
+            animation: fadeIn 1s ease-out;
         }
+        
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
             letter-spacing: 0.5px;
         }
+        
         .header p {
             font-size: 1.1rem;
             opacity: 0.9;
         }
+        
+        /* Container styles */
+        .container {
+            flex: 1;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Policies grid */
         .policies-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 25px;
             min-height: 200px;
+            animation: slideUp 0.8s ease-out;
         }
+        
         .policy-card {
-            background-color: #D0C092; /* Tan */
+            background-color: #FFFFFF;
             border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(97, 105, 81, 0.2);
+            box-shadow: var(--shadow-md);
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all var(--transition-fast);
             height: 100%;
             display: flex;
             flex-direction: column;
+            transform: perspective(1000px) rotateX(0deg);
+            opacity: 0;
+            animation: fadeInStaggered 0.5s ease-out forwards;
         }
+        
         .policy-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(97, 105, 81, 0.25);
+            transform: translateY(-5px) perspective(1000px) rotateX(0deg);
+            box-shadow: var(--shadow-lg);
         }
+        
+        .policy-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        
+        .policy-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .policy-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        .policy-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+        
+        .policy-card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+        
+        .policy-card:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+        
         .policy-header {
-            background-color: #616951; /* Ebony */
-            color: #FAF6D4; /* Light Goldenrod Yellow */
+            background-color: var(--primary);
+            color: #FFFFFF;
             padding: 16px;
             text-align: center;
             font-weight: bold;
             font-size: 1.1rem;
             letter-spacing: 0.3px;
         }
+        
         .policy-content {
             padding: 24px;
-            background-color: #FAF6D4; /* Light Goldenrod Yellow */
+            background-color: #FFFFFF;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
+        
         .policy-content h3 {
-            color: #817340; /* Gold Fusion */
+            color: var(--secondary);
             margin-bottom: 16px;
             font-size: 1.3rem;
+            position: relative;
+            display: inline-block;
         }
+        
+        .policy-content h3::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -3px;
+            left: 0;
+            background-color: var(--accent);
+            animation: growLine 1s ease-out forwards;
+        }
+        
         .policy-content p {
             margin-bottom: 20px;
             line-height: 1.7;
+            color: var(--text-gray);
         }
+        
         .policy-content ul {
             padding-left: 20px;
             margin-top: auto;
         }
+        
         .policy-content ul li {
             margin-bottom: 8px;
             position: relative;
             padding-left: 5px;
+            color: var(--text-gray);
         }
+        
         .policy-content ul li:last-child {
             margin-bottom: 0;
         }
+        
+        /* Loading and error states */
         .loading {
             text-align: center;
             padding: 40px 20px;
             font-size: 1.2rem;
-            color: #616951;
+            color: var(--text-gray);
             grid-column: 1 / -1;
             position: relative;
+            animation: fadeInBlur 1.2s ease-out;
         }
+        
         .loading:after {
             content: "...";
             position: absolute;
@@ -207,64 +377,191 @@
             text-align: left;
             animation: dots 1.5s infinite;
         }
-        @keyframes dots {
-            0%, 20% { content: "."; }
-            40% { content: ".."; }
-            60%, 100% { content: "..."; }
-        }
+        
         .error-message {
             grid-column: 1 / -1;
-            background-color: rgba(209, 120, 120, 0.1);
-            border: 1px solid rgba(209, 120, 120, 0.3);
+            background-color: rgba(255, 105, 97, 0.1);
+            border: 1px solid rgba(255, 105, 97, 0.3);
             border-radius: 8px;
             padding: 30px;
             text-align: center;
-            color: #7a5151;
+            color: #d14836;
+            animation: fadeInBlur 1.2s ease-out;
         }
+        
         .error-icon {
             font-size: 2rem;
             margin-bottom: 15px;
         }
+        
         .error-text {
             margin-bottom: 20px;
             font-size: 1.1rem;
         }
+        
         .retry-button {
-            background-color: #817340;
-            color: #FAF6D4;
+            background-color: var(--secondary);
+            color: #FFFFFF;
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 1rem;
-            transition: background-color 0.3s;
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .retry-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all var(--transition-fast);
+        }
+        
+        .retry-button:hover::before {
+            left: 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
         .retry-button:hover {
-            background-color: #616951;
+            background-color: #147856;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 15px rgba(26, 147, 111, 0.3);
         }
+        
+        .retry-button:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-sm);
+        }
+        
         .no-data {
             grid-column: 1 / -1;
             text-align: center;
             padding: 40px 20px;
             font-size: 1.2rem;
-            color: #616951;
+            color: var(--text-gray);
+            animation: fadeInBlur 1.2s ease-out;
         }
+        
+        /* Animation keyframes */
+        @keyframes dots {
+            0%, 20% { content: "."; }
+            40% { content: ".."; }
+            60%, 100% { content: "..."; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInRight {
+            from { 
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInStaggered {
+            from { 
+                opacity: 0;
+                transform: perspective(1000px) rotateX(20deg) translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: perspective(1000px) rotateX(0deg) translateY(0);
+            }
+        }
+        
+        @keyframes fadeInBlur {
+            0% {
+                opacity: 0;
+                filter: blur(10px);
+                transform: translateZ(-100px);
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0);
+                transform: translateZ(0);
+            }
+        }
+        
+        @keyframes growLine {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        /* Responsive styles */
         @media (max-width: 768px) {
             .nav-menu {
                 position: fixed;
                 left: -100%;
                 top: 60px;
                 flex-direction: column;
-                background-color: #817340; /* Gold Fusion */
+                background-color: var(--primary);
                 width: 100%;
                 text-align: center;
                 transition: 0.3s;
-                box-shadow: 0 10px 15px rgba(97, 105, 81, 0.2);
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
                 padding: 15px 0;
             }
             
             .nav-menu.active {
                 left: 0;
+                animation: slideInLeft 0.3s ease-out;
+            }
+            
+            @keyframes slideInLeft {
+                from {
+                    left: -100%;
+                }
+                to {
+                    left: 0;
+                }
             }
             
             .hamburger {
@@ -286,29 +583,69 @@
             .policies-grid {
                 grid-template-columns: 1fr;
             }
+            
             .header {
                 padding: 25px 15px;
                 margin-bottom: 30px;
             }
+            
             .header h1 {
                 font-size: 2rem;
             }
+            
             .container {
-                padding: 15px;
+                padding: 0 15px 30px;
+            }
+            
+            .nav-item {
+                animation: none;
+                opacity: 1;
+            }
+        }
+
+        /* Performance optimizations */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --light-bg: #121212;
+                --dark: #E9ECEF;
+                --text-gray: #BDBDBD;
+            }
+            
+            .policy-content {
+                background-color: #2A2A2A;
+            }
+            
+            .policy-card {
+                background-color: #2A2A2A;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
+    <nav class="navbar" aria-label="Main Navigation">
         <div class="nav-container">
             <div class="logo-container">
                 <img src="civiclogo.png" alt="CIVIC CLARITY Logo">
-                <a href="index.html" class="site-title">CIVIC CLARITY</a>
+                <a href="frontend.html" class="site-title">CIVIC CLARITY</a>
             </div>
             
-            <ul class="nav-menu">
+            <button class="hamburger" aria-expanded="false" aria-label="Toggle navigation menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            
+            <ul class="nav-menu" id="nav-menu">
                 <li class="nav-item">
                     <a href="frontend.html" class="nav-link">Home</a>
                 </li>
@@ -325,12 +662,6 @@
                     <a href="#" class="nav-link">Settings</a>
                 </li>
             </ul>
-            
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
         </div>
     </nav>
 
@@ -546,11 +877,13 @@
             hamburger.addEventListener("click", () => {
                 hamburger.classList.toggle("active");
                 navMenu.classList.toggle("active");
+                hamburger.setAttribute('aria-expanded', hamburger.classList.contains('active'));
             });
             
             document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
                 hamburger.classList.remove("active");
                 navMenu.classList.remove("active");
+                hamburger.setAttribute('aria-expanded', 'false');
             }));
         });
     </script>
