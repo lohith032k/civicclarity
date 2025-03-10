@@ -200,8 +200,7 @@
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required placeholder="Enter your password">
-            </div>
-            
+            </div>        
             <button type="submit" class="login-btn" id="login-button">
                 <span class="btn-text" data-translate="login-button">Login</span>
                 <span class="loading-spinner" aria-hidden="true"></span>
@@ -213,38 +212,7 @@
             <a href="#" data-translate="forgot-password">Forgot Password?</a> | <a href="#" data-translate="create-account">Create Account</a>
         </div>
     </div>
-
-    <!-- Language selector button -->
-    <div class="lang-selector" id="langToggle" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false" aria-label="Change language">EN</div>
-
-    <!-- Language dropdown menu -->
-    <div class="lang-dropdown" id="langDropdown" role="menu">
-        <div class="lang-option selected" data-lang="en" role="menuitem" tabindex="0">
-            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/gb.svg" class="lang-flag" alt="English flag">
-            English
-        </div>
-        <div class="lang-option" data-lang="ta" role="menuitem" tabindex="0">
-            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Indian flag">
-            தமிழ்
-        </div>
-        <div class="lang-option" data-lang="hi" role="menuitem" tabindex="0">
-            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Indian flag">
-            हिन्दी
-        </div>
-        <div class="lang-option" data-lang="te" role="menuitem" tabindex="0">
-            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Indian flag">
-            తెలుగు
-        </div>
-    </div>
-
-    <!-- Translation loading overlay -->
-    <div class="translation-overlay" id="translationOverlay" aria-hidden="true">
-        <div class="translation-content">
-            <div class="translation-spinner" aria-label="Loading translation"></div>
-            <p id="translationMessage">Translating...</p>
-        </div>
-    </div>
-
+    
     <script>
         // Optional: Basic client-side validation
         document.querySelector('.login-form').addEventListener('submit', function(e) {
