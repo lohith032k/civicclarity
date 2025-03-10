@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <meta name="description" content="Login to CIVIC CLARITY to access government policies and schemes">
     <title>Login - CIVIC CLARITY</title>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+=======
+    <title>Login - AI Assistant</title>
+>>>>>>> 3c9cf1824eb3fdd28cedfbdedcca2e66e56fa7cd
     <style>
         /* CSS Variables for consistent theming */
         :root {
@@ -31,12 +35,20 @@
         }
 
         body {
+<<<<<<< HEAD
             background-color: var(--background);
+=======
+            background-color: #FAF6D4; /* Light Goldenrod Yellow */
+>>>>>>> 3c9cf1824eb3fdd28cedfbdedcca2e66e56fa7cd
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+<<<<<<< HEAD
             color: var(--secondary);
+=======
+            color: #616951; /* Ebony */
+>>>>>>> 3c9cf1824eb3fdd28cedfbdedcca2e66e56fa7cd
             padding: 20px;
             line-height: 1.6;
         }
@@ -60,6 +72,7 @@
         }
 
         .login-container {
+<<<<<<< HEAD
             background-color: var(--card-bg);
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow-md);
@@ -79,6 +92,20 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+=======
+            background-color: #D0C092; /* Tan */
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(97, 105, 81, 0.25);
+            width: 100%;
+            max-width: 400px;
+            padding: 48px 40px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(97, 105, 81, 0.3);
+>>>>>>> 3c9cf1824eb3fdd28cedfbdedcca2e66e56fa7cd
         }
 
         .login-header {
@@ -87,10 +114,23 @@
         }
 
         .login-header h1 {
+<<<<<<< HEAD
             color: var(--secondary);
             font-size: 2.5rem;
             margin-bottom: 12px;
             line-height: 1.2;
+=======
+            color: #616951; /* Ebony */
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .login-header p {
+            color: #616951;
+            opacity: 0.8;
+            font-size: 1.1rem;
+>>>>>>> 3c9cf1824eb3fdd28cedfbdedcca2e66e56fa7cd
         }
 
         .login-form {
@@ -108,6 +148,8 @@
             margin-bottom: 8px;
             color: var(--secondary);
             font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
         }
 
         .form-group input {
@@ -118,6 +160,7 @@
             background-color: var(--background);
             color: var(--secondary);
             font-size: 1rem;
+<<<<<<< HEAD
             transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
         }
 
@@ -129,13 +172,33 @@
         .login-btn {
             background-color: var(--primary);
             color: var(--accent);
+=======
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #817340; /* Gold Fusion */
+            box-shadow: 0 0 0 3px rgba(129, 115, 64, 0.2);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(97, 105, 81, 0.5);
+        }
+
+        .login-btn {
+            background-color: #817340; /* Gold Fusion */
+            color: #FAF6D4;
+>>>>>>> 3c9cf1824eb3fdd28cedfbdedcca2e66e56fa7cd
             border: none;
             padding: 14px;
             border-radius: var(--border-radius);
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s ease;
             margin-top: 10px;
+<<<<<<< HEAD
             transition: background-color var(--transition-fast), transform var(--transition-fast);
             position: relative;
             overflow: hidden;
@@ -159,6 +222,15 @@
         .login-btn:hover {
             background-color: #958650;
             transform: translateY(-2px);
+=======
+            letter-spacing: 0.5px;
+        }
+
+        .login-btn:hover {
+            background-color: #616951; /* Ebony */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(97, 105, 81, 0.3);
+>>>>>>> 3c9cf1824eb3fdd28cedfbdedcca2e66e56fa7cd
         }
 
         .login-btn:active {
@@ -172,13 +244,21 @@
         }
 
         .form-footer a {
+<<<<<<< HEAD
             color: var(--secondary);
             text-decoration: none;
             transition: color var(--transition-fast);
+=======
+            color: #616951;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+>>>>>>> 3c9cf1824eb3fdd28cedfbdedcca2e66e56fa7cd
             padding: 4px;
         }
 
         .form-footer a:hover {
+<<<<<<< HEAD
             color: var(--primary);
             text-decoration: underline;
         }
@@ -466,6 +546,21 @@
             .login-btn {
                 padding: 12px;
             }
+=======
+            color: #817340; /* Gold Fusion */
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                width: 100%;
+                padding: 32px 24px;
+            }
+
+            .login-header h1 {
+                font-size: 2rem;
+            }
+>>>>>>> 3c9cf1824eb3fdd28cedfbdedcca2e66e56fa7cd
         }
     </style>
 </head>
@@ -476,6 +571,7 @@
             <p data-translate="login-subtitle">Sign in to access your account</p>
         </div>
         
+<<<<<<< HEAD
         <form class="login-form" id="login-form" novalidate>
             <div class="form-group">
                 <label for="email" data-translate="email">Email</label>
@@ -489,6 +585,17 @@
                 <input type="password" id="password" required aria-required="true" autocomplete="current-password" 
                        placeholder="Enter your password" data-translate-placeholder="password-placeholder">
                 <div class="error-message" id="password-error" role="alert"></div>
+=======
+        <form class="login-form" action="#" method="POST">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required placeholder="Enter your username">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+>>>>>>> 3c9cf1824eb3fdd28cedfbdedcca2e66e56fa7cd
             </div>
             
             <button type="submit" class="login-btn" id="login-button">
@@ -535,6 +642,7 @@
     </div>
 
     <script>
+<<<<<<< HEAD
         // Supabase initialization
         const SUPABASE_URL = "https://lgbmwsimohdphbjispew.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxnYm13c2ltb2hkcGhiamlzcGV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyOTYwMzIsImV4cCI6MjA1Njg3MjAzMn0.mw485QrNviIxzAu-HecYir2Ou9Zn0nnyxO2aCwAouz0";
@@ -972,6 +1080,16 @@
                 document.documentElement.classList.add('reduced-motion');
             } else {
                 document.documentElement.classList.remove('reduced-motion');
+=======
+        // Optional: Basic client-side validation
+        document.querySelector('.login-form').addEventListener('submit', function(e) {
+            const username = document.getElementById('username');
+            const password = document.getElementById('password');
+            
+            if (username.value.trim() === '' || password.value.trim() === '') {
+                e.preventDefault();
+                alert('Please enter both username and password');
+>>>>>>> 3c9cf1824eb3fdd28cedfbdedcca2e66e56fa7cd
             }
         });
     </script>
