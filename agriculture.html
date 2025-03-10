@@ -8,6 +8,8 @@
     <!-- Updated Supabase CDN with version specification -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* CSS Reset and Base Styles */
         :root {
@@ -172,6 +174,17 @@
             position: relative;
             display: flex;
             align-items: center;
+        }
+        
+        /* Icon styling for navigation */
+        .nav-icon {
+            margin-right: 8px;
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-item .nav-link:hover .nav-icon {
+            transform: scale(1.2);
         }
         
         .nav-item .nav-link:hover {
@@ -444,6 +457,165 @@
             animation: fadeInBlur 1.2s ease-out;
         }
         
+        /* Language selector styling */
+        .lang-selector {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #FFFFFF;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: all var(--transition-fast);
+            animation: bounceIn 0.6s ease-out 3s backwards;
+            will-change: transform;
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.1);
+            }
+            80% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .lang-selector:hover {
+            transform: scale(1.1);
+            background-color: var(--secondary);
+            box-shadow: 0 5px 20px rgba(26, 147, 111, 0.4);
+        }
+
+        /* Language dropdown menu */
+        .lang-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.3s ease-out;
+            width: 150px;
+            transform-origin: top right;
+        }
+
+        .lang-dropdown.active {
+            max-height: 300px;
+            animation: scaleIn 0.3s ease-out;
+        }
+        
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .lang-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .lang-option:hover {
+            background-color: #E9ECEF;
+            transform: translateX(5px);
+        }
+
+        .lang-option.selected {
+            background-color: #E9ECEF;
+            font-weight: bold;
+            border-left: 3px solid var(--primary);
+        }
+
+        .lang-flag {
+            width: 20px;
+            height: 15px;
+            margin-right: 10px;
+            object-fit: cover;
+            transition: all var(--transition-fast);
+        }
+        
+        .lang-option:hover .lang-flag {
+            transform: scale(1.2);
+        }
+
+        /* Translation progress overlay */
+        .translation-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(33, 37, 41, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .translation-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            animation: fadeInBlur 0.3s ease-out;
+        }
+
+        .translation-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(233, 236, 239, 0.3);
+            border-top: 5px solid var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        
+        .translation-content {
+            text-align: center;
+            color: white;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .translation-content p {
+            margin-top: 10px;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         /* Animation keyframes */
         @keyframes dots {
             0%, 20% { content: "."; }
@@ -597,6 +769,29 @@
                 animation: none;
                 opacity: 1;
             }
+            
+            .lang-dropdown {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                margin-top: 5px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+            }
+            
+            /* Show only icons on mobile */
+            .nav-text {
+                display: none;
+            }
+            
+            .nav-icon {
+                margin-right: 0;
+                font-size: 18px;
+            }
+            
+            .nav-item .nav-link {
+                justify-content: center;
+                padding: 12px;
+            }
         }
 
         /* Performance optimizations */
@@ -624,6 +819,19 @@
             .policy-card {
                 background-color: #2A2A2A;
             }
+            
+            .lang-dropdown, .lang-option {
+                background-color: #333;
+                color: #f0f0f0;
+            }
+            
+            .lang-option:hover {
+                background-color: #444;
+            }
+            
+            .lang-option.selected {
+                background-color: #555;
+            }
         }
     </style>
 </head>
@@ -643,55 +851,211 @@
             
             <ul class="nav-menu" id="nav-menu">
                 <li class="nav-item">
-                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="index.html" class="nav-link" data-translate="Home">
+                        <i class="fas fa-home nav-icon"></i>
+                        <span class="nav-text">Home</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">AI</a>
+                    <a href="#" class="nav-link" data-translate="AI">
+                        <i class="fas fa-robot nav-icon"></i>
+                        <span class="nav-text">AI</span>
+                    </a>
+                </li>
+                <li class="nav-item" style="position: relative;">
+                    <a href="#" class="nav-link" data-translate="Translate">
+                        <i class="fas fa-language nav-icon"></i>
+                        <span class="nav-text">Translate</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Translate</a>
+                    <a href="about us.html" class="nav-link" data-translate="About">
+                        <i class="fas fa-info-circle nav-icon"></i>
+                        <span class="nav-text">About</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="about us.html" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Settings</a>
+                    <a href="#" class="nav-link" data-translate="Settings">
+                        <i class="fas fa-cog nav-icon"></i>
+                        <span class="nav-text">Settings</span>
+                    </a>
                 </li>
             </ul>
         </div>
     </nav>
 
     <div class="header">
-        <h1>Agriculture Policies of Tamil Nadu</h1>
-        <p>Innovative Agricultural Support and Rural Development Initiatives</p>
+        <h1 data-translate="Agriculture-Title">Agriculture Policies of Tamil Nadu</h1>
+        <p data-translate="Agriculture-Subtitle">Innovative Agricultural Support and Rural Development Initiatives</p>
     </div>
 
     <div class="container">
         <div class="policies-grid" id="policies-grid">
             <!-- Loading indicator added here -->
-            <div class="loading">Loading agriculture policies</div>
+            <div class="loading" data-translate="Loading">Loading agriculture policies</div>
+        </div>
+    </div>
+
+    <!-- Language selector button -->
+    <div class="lang-selector" id="langToggle" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false" aria-label="Change language">EN</div>
+
+    <!-- Language dropdown menu -->
+    <div class="lang-dropdown" id="langDropdown" role="menu">
+        <div class="lang-option selected" data-lang="en" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/gb.svg" class="lang-flag" alt="English flag">
+            English
+        </div>
+        <div class="lang-option" data-lang="ta" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Indian flag">
+            தமிழ்
+        </div>
+        <div class="lang-option" data-lang="hi" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Indian flag">
+            हिन्दी
+        </div>
+        <div class="lang-option" data-lang="te" role="menuitem" tabindex="0">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/in.svg" class="lang-flag" alt="Indian flag">
+            తెలుగు
+        </div>
+    </div>
+
+    <!-- Translation loading overlay -->
+    <div class="translation-overlay" id="translationOverlay" aria-hidden="true">
+        <div class="translation-content">
+            <div class="translation-spinner" aria-label="Loading translation"></div>
+            <p id="translationMessage">Translating...</p>
         </div>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", async function() {
+        // Current language
+        let currentLanguage = localStorage.getItem('language') || 'en';
+        
+        // Translation dictionaries for different languages
+        const translations = {
+            'ta': {
+                // Tamil translations
+                'Home': 'முகப்பு',
+                'AI': 'செயற்கை நுண்ணறிவு',
+                'Translate': 'மொழிபெயர்',
+                'About': 'பற்றி',
+                'Settings': 'அமைப்புகள்',
+                'Agriculture-Title': 'தமிழ்நாட்டின் விவசாயக் கொள்கைகள்',
+                'Agriculture-Subtitle': 'புதுமையான விவசாய ஆதரவு மற்றும் கிராமப்புற மேம்பாட்டு முயற்சிகள்',
+                'Loading': 'விவசாயக் கொள்கைகளை ஏற்றுகிறது...',
+                'No-Data': 'இந்த நேரத்தில் விவசாயக் கொள்கைகள் எதுவும் இல்லை.',
+                'Error-Fetch': 'விவசாயக் கொள்கைகளைப் பெறுவதில் பிழை: ',
+                'Retry': 'மீண்டும் முயற்சிக்கவும்',
+                // Tamil translations continued
+'No-Features': 'குறிப்பிட்ட அம்சங்கள் எதுவும் பட்டியலிடப்படவில்லை'
+            },
+            'hi': {
+                // Hindi translations
+                'Home': 'होम',
+                'AI': 'कृत्रिम बुद्धिमत्ता',
+                'Translate': 'अनुवाद',
+                'About': 'हमारे बारे में',
+                'Settings': 'सेटिंग्स',
+                'Agriculture-Title': 'तमिलनाडु की कृषि नीतियां',
+                'Agriculture-Subtitle': 'नवीन कृषि समर्थन और ग्रामीण विकास पहल',
+                'Loading': 'कृषि नीतियां लोड हो रही हैं...',
+                'No-Data': 'इस समय कोई कृषि नीतियां उपलब्ध नहीं हैं।',
+                'Error-Fetch': 'कृषि नीतियां प्राप्त करने में त्रुटि: ',
+                'Retry': 'पुनः प्रयास करें',
+                'No-Features': 'कोई विशिष्ट विशेषताएँ सूचीबद्ध नहीं हैं'
+            },
+            'te': {
+                // Telugu translations
+                'Home': 'హోమ్',
+                'AI': 'కృత్రిమ మేధస్సు',
+                'Translate': 'అనువదించు',
+                'About': 'గురించి',
+                'Settings': 'సెట్టింగ్‌లు',
+                'Agriculture-Title': 'తమిళనాడు వ్యవసాయ విధానాలు',
+                'Agriculture-Subtitle': 'వినూత్న వ్యవసాయ మద్దతు మరియు గ్రామీణ అభివృద్ధి చొరవలు',
+                'Loading': 'వ్యవసాయ విధానాలు లోడ్ అవుతున్నాయి...',
+                'No-Data': 'ప్రస్తుతం వ్యవసాయ విధానాలు అందుబాటులో లేవు.',
+                'Error-Fetch': 'వ్యవసాయ విధానాలను పొందడంలో లోపం: ',
+                'Retry': 'మళ్ళీ ప్రయత్నించండి',
+                'No-Features': 'ప్రత్యేక ఫీచర్లు జాబితా చేయబడలేదు'
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Mobile menu functionality
+            const hamburger = document.querySelector(".hamburger");
+            const navMenu = document.querySelector(".nav-menu");
+            
+            hamburger.addEventListener("click", function() {
+                this.classList.toggle("active");
+                navMenu.classList.toggle("active");
+                this.setAttribute('aria-expanded', this.classList.contains('active'));
+            });
+            
+            document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
+                hamburger.classList.remove("active");
+                navMenu.classList.remove("active");
+                hamburger.setAttribute('aria-expanded', 'false');
+            }));
+            
+            // Translation functionality - Translate button in nav bar
+            document.querySelectorAll(".nav-link").forEach(link => {
+                if (link.getAttribute('data-translate') === 'Translate') {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        toggleLanguageDropdown();
+                    });
+                }
+            });
+            
+            // Language toggle button functionality
+            const langToggle = document.getElementById('langToggle');
+            langToggle.addEventListener('click', toggleLanguageDropdown);
+            langToggle.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleLanguageDropdown();
+                }
+            });
+
+            // Setup language options
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    changeLanguage(lang);
+                    toggleLanguageDropdown();
+                });
+                
+                option.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const lang = this.getAttribute('data-lang');
+                        changeLanguage(lang);
+                        toggleLanguageDropdown();
+                    }
+                });
+            });
+            
+            // Initialize Supabase
             const SUPABASE_URL = "https://lgbmwsimohdphbjispew.supabase.co";
             const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxnYm13c2ltb2hkcGhiamlzcGV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyOTYwMzIsImV4cCI6MjA1Njg3MjAzMn0.mw485QrNviIxzAu-HecYir2Ou9Zn0nnyxO2aCwAouz0";
             
             const container = document.getElementById('policies-grid');
             
             let supabaseClient;
-            try {
-                if (typeof supabase !== "undefined") {
+            
+            // Ensure Supabase is available before using it
+            if (typeof supabase !== "undefined") {
+                try {
                     supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                    await fetchPolicies();
-                } else {
-                    showError("Database library could not be loaded");
+                    fetchPolicies();
+                } catch (error) {
+                    showError("Failed to initialize database connection: " + error.message);
                 }
-            } catch (error) {
-                showError("Error initializing database connection: " + error.message);
+            } else {
+                showError("Required database library could not be loaded");
             }
-
+    
             async function fetchPolicies() {
                 try {
                     const { data, error } = await supabaseClient.from('agriculture_policies').select('*');
@@ -701,86 +1065,325 @@
                     }
                     
                     if (!data || data.length === 0) {
-                        container.innerHTML = '<div class="no-data">No agriculture policies available at this time.</div>';
+                        container.innerHTML = `<div class="no-data" data-translate="No-Data">No agriculture policies available at this time.</div>`;
                         return;
                     }
-
-                    container.innerHTML = '';
-
-                    data.forEach(policy => {
+    
+                    container.innerHTML = ''; // Clear loading message
+    
+                    data.forEach((policy, index) => {
                         const card = document.createElement('div');
                         card.classList.add('policy-card');
+                        card.setAttribute('data-policy-id', index);
                         
                         // Safe property access with defaults
                         const title = policy.title || 'Untitled Policy';
                         const category = policy.category || 'Uncategorized';
                         const description = policy.description || 'No description available';
                         
+                        // Store original content for translation
+                        card.setAttribute('data-original-title', title);
+                        card.setAttribute('data-original-category', category);
+                        card.setAttribute('data-original-description', description);
+                        
                         // Safe handling of features
-                        let featuresHTML = '<p>No specific features listed</p>';
+                        let featuresHTML = `<p class="no-features" data-translate="No-Features">No specific features listed</p>`;
+                        
                         if (policy.features) {
+                            let features = [];
+                            
                             if (Array.isArray(policy.features)) {
-                                // Handle array of features
-                                const featuresList = policy.features
-                                    .filter(feature => feature && feature.trim() !== '')
-                                    .map(feature => `<li>${feature}</li>`)
-                                    .join('');
-                                
-                                if (featuresList) {
-                                    featuresHTML = `<ul>${featuresList}</ul>`;
-                                }
+                                features = policy.features;
                             } else if (typeof policy.features === 'string') {
-                                // Handle string of features separated by ;
-                                const featuresList = policy.features.split(';')
-                                    .filter(feature => feature.trim() !== '')
-                                    .map(feature => `<li>${feature.trim()}</li>`)
-                                    .join('');
-                                
-                                if (featuresList) {
-                                    featuresHTML = `<ul>${featuresList}</ul>`;
-                                }
+                                features = policy.features.split(';').map(f => f.trim()).filter(f => f);
+                            }
+                            
+                            if (features.length > 0) {
+                                featuresHTML = '<ul>';
+                                features.forEach((feature, featureIndex) => {
+                                    featuresHTML += `<li data-feature-index="${index}-${featureIndex}" data-original-text="${feature}">${feature}</li>`;
+                                });
+                                featuresHTML += '</ul>';
                             }
                         }
                         
                         card.innerHTML = `
-                            <div class="policy-header">${title}</div>
+                            <div class="policy-header" data-element="title">${title}</div>
                             <div class="policy-content">
-                                <h3>${category}</h3>
-                                <p>${description}</p>
+                                <h3 data-element="category">${category}</h3>
+                                <p data-element="description">${description}</p>
                                 ${featuresHTML}
                             </div>
                         `;
                         container.appendChild(card);
                     });
+                    
+                    // Apply saved language preference
+                    if (currentLanguage !== 'en') {
+                        applyTranslation(currentLanguage);
+                        updateLanguageUI(currentLanguage);
+                    }
+                    
+                    // Mark current language as selected
+                    updateSelectedLanguage();
                 } catch (error) {
-                    showError("Error fetching agriculture policies: " + error.message);
+                    showError(`<span data-translate="Error-Fetch">Error fetching agriculture policies: </span>${error.message}`);
                 }
             }
-
+            
             function showError(message) {
                 container.innerHTML = `<div class="error-message">
-                    <div class="error-icon">⚠️</div>
+                    <div class="error-icon" aria-hidden="true">⚠️</div>
                     <div class="error-text">${message}</div>
-                    <button class="retry-button" onclick="location.reload()">Retry</button>
+                    <button class="retry-button" onclick="location.reload()" data-translate="Retry">Retry</button>
                 </div>`;
             }
+        });
+
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('langDropdown');
+            const langToggle = document.getElementById('langToggle');
+            const isExpanded = dropdown.classList.toggle('active');
             
-            // Mobile menu functionality
-            const hamburger = document.querySelector(".hamburger");
-            const navMenu = document.querySelector(".nav-menu");
+            langToggle.setAttribute('aria-expanded', isExpanded);
             
-            hamburger.addEventListener("click", () => {
-                hamburger.classList.toggle("active");
-                navMenu.classList.toggle("active");
-                hamburger.setAttribute('aria-expanded', hamburger.classList.contains('active'));
+            // If opening the dropdown, focus the first option
+            if (isExpanded) {
+                const firstOption = dropdown.querySelector('.lang-option');
+                if (firstOption) {
+                    setTimeout(() => firstOption.focus(), 100);
+                }
+            }
+        }
+
+        function updateSelectedLanguage() {
+            document.querySelectorAll('.lang-option').forEach(option => {
+                if (option.getAttribute('data-lang') === currentLanguage) {
+                    option.classList.add('selected');
+                    option.setAttribute('aria-selected', 'true');
+                } else {
+                    option.classList.remove('selected');
+                    option.setAttribute('aria-selected', 'false');
+                }
+            });
+        }
+
+        function changeLanguage(lang) {
+            if (lang === currentLanguage) return;
+            
+            // Show loading overlay
+            showTranslationProgress(lang);
+            
+            // Simulate translation delay (can be removed in production)
+            setTimeout(() => {
+                applyTranslation(lang);
+                currentLanguage = lang;
+                localStorage.setItem('language', lang);
+                updateLanguageUI(lang);
+                updateSelectedLanguage();
+                
+                // Hide loading overlay
+                hideTranslationProgress();
+                
+                // Announce to screen readers that language has changed
+                const announcement = document.createElement('div');
+                announcement.setAttribute('aria-live', 'assertive');
+                announcement.classList.add('sr-only');
+                announcement.textContent = `Language changed to ${getLangName(lang)}`;
+                document.body.appendChild(announcement);
+                setTimeout(() => document.body.removeChild(announcement), 1000);
+                
+            }, 800); // Slightly longer delay to appreciate the animation
+        }
+
+        function getLangName(langCode) {
+            switch(langCode) {
+                case 'en': return 'English';
+                case 'ta': return 'Tamil';
+                case 'hi': return 'Hindi';
+                case 'te': return 'Telugu';
+                default: return langCode;
+            }
+        }
+
+        function showTranslationProgress(targetLang) {
+            const overlay = document.getElementById('translationOverlay');
+            const message = document.getElementById('translationMessage');
+            
+            // Set appropriate message
+            let langName = 'English';
+            if (targetLang === 'ta') langName = 'தமிழ்';
+            if (targetLang === 'hi') langName = 'हिन्दी';
+            if (targetLang === 'te') langName = 'తెలుగు';
+            
+            message.textContent = `Translating to ${langName}...`;
+            overlay.classList.add('active');
+            overlay.setAttribute('aria-hidden', 'false');
+        }
+
+        function hideTranslationProgress() {
+            const overlay = document.getElementById('translationOverlay');
+            overlay.classList.remove('active');
+            overlay.setAttribute('aria-hidden', 'true');
+        }
+
+        function updateLanguageUI(lang) {
+            const langButton = document.getElementById('langToggle');
+            
+            // Update language button text
+            if (lang === 'en') langButton.textContent = 'EN';
+            if (lang === 'ta') langButton.textContent = 'TA';
+            if (lang === 'hi') langButton.textContent = 'HI';
+            if (lang === 'te') langButton.textContent = 'TE';
+        }
+
+        function applyTranslation(lang) {
+            // If English, reset to original content
+            if (lang === 'en') {
+                resetToEnglish();
+                return;
+            }
+            
+            // Get translation dictionary for the selected language
+            const dictionary = translations[lang];
+            if (!dictionary) return;
+            
+            // Translate elements with data-translate attribute
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (dictionary[key]) {
+                    // If the element has a span as a direct child, update that instead
+                    const span = element.querySelector('span');
+                    if (span) {
+                        span.textContent = dictionary[key];
+                    } else {
+                        element.textContent = dictionary[key];
+                    }
+                }
             });
             
-            document.querySelectorAll(".nav-link").forEach(n => n.addEventListener("click", () => {
-                hamburger.classList.remove("active");
-                navMenu.classList.remove("active");
-                hamburger.setAttribute('aria-expanded', 'false');
-            }));
-        });
+            // Translate all policy cards
+            document.querySelectorAll('.policy-card').forEach(card => {
+                // Apply animations
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(5px)';
+                
+                setTimeout(() => {
+                    // Translate policy title, category, description
+                    const titleElement = card.querySelector('[data-element="title"]');
+                    const categoryElement = card.querySelector('[data-element="category"]');
+                    const descriptionElement = card.querySelector('[data-element="description"]');
+                    
+                    // Get original text from data attributes
+                    const originalTitle = card.getAttribute('data-original-title');
+                    const originalCategory = card.getAttribute('data-original-category');
+                    const originalDescription = card.getAttribute('data-original-description');
+                    
+                    // Translate with prefix for demo (in a real app, you would use an actual translation API)
+                    if (titleElement) {
+                        const langPrefix = lang === 'ta' ? '[TA] ' : lang === 'hi' ? '[HI] ' : '[TE] ';
+                        titleElement.textContent = langPrefix + originalTitle;
+                    }
+                    
+                    if (categoryElement) {
+                        const langPrefix = lang === 'ta' ? '[TA] ' : lang === 'hi' ? '[HI] ' : '[TE] ';
+                        categoryElement.textContent = langPrefix + originalCategory;
+                    }
+                    
+                    if (descriptionElement) {
+                        const langPrefix = lang === 'ta' ? '[TA] ' : lang === 'hi' ? '[HI] ' : '[TE] ';
+                        descriptionElement.textContent = langPrefix + originalDescription;
+                    }
+                    
+                    // Translate feature list items
+                    card.querySelectorAll('li[data-feature-index]').forEach(listItem => {
+                        const originalFeature = listItem.getAttribute('data-original-text');
+                        const langPrefix = lang === 'ta' ? '[TA] ' : lang === 'hi' ? '[HI] ' : '[TE] ';
+                        listItem.textContent = langPrefix + originalFeature;
+                    });
+                    
+                    // Restore animation
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 150);
+            });
+        }
+
+        function resetToEnglish() {
+            // Reset all elements with data-translate attribute to their original English values
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                
+                // Get the content to reset
+                let content = '';
+                
+                // Reset to original English text based on key
+                switch(key) {
+                    case 'Home': content = 'Home'; break;
+                    case 'AI': content = 'AI'; break;
+                    case 'Translate': content = 'Translate'; break;
+                    case 'About': content = 'About'; break;
+                    case 'Settings': content = 'Settings'; break;
+                    case 'Agriculture-Title': content = 'Agriculture Policies of Tamil Nadu'; break;
+                    case 'Agriculture-Subtitle': content = 'Innovative Agricultural Support and Rural Development Initiatives'; break;
+                    case 'Loading': content = 'Loading agriculture policies'; break;
+                    case 'No-Data': content = 'No agriculture policies available at this time.'; break;
+                    case 'Error-Fetch': content = 'Error fetching agriculture policies: '; break;
+                    case 'Retry': content = 'Retry'; break;
+                    case 'No-Features': content = 'No specific features listed'; break;
+                    default: content = ''; break;
+                }
+                
+                // Apply the content properly
+                if (content) {
+                    // If the element has a span as a direct child, update that instead
+                    const span = element.querySelector('span');
+                    if (span) {
+                        span.textContent = content;
+                    } else {
+                        element.textContent = content;
+                    }
+                }
+            });
+            
+            // Reset all policy cards to original text
+            document.querySelectorAll('.policy-card').forEach(card => {
+                // Apply animations
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(5px)';
+                
+                setTimeout(() => {
+                    // Reset policy title, category, description to original values
+                    const titleElement = card.querySelector('[data-element="title"]');
+                    const categoryElement = card.querySelector('[data-element="category"]');
+                    const descriptionElement = card.querySelector('[data-element="description"]');
+                    
+                    // Get original text from data attributes
+                    const originalTitle = card.getAttribute('data-original-title');
+                    const originalCategory = card.getAttribute('data-original-category');
+                    const originalDescription = card.getAttribute('data-original-description');
+                    
+                    if (titleElement) titleElement.textContent = originalTitle;
+                    if (categoryElement) categoryElement.textContent = originalCategory;
+                    if (descriptionElement) descriptionElement.textContent = originalDescription;
+                    
+                    // Reset feature list items to original values
+                    card.querySelectorAll('li[data-feature-index]').forEach(listItem => {
+                        const originalFeature = listItem.getAttribute('data-original-text');
+                        listItem.textContent = originalFeature;
+                    });
+                    
+                    // Restore animation
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 150);
+            });
+        }
+
+        // Check for reduced motion preference
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.classList.add('reduced-motion');
+        }
     </script>
 </body>
 </html>
