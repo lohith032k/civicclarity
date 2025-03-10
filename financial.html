@@ -8,23 +8,23 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <!-- Updated Supabase CDN with version specification -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* CSS Variables for consistent theming */
+        /* CSS Reset and Base Styles */
         :root {
-            --primary: #817340;
-            --secondary: #616951;
-            --accent: #FAF6D4;
-            --background: #FAF6D4;
-            --card-bg: #D0C092;
-            --card-header: #616951;
-            --text-color: #616951;
-            --light-text: #FAF6D4;
-            --shadow-sm: 0 2px 4px rgba(97, 105, 81, 0.15);
-            --shadow-md: 0 5px 15px rgba(97, 105, 81, 0.2);
-            --shadow-lg: 0 8px 20px rgba(97, 105, 81, 0.25);
+            --primary: #3A5A78;
+            --secondary: #1A936F;
+            --accent: #F7C244;
+            --light: #FAF6D4;
+            --dark: #212529;
+            --text-gray: #5D6169;
+            --light-bg: #F8F9FA;
             --transition-fast: 0.3s ease;
-            --border-radius: 8px;
-            --border-radius-lg: 12px;
+            --transition-medium: 0.5s ease;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
         
         * {
@@ -35,17 +35,18 @@
         }
         
         body {
-            background-color: var(--background);
-            color: var(--text-color);
+            background-color: var(--light-bg);
+            color: var(--dark);
+            overflow-x: hidden;
             line-height: 1.6;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
         
-        /* Accessibility Focus Styles */
+        /* Accessibility and Focus Styles */
         a:focus, button:focus {
-            outline: 2px solid var(--primary);
+            outline: 2px solid var(--accent);
             outline-offset: 2px;
         }
         
@@ -63,11 +64,12 @@
         
         /* Navigation bar styling */
         .navbar {
-            background-color:#003366;
+            background-color: var(--primary);
             box-shadow: var(--shadow-sm);
             position: sticky;
             top: 0;
             z-index: 1000;
+            animation: slideDown 0.6s ease-out;
         }
         
         .nav-container {
@@ -93,10 +95,21 @@
         .logo-container img {
             height: 40px;
             margin-right: 8px;
+            animation: pulse 2s infinite alternate;
+            will-change: transform;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.1);
+            }
         }
         
         .site-title {
-            color: var(--light-text);
+            color: #FFFFFF;
             font-size: 22px;
             font-weight: 700;
             text-decoration: none;
@@ -112,7 +125,7 @@
             bottom: 0;
             left: -100%;
             background-color: var(--accent);
-            transition: left 0.5s ease;
+            transition: left var(--transition-medium);
         }
         
         .logo-container:hover .site-title::after {
@@ -125,21 +138,57 @@
             gap: 8px;
         }
         
+        .nav-item {
+            animation: fadeInRight 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .nav-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        
+        .nav-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .nav-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        .nav-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+        
+        .nav-item:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+        
         .nav-item .nav-link {
-            color: var(--light-text);
+            color: #FFFFFF;
             text-decoration: none;
             padding: 8px 12px;
             font-size: 16px;
             font-weight: 500;
             transition: all var(--transition-fast);
-            border-radius: var(--border-radius);
+            border-radius: 4px;
             position: relative;
             display: flex;
             align-items: center;
         }
         
+        /* Icon styling for navigation */
+        .nav-icon {
+            margin-right: 8px;
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-item .nav-link:hover .nav-icon {
+            transform: scale(1.2);
+        }
+        
         .nav-item .nav-link:hover {
-            background-color: rgba(250, 246, 212, 0.1);
+            background-color: rgba(255, 255, 255, 0.15);
             transform: translateY(-3px);
         }
         
@@ -150,7 +199,7 @@
             height: 2px;
             bottom: 0;
             left: 50%;
-            background-color: var(--light-text);
+            background-color: var(--accent);
             transition: all var(--transition-fast);
         }
         
@@ -175,28 +224,20 @@
             width: 25px;
             height: 3px;
             margin: 5px auto;
-            background-color: var(--light-text);
+            background-color: #FFFFFF;
             transition: all var(--transition-fast);
         }
         
-        /* Original CSS continues */
-        .container {
-            flex: 1;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
+        /* Header styles */
         .header {
             background-color: var(--primary);
-            color: var(--light-text);
+            color: #FFFFFF;
             text-align: center;
             padding: 30px 20px;
             margin-bottom: 40px;
-            border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
-            box-shadow: var(--shadow-sm);
-            animation: fadeIn 0.8s ease-out;
-            will-change: opacity;
+            border-radius: 0 0 15px 15px;
+            box-shadow: var(--shadow-md);
+            animation: fadeIn 1s ease-out;
         }
         
         .header h1 {
@@ -210,34 +251,67 @@
             opacity: 0.9;
         }
         
+        /* Container styles */
+        .container {
+            flex: 1;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Policies grid */
         .policies-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 25px;
             min-height: 200px;
-            animation: fadeIn 1s ease-out;
-            will-change: opacity;
+            animation: slideUp 0.8s ease-out;
         }
         
         .policy-card {
-            background-color: var(--card-bg);
-            border-radius: var(--border-radius-lg);
+            background-color: #FFFFFF;
+            border-radius: 12px;
             box-shadow: var(--shadow-md);
             overflow: hidden;
             transition: all var(--transition-fast);
             height: 100%;
             display: flex;
             flex-direction: column;
+            transform: perspective(1000px) rotateX(0deg);
+            opacity: 0;
+            animation: fadeInStaggered 0.5s ease-out forwards;
         }
         
         .policy-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) perspective(1000px) rotateX(0deg);
             box-shadow: var(--shadow-lg);
         }
         
+        .policy-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        
+        .policy-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .policy-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        .policy-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+        
+        .policy-card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+        
         .policy-header {
-            background-color: var(--card-header);
-            color: var(--light-text);
+            background-color: var(--primary);
+            color: #FFFFFF;
             padding: 16px;
             text-align: center;
             font-weight: bold;
@@ -247,21 +321,35 @@
         
         .policy-content {
             padding: 24px;
-            background-color: var(--background);
+            background-color: #FFFFFF;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
         
         .policy-content h3 {
-            color: var(--primary);
+            color: var(--secondary);
             margin-bottom: 16px;
             font-size: 1.3rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .policy-content h3::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -3px;
+            left: 0;
+            background-color: var(--accent);
+            animation: growLine 1s ease-out forwards;
         }
         
         .policy-content p {
             margin-bottom: 20px;
             line-height: 1.7;
+            color: var(--text-gray);
         }
         
         .policy-content ul {
@@ -273,19 +361,22 @@
             margin-bottom: 8px;
             position: relative;
             padding-left: 5px;
+            color: var(--text-gray);
         }
         
         .policy-content ul li:last-child {
             margin-bottom: 0;
         }
         
+        /* Loading and error states */
         .loading {
             text-align: center;
             padding: 40px 20px;
             font-size: 1.2rem;
-            color: var(--text-color);
+            color: var(--text-gray);
             grid-column: 1 / -1;
             position: relative;
+            animation: fadeInBlur 1.2s ease-out;
         }
         
         .loading:after {
@@ -296,20 +387,15 @@
             animation: dots 1.5s infinite;
         }
         
-        @keyframes dots {
-            0%, 20% { content: "."; }
-            40% { content: ".."; }
-            60%, 100% { content: "..."; }
-        }
-        
         .error-message {
             grid-column: 1 / -1;
-            background-color: rgba(209, 120, 120, 0.1);
-            border: 1px solid rgba(209, 120, 120, 0.3);
-            border-radius: var(--border-radius);
+            background-color: rgba(255, 105, 97, 0.1);
+            border: 1px solid rgba(255, 105, 97, 0.3);
+            border-radius: 8px;
             padding: 30px;
             text-align: center;
-            color: #7a5151;
+            color: #d14836;
+            animation: fadeInBlur 1.2s ease-out;
         }
         
         .error-icon {
@@ -323,23 +409,43 @@
         }
         
         .retry-button {
-            background-color: var(--primary);
-            color: var(--light-text);
+            background-color: var(--secondary);
+            color: #FFFFFF;
             border: none;
             padding: 10px 20px;
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            transition: background-color var(--transition-fast), transform var(--transition-fast);
+            border-radius: 5px;
             cursor: pointer;
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .retry-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all var(--transition-fast);
+        }
+        
+        .retry-button:hover::before {
+            left: 100%;
+            animation: shimmer 1.5s infinite;
         }
         
         .retry-button:hover {
-            background-color: var(--secondary);
-            transform: translateY(-2px);
+            background-color: #147856;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 15px rgba(26, 147, 111, 0.3);
         }
         
         .retry-button:active {
             transform: translateY(0);
+            box-shadow: var(--shadow-sm);
         }
         
         .no-data {
@@ -347,12 +453,8 @@
             text-align: center;
             padding: 40px 20px;
             font-size: 1.2rem;
-            color: var(--text-color);
-        }
-        
-        .no-features {
-            font-style: italic;
-            opacity: 0.7;
+            color: var(--text-gray);
+            animation: fadeInBlur 1.2s ease-out;
         }
         
         /* Language selector styling */
@@ -367,13 +469,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            color: var(--light-text);
+            color: #FFFFFF;
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 3px 15px rgba(0,0,0,0.2);
             z-index: 1000;
             transition: all var(--transition-fast);
-            animation: bounceIn 0.6s ease-out 1s backwards;
+            animation: bounceIn 0.6s ease-out 3s backwards;
             will-change: transform;
         }
         
@@ -397,22 +499,23 @@
         .lang-selector:hover {
             transform: scale(1.1);
             background-color: var(--secondary);
+            box-shadow: 0 5px 20px rgba(26, 147, 111, 0.4);
         }
 
         /* Language dropdown menu */
         .lang-dropdown {
             position: absolute;
-            bottom: 60px;
+            top: 100%;
             right: 0;
-            background-color: white;
-            border-radius: var(--border-radius);
+            background-color: #FFFFFF;
+            border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             z-index: 1000;
             overflow: hidden;
             max-height: 0;
             transition: max-height 0.3s ease-out;
             width: 150px;
-            transform-origin: bottom right;
+            transform-origin: top right;
         }
 
         .lang-dropdown.active {
@@ -440,12 +543,12 @@
         }
 
         .lang-option:hover {
-            background-color: #f5f5f5;
+            background-color: #E9ECEF;
             transform: translateX(5px);
         }
 
         .lang-option.selected {
-            background-color: #f0f0f0;
+            background-color: #E9ECEF;
             font-weight: bold;
             border-left: 3px solid var(--primary);
         }
@@ -469,7 +572,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.7);
+            background-color: rgba(33, 37, 41, 0.7);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -485,28 +588,17 @@
             visibility: visible;
             animation: fadeInBlur 0.3s ease-out;
         }
-        
-        @keyframes fadeInBlur {
-            0% {
-                opacity: 0;
-                filter: blur(10px);
-            }
-            100% {
-                opacity: 1;
-                filter: blur(0);
-            }
-        }
 
         .translation-spinner {
             width: 50px;
             height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-top: 5px solid var(--primary);
+            border: 5px solid rgba(233, 236, 239, 0.3);
+            border-top: 5px solid var(--secondary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 15px;
         }
-
+        
         .translation-content {
             text-align: center;
             color: white;
@@ -524,11 +616,94 @@
             100% { transform: rotate(360deg); }
         }
         
+        /* Animation keyframes */
+        @keyframes dots {
+            0%, 20% { content: "."; }
+            40% { content: ".."; }
+            60%, 100% { content: "..."; }
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
         
+        @keyframes fadeInRight {
+            from { 
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInStaggered {
+            from { 
+                opacity: 0;
+                transform: perspective(1000px) rotateX(20deg) translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: perspective(1000px) rotateX(0deg) translateY(0);
+            }
+        }
+        
+        @keyframes fadeInBlur {
+            0% {
+                opacity: 0;
+                filter: blur(10px);
+                transform: translateZ(-100px);
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0);
+                transform: translateZ(0);
+            }
+        }
+        
+        @keyframes growLine {
+            0% {
+                width: 0;
+            }
+            100% {
+                width: 100%;
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        /* Responsive styles */
         @media (max-width: 768px) {
             .nav-menu {
                 position: fixed;
@@ -539,9 +714,8 @@
                 width: 100%;
                 text-align: center;
                 transition: 0.3s;
-                box-shadow: 0 10px 15px rgba(97, 105, 81, 0.2);
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
                 padding: 15px 0;
-                z-index: 1000;
             }
             
             .nav-menu.active {
@@ -550,8 +724,12 @@
             }
             
             @keyframes slideInLeft {
-                from { left: -100%; }
-                to { left: 0; }
+                from {
+                    left: -100%;
+                }
+                to {
+                    left: 0;
+                }
             }
             
             .hamburger {
@@ -584,23 +762,62 @@
             }
             
             .container {
-                padding: 15px;
+                padding: 0 15px 30px;
+            }
+            
+            .nav-item {
+                animation: none;
+                opacity: 1;
             }
             
             .lang-dropdown {
-                position: fixed;
-                bottom: 75px;
-                right: 10px;
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                margin-top: 5px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+            }
+            
+            /* Show only icons on mobile */
+            .nav-text {
+                display: none;
+            }
+            
+            .nav-icon {
+                margin-right: 0;
+                font-size: 18px;
+            }
+            
+            .nav-item .nav-link {
+                justify-content: center;
+                padding: 12px;
             }
         }
-        
+
+        /* Performance optimizations */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
         /* Dark mode support */
         @media (prefers-color-scheme: dark) {
             :root {
-                --background: #222;
-                --text-color: #f0f0f0;
-                --card-bg: #444;
-                --card-header: #555;
+                --light-bg: #121212;
+                --dark: #E9ECEF;
+                --text-gray: #BDBDBD;
+            }
+            
+            .policy-content {
+                background-color: #2A2A2A;
+            }
+            
+            .policy-card {
+                background-color: #2A2A2A;
             }
             
             .lang-dropdown, .lang-option {
@@ -614,21 +831,6 @@
             
             .lang-option.selected {
                 background-color: #555;
-            }
-            
-            .error-message {
-                background-color: rgba(209, 120, 120, 0.2);
-                color: #ffaaaa;
-            }
-        }
-
-        /* Performance optimizations */
-        @media (prefers-reduced-motion: reduce) {
-            *, ::before, ::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
             }
         }
     </style>
@@ -650,19 +852,34 @@
             
             <ul class="nav-menu" id="nav-menu">
                 <li class="nav-item">
-                    <a href="index.html" class="nav-link" data-translate="Home">Home</a>
+                    <a href="index.html" class="nav-link" data-translate="Home">
+                        <i class="fas fa-home nav-icon"></i>
+                        <span class="nav-text">Home</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-translate="AI">AI</a>
+                    <a href="#" class="nav-link" data-translate="AI">
+                        <i class="fas fa-robot nav-icon"></i>
+                        <span class="nav-text">AI</span>
+                    </a>
+                </li>
+                <li class="nav-item" style="position: relative;">
+                    <a href="#" class="nav-link" data-translate="Translate">
+                        <i class="fas fa-language nav-icon"></i>
+                        <span class="nav-text">Translate</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-translate="Translate">Translate</a>
+                    <a href="about.html" class="nav-link" data-translate="About">
+                        <i class="fas fa-info-circle nav-icon"></i>
+                        <span class="nav-text">About</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="about.html" class="nav-link" data-translate="About">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link" data-translate="Settings">Settings</a>
+                    <a href="#" class="nav-link" data-translate="Settings">
+                        <i class="fas fa-cog nav-icon"></i>
+                        <span class="nav-text">Settings</span>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -674,7 +891,9 @@
     </div>
 
     <main class="container">
-        <div class="policies-grid" aria-live="polite"></div>
+        <div class="policies-grid" aria-live="polite">
+            <div class="loading" data-translate="Loading">Loading finance policies...</div>
+        </div>
     </main>
 
     <!-- Language selector button -->
@@ -723,11 +942,12 @@
                 'Settings': 'அமைப்புகள்',
                 'Finance-Title': 'தமிழ்நாட்டின் நிதிக் கொள்கைகள்',
                 'Finance-Subtitle': 'நிதி முயற்சிகள் மற்றும் ஆதரவு திட்டங்களை ஆராயுங்கள்',
-                'Loading': 'கொள்கைகளை ஏற்றுகிறது...',
+                'Loading': 'நிதிக் கொள்கைகளை ஏற்றுகிறது...',
                 'No-Data': 'இந்த நேரத்தில் கொள்கைகள் எதுவும் இல்லை.',
                 'Error-Fetch': 'கொள்கைகளைப் பெறுவதில் பிழை: ',
                 'Retry': 'மீண்டும் முயற்சிக்கவும்',
-                'No-Features': 'குறிப்பிட்ட அம்சங்கள் எதுவும் பட்டியலிடப்படவில்லை'
+                // Tamil translations continued
+'No-Features': 'குறிப்பிட்ட அம்சங்கள் எதுவும் பட்டியலிடப்படவில்லை'
             },
             'hi': {
                 // Hindi translations
@@ -738,7 +958,7 @@
                 'Settings': 'सेटिंग्स',
                 'Finance-Title': 'तमिलनाडु की वित्त नीतियां',
                 'Finance-Subtitle': 'वित्तीय पहल और समर्थन कार्यक्रमों का अन्वेषण करें',
-                'Loading': 'नीतियां लोड हो रही हैं...',
+                'Loading': 'वित्त नीतियां लोड हो रही हैं...',
                 'No-Data': 'इस समय कोई नीतियां उपलब्ध नहीं हैं।',
                 'Error-Fetch': 'नीतियां प्राप्त करने में त्रुटि: ',
                 'Retry': 'पुनः प्रयास करें',
@@ -753,7 +973,7 @@
                 'Settings': 'సెట్టింగ్‌లు',
                 'Finance-Title': 'తమిళనాడు ఆర్థిక విధానాలు',
                 'Finance-Subtitle': 'ఆర్థిక చొరవలు మరియు మద్దతు కార్యక్రమాలను అన్వేషించండి',
-                'Loading': 'విధానాలు లోడ్ అవుతున్నాయి...',
+                'Loading': 'ఆర్థిక విధానాలు లోడ్ అవుతున్నాయి...',
                 'No-Data': 'ప్రస్తుతం విధానాలు అందుబాటులో లేవు.',
                 'Error-Fetch': 'విధానాలను పొందడంలో లోపం: ',
                 'Retry': 'మళ్ళీ ప్రయత్నించండి',
@@ -762,94 +982,6 @@
         };
 
         document.addEventListener("DOMContentLoaded", function() {
-            // Initialize Supabase correctly
-            const SUPABASE_URL = "https://lgbmwsimohdphbjispew.supabase.co";
-            const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxnYm13c2ltb2hkcGhiamlzcGV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyOTYwMzIsImV4cCI6MjA1Njg3MjAzMn0.mw485QrNviIxzAu-HecYir2Ou9Zn0nnyxO2aCwAouz0";
-            
-            // Show loading state
-            const container = document.querySelector('.policies-grid');
-            container.innerHTML = `<div class="loading" data-translate="Loading">Loading policies...</div>`;
-            
-            let supabaseClient;
-            
-            // Ensure Supabase is available before using it
-            if (typeof supabase !== "undefined") {
-                try {
-                    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                    fetchPolicies();
-                } catch (error) {
-                    showError("Failed to initialize database connection: " + error.message);
-                }
-            } else {
-                showError("Required database library could not be loaded");
-            }
-    
-            async function fetchPolicies() {
-                try {
-                    const { data, error } = await supabaseClient.from('finance_policies').select('*');
-                    
-                    if (error) {
-                        throw error;
-                    }
-                    
-                    if (!data || data.length === 0) {
-                        container.innerHTML = `<div class="no-data" data-translate="No-Data">No policies available at this time.</div>`;
-                        return;
-                    }
-    
-                    container.innerHTML = ''; // Clear loading message
-    
-                    data.forEach(policy => {
-                        const card = document.createElement('div');
-                        card.classList.add('policy-card');
-                        
-                        // Safe property access with defaults
-                        const title = policy.title || 'Untitled Policy';
-                        const category = policy.category || 'Uncategorized';
-                        const description = policy.description || 'No description available';
-                        
-                        // Safe handling of features with null/undefined check
-                        let featuresHTML = `<p class="no-features" data-translate="No-Features">No specific features listed</p>`;
-                        if (policy.features) {
-                            const featuresList = policy.features.split(';')
-                                .filter(feature => feature.trim() !== '')
-                                .map(feature => `<li data-original-text="${feature.trim()}">${feature.trim()}</li>`)
-                                .join('');
-                                
-                            if (featuresList) {
-                                featuresHTML = `<ul>${featuresList}</ul>`;
-                            }
-                        }
-                        
-                        // Store original text in data attributes for translation
-                        card.innerHTML = `
-                            <div class="policy-header" data-original-text="${title}">${title}</div>
-                            <div class="policy-content">
-                                <h3 data-original-text="${category}">${category}</h3>
-                                <p data-original-text="${description}">${description}</p>
-                                ${featuresHTML}
-                            </div>
-                        `;
-                        container.appendChild(card);
-                    });
-
-                    // Apply translations if not English
-                    if (currentLanguage !== 'en') {
-                        applyTranslation(currentLanguage);
-                    }
-                } catch (error) {
-                    showError(`<span data-translate="Error-Fetch">Error fetching policies: </span>${error.message}`);
-                }
-            }
-            
-            function showError(message) {
-                container.innerHTML = `<div class="error-message">
-                    <div class="error-icon" aria-hidden="true">⚠️</div>
-                    <div class="error-text">${message}</div>
-                    <button class="retry-button" onclick="location.reload()" data-translate="Retry">Retry</button>
-                </div>`;
-            }
-            
             // Mobile menu functionality
             const hamburger = document.querySelector(".hamburger");
             const navMenu = document.querySelector(".nav-menu");
@@ -865,7 +997,7 @@
                 navMenu.classList.remove("active");
                 hamburger.setAttribute('aria-expanded', 'false');
             }));
-
+            
             // Translation functionality - Translate button in nav bar
             document.querySelectorAll(".nav-link").forEach(link => {
                 if (link.getAttribute('data-translate') === 'Translate') {
@@ -904,14 +1036,108 @@
                 });
             });
             
-            // Apply saved language preference
-            if (currentLanguage !== 'en') {
-                applyTranslation(currentLanguage);
-                updateLanguageUI(currentLanguage);
+            // Initialize Supabase
+            const SUPABASE_URL = "https://lgbmwsimohdphbjispew.supabase.co";
+            const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxnYm13c2ltb2hkcGhiamlzcGV3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyOTYwMzIsImV4cCI6MjA1Njg3MjAzMn0.mw485QrNviIxzAu-HecYir2Ou9Zn0nnyxO2aCwAouz0";
+            
+            const container = document.querySelector('.policies-grid');
+            
+            let supabaseClient;
+            
+            // Ensure Supabase is available before using it
+            if (typeof supabase !== "undefined") {
+                try {
+                    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                    fetchPolicies();
+                } catch (error) {
+                    showError("Failed to initialize database connection: " + error.message);
+                }
+            } else {
+                showError("Required database library could not be loaded");
             }
-
-            // Mark current language as selected
-            updateSelectedLanguage();
+    
+            async function fetchPolicies() {
+                try {
+                    const { data, error } = await supabaseClient.from('finance_policies').select('*');
+                    
+                    if (error) {
+                        throw error;
+                    }
+                    
+                    if (!data || data.length === 0) {
+                        container.innerHTML = `<div class="no-data" data-translate="No-Data">No policies available at this time.</div>`;
+                        return;
+                    }
+    
+                    container.innerHTML = ''; // Clear loading message
+    
+                    data.forEach((policy, index) => {
+                        const card = document.createElement('div');
+                        card.classList.add('policy-card');
+                        card.setAttribute('data-policy-id', index);
+                        
+                        // Safe property access with defaults
+                        const title = policy.title || 'Untitled Policy';
+                        const category = policy.category || 'Uncategorized';
+                        const description = policy.description || 'No description available';
+                        
+                        // Store original content for translation
+                        card.setAttribute('data-original-title', title);
+                        card.setAttribute('data-original-category', category);
+                        card.setAttribute('data-original-description', description);
+                        
+                        // Safe handling of features
+                        let featuresHTML = `<p class="no-features" data-translate="No-Features">No specific features listed</p>`;
+                        
+                        if (policy.features) {
+                            let features = [];
+                            
+                            if (Array.isArray(policy.features)) {
+                                features = policy.features;
+                            } else if (typeof policy.features === 'string') {
+                                features = policy.features.split(';').map(f => f.trim()).filter(f => f);
+                            }
+                            
+                            if (features.length > 0) {
+                                featuresHTML = '<ul>';
+                                features.forEach((feature, featureIndex) => {
+                                    featuresHTML += `<li data-feature-index="${index}-${featureIndex}" data-original-text="${feature}">${feature}</li>`;
+                                });
+                                featuresHTML += '</ul>';
+                            }
+                        }
+                        
+                        card.innerHTML = `
+                            <div class="policy-header" data-element="title">${title}</div>
+                            <div class="policy-content">
+                                <h3 data-element="category">${category}</h3>
+                                <p data-element="description">${description}</p>
+                                ${featuresHTML}
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+                    
+                    // Apply saved language preference
+                    if (currentLanguage !== 'en') {
+                        applyTranslation(currentLanguage);
+                        updateLanguageUI(currentLanguage);
+                    }
+                    
+                    // Mark current language as selected
+                    updateSelectedLanguage();
+                } catch (error) {
+                    showError(`<span data-translate="Error-Fetch">Error fetching policies: </span>${error.message}`);
+                }
+            }
+            
+            function showError(message) {
+                container.innerHTML = `<div class="error-message">
+                    <div class="error-icon" aria-hidden="true">⚠️</div>
+                    <div class="error-text">${message}</div>
+                    <button class="retry-button" onclick="location.reload()" data-translate="Retry">Retry</button>
+                </div>`;
+            }
         });
 
         function toggleLanguageDropdown() {
@@ -948,7 +1174,7 @@
             // Show loading overlay
             showTranslationProgress(lang);
             
-            // Use a small delay to allow animation to show
+            // Simulate translation delay (can be removed in production)
             setTimeout(() => {
                 applyTranslation(lang);
                 currentLanguage = lang;
@@ -967,7 +1193,7 @@
                 document.body.appendChild(announcement);
                 setTimeout(() => document.body.removeChild(announcement), 1000);
                 
-            }, 500);
+            }, 800); // Slightly longer delay to appreciate the animation
         }
 
         function getLangName(langCode) {
@@ -1026,41 +1252,59 @@
             document.querySelectorAll('[data-translate]').forEach(element => {
                 const key = element.getAttribute('data-translate');
                 if (dictionary[key]) {
-                    // Add a subtle animation when text changes
-                    element.style.opacity = '0';
-                    element.style.transform = 'translateY(5px)';
-                    
-                    setTimeout(() => {
+                    // If the element has a span as a direct child, update that instead
+                    const span = element.querySelector('span');
+                    if (span) {
+                        span.textContent = dictionary[key];
+                    } else {
                         element.textContent = dictionary[key];
-                        element.style.opacity = '1';
-                        element.style.transform = 'translateY(0)';
-                    }, 150);
+                    }
                 }
             });
-
-            // Handle policy cards that have data-original-text attribute
-            document.querySelectorAll('[data-original-text]').forEach(element => {
-                // For content that isn't in our dictionary, we would need to use a translation API
-                // For now, we'll add a simple prefix to show it working
-                const originalText = element.getAttribute('data-original-text');
-                
-                // Add a subtle animation when text changes
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(5px)';
+            
+            // Translate all policy cards
+            document.querySelectorAll('.policy-card').forEach(card => {
+                // Apply animations
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(5px)';
                 
                 setTimeout(() => {
-                    // In a real app, you would call an actual translation API here
-                    // This is just a placeholder to demonstrate the functionality
-                    if (lang === 'ta') {
-                        element.textContent = '[TA] ' + originalText;
-                    } else if (lang === 'hi') {
-                        element.textContent = '[HI] ' + originalText;
-                    } else if (lang === 'te') {
-                        element.textContent = '[TE] ' + originalText;
+                    // Translate policy title, category, description
+                    const titleElement = card.querySelector('[data-element="title"]');
+                    const categoryElement = card.querySelector('[data-element="category"]');
+                    const descriptionElement = card.querySelector('[data-element="description"]');
+                    
+                    // Get original text from data attributes
+                    const originalTitle = card.getAttribute('data-original-title');
+                    const originalCategory = card.getAttribute('data-original-category');
+                    const originalDescription = card.getAttribute('data-original-description');
+                    
+                    // Translate with prefix for demo (in a real app, you would use an actual translation API)
+                    if (titleElement) {
+                        const langPrefix = lang === 'ta' ? '[TA] ' : lang === 'hi' ? '[HI] ' : '[TE] ';
+                        titleElement.textContent = langPrefix + originalTitle;
                     }
                     
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
+                    if (categoryElement) {
+                        const langPrefix = lang === 'ta' ? '[TA] ' : lang === 'hi' ? '[HI] ' : '[TE] ';
+                        categoryElement.textContent = langPrefix + originalCategory;
+                    }
+                    
+                    if (descriptionElement) {
+                        const langPrefix = lang === 'ta' ? '[TA] ' : lang === 'hi' ? '[HI] ' : '[TE] ';
+                        descriptionElement.textContent = langPrefix + originalDescription;
+                    }
+                    
+                    // Translate feature list items
+                    card.querySelectorAll('li[data-feature-index]').forEach(listItem => {
+                        const originalFeature = listItem.getAttribute('data-original-text');
+                        const langPrefix = lang === 'ta' ? '[TA] ' : lang === 'hi' ? '[HI] ' : '[TE] ';
+                        listItem.textContent = langPrefix + originalFeature;
+                    });
+                    
+                    // Restore animation
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
                 }, 150);
             });
         }
@@ -1070,74 +1314,76 @@
             document.querySelectorAll('[data-translate]').forEach(element => {
                 const key = element.getAttribute('data-translate');
                 
-                // Add a subtle animation when text changes
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(5px)';
+                // Get the content to reset
+                let content = '';
                 
-                setTimeout(() => {
-                    // Reset to original English text based on key
-                    switch(key) {
-                        case 'Home': element.textContent = 'Home'; break;
-                        case 'AI': element.textContent = 'AI'; break;
-                        case 'Translate': element.textContent = 'Translate'; break;
-                        case 'About': element.textContent = 'About'; break;
-                        case 'Settings': element.textContent = 'Settings'; break;
-                        case 'Finance-Title': element.textContent = 'Finance Policies of Tamil Nadu'; break;
-                        case 'Finance-Subtitle': element.textContent = 'Explore the financial initiatives and support programs'; break;
-                        case 'Loading': element.textContent = 'Loading policies...'; break;
-                        case 'No-Data': element.textContent = 'No policies available at this time.'; break;
-                        case 'Error-Fetch': element.textContent = 'Error fetching policies: '; break;
-                        case 'Retry': element.textContent = 'Retry'; break;
-                        case 'No-Features': element.textContent = 'No specific features listed'; break;
+                // Reset to original English text based on key
+                switch(key) {
+                    case 'Home': content = 'Home'; break;
+                    case 'AI': content = 'AI'; break;
+                    case 'Translate': content = 'Translate'; break;
+                    case 'About': content = 'About'; break;
+                    case 'Settings': content = 'Settings'; break;
+                    case 'Finance-Title': content = 'Finance Policies of Tamil Nadu'; break;
+                    case 'Finance-Subtitle': content = 'Explore the financial initiatives and support programs'; break;
+                    case 'Loading': content = 'Loading finance policies...'; break;
+                    case 'No-Data': content = 'No policies available at this time.'; break;
+                    case 'Error-Fetch': content = 'Error fetching policies: '; break;
+                    case 'Retry': content = 'Retry'; break;
+                    case 'No-Features': content = 'No specific features listed'; break;
+                    default: content = ''; break;
+                }
+                
+                // Apply the content properly
+                if (content) {
+                    // If the element has a span as a direct child, update that instead
+                    const span = element.querySelector('span');
+                    if (span) {
+                        span.textContent = content;
+                    } else {
+                        element.textContent = content;
                     }
+                }
+            });
+            
+            // Reset all policy cards to original text
+            document.querySelectorAll('.policy-card').forEach(card => {
+                // Apply animations
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(5px)';
+                
+                setTimeout(() => {
+                    // Reset policy title, category, description to original values
+                    const titleElement = card.querySelector('[data-element="title"]');
+                    const categoryElement = card.querySelector('[data-element="category"]');
+                    const descriptionElement = card.querySelector('[data-element="description"]');
                     
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                }, 150);
-            });
-
-            // Reset all elements with data-original-text to their original values
-            document.querySelectorAll('[data-original-text]').forEach(element => {
-                const originalText = element.getAttribute('data-original-text');
-                
-                // Add a subtle animation when text changes
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(5px)';
-                
-                setTimeout(() => {
-                    element.textContent = originalText;
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
+                    // Get original text from data attributes
+                    const originalTitle = card.getAttribute('data-original-title');
+                    const originalCategory = card.getAttribute('data-original-category');
+                    const originalDescription = card.getAttribute('data-original-description');
+                    
+                    if (titleElement) titleElement.textContent = originalTitle;
+                    if (categoryElement) categoryElement.textContent = originalCategory;
+                    if (descriptionElement) descriptionElement.textContent = originalDescription;
+                    
+                    // Reset feature list items to original values
+                    card.querySelectorAll('li[data-feature-index]').forEach(listItem => {
+                        const originalFeature = listItem.getAttribute('data-original-text');
+                        listItem.textContent = originalFeature;
+                    });
+                    
+                    // Restore animation
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
                 }, 150);
             });
         }
 
-        // Check if there's a saved language preference on page load
-        if (localStorage.getItem('language')) {
-            const savedLang = localStorage.getItem('language');
-            if (savedLang !== 'en') {
-                // Apply the saved language after a short delay to ensure DOM is ready
-                setTimeout(() => {
-                    applyTranslation(savedLang);
-                    updateLanguageUI(savedLang);
-                    updateSelectedLanguage();
-                }, 1000);
-            }
-        }
-
-        // Initialize preferred reduced motion setting
+        // Check for reduced motion preference
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             document.documentElement.classList.add('reduced-motion');
         }
-
-        // Listen for changes to the prefers-reduced-motion media query
-        window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (event) => {
-            if (event.matches) {
-                document.documentElement.classList.add('reduced-motion');
-            } else {
-                document.documentElement.classList.remove('reduced-motion');
-            }
-        });
     </script>
 </body>
 </html>
