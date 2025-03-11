@@ -378,25 +378,6 @@
             transform: scale(1.1);
         }
         
-        .member-name {
-            color: var(--secondary);
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-        }
-        
-        .member-title {
-            color: var(--primary);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            font-style: italic;
-        }
-        
-        .member-bio {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: #555;
-        }
-        
         /* Contact section */
         .contact-section {
             background-color: var(--light);
@@ -925,8 +906,4 @@
             .footer {
                 background-color: #1a1a1a;
             }
-<<<<<<< HEAD
         }
-=======
-        }
->>>>>>> d70b1ab982600d51c983ca9b176024e7ed2f0535
